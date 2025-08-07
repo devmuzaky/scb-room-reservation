@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@config "../../tailwind.config.js";
+
+/* Custom Theme Variables - Organization Colors */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  //--color-*: initial;
+  /* Gray */
+  --color-gray-50: #f6f7f9;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-850: #161d27;
+  --color-gray-900: #111827;
+  --color-gray-950: #0c121d;
+
+  /* Brand */
+  --color-brand-50: #edf7ff;
+  --color-brand-100: #cdeaff;
+  --color-brand-200: #aedcff;
+  --color-brand-300: #8ecfff;
+  --color-brand-400: #6ec1ff;
+  --color-brand-500: #4fb4ff;
+  --color-brand-600: #2e93df;
+  --color-brand-700: #1370b6;
+  --color-brand-800: #00518d;
+  --color-brand-900: #003861;
+  --color-brand-950: #001e33;
+
+  /* Blue */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+  --color-blue-950: #172554;
+
+  /* Green */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #04200f;
+
+  /* Red */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #310707;
+
+  /* Amber */
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+  --color-amber-950: #2c1102;
+
+  /* Base colors */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* Brand colors */
+  --color-logo-blue: var(--color-brand-400);
+  --color-logo-white: var(--color-white);
+  --color-logo-black: var(--color-black);
+  --color-deep-sea-blue: var(--color-brand-800);
+
+  /* Color background */
+  --color-page: var(--color-gray-50);
+  --color-container: var(--color-white);
+  --color-brand: var(--color-deep-sea-blue);
+
+  /* Color text */
+  --color-text-primary: var(--color-gray-800);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-disabled: var(--color-gray-400);
+  --color-text-always-light: var(--color-white);
+  --color-text-brand: var(--color-deep-sea-blue);
+
+  /* Color state */
+  --color-success: var(--color-green-600);
+  --color-warning: var(--color-amber-600);
+  --color-danger: var(--color-red-600);
+  --color-info: var(--color-brand-800);
+
+  /* Color border */
+  --color-border-primary: var(--color-gray-300);
+  --color-border-secondary: var(--color-gray-200);
+
+  /* Color button */
+  --color-button-primary: var(--color-deep-sea-blue);
+  --color-button-secondary: var(--color-brand-50);
+  --color-button-hover-primary: var(--color-brand-700);
+  --color-button-hover-secondary: var(--color-brand-100);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Color background */
+  --color-page: var(--color-gray-950);
+  --color-container: var(--color-gray-850);
+  --color-brand: var(--color-brand-700);
+
+  /* Color text */
+  --color-text-primary: var(--color-gray-50);
+  --color-text-secondary: var(--color-gray-300);
+  --color-text-tertiary: var(--color-gray-400);
+  --color-text-disabled: var(--color-gray-700);
+
+  /* Color border */
+  --color-border-primary: var(--color-gray-600);
+  --color-border-secondary: var(--color-gray-700);
+
+  /* Color button */
+  --color-button-primary: var(--color-brand-700);
+  --color-button-secondary: var(--color-brand-900);
+  --color-button-hover-primary: var(--color-brand-600);
+  --color-button-hover-secondary: var(--color-brand-800);
+
+  /* Brand colors */
+  --color-logo-black: var(--color-white);
+}
+
+/* Global Styles using Organization Theme */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-page);
+  color: var(--color-text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Utility Classes using Organization Colors */
+.bg-page { background-color: var(--color-page); }
+.bg-container { background-color: var(--color-container); }
+.bg-brand { background-color: var(--color-brand); }
+.bg-brand-50 { background-color: var(--color-brand-50); }
+.bg-brand-100 { background-color: var(--color-brand-100); }
+
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-brand { color: var(--color-text-brand); }
+.text-white { color: var(--color-text-always-light); }
+
+.border-primary { border-color: var(--color-border-primary); }
+.border-secondary { border-color: var(--color-border-secondary); }
+
+/* Organization Button Styles */
+.btn-primary {
+  background-color: var(--color-button-primary);
+  color: var(--color-text-always-light);
+  border: 1px solid var(--color-button-primary);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-button-hover-primary);
+  border-color: var(--color-button-hover-primary);
+}
+
+.btn-secondary {
+  background-color: var(--color-button-secondary);
+  color: var(--color-text-brand);
+  border: 1px solid var(--color-border-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-button-hover-secondary);
+}
+
+/* Organization Card Styles */
+.card {
+  background-color: var(--color-container);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Organization Input Styles */
+.input-field {
+  background-color: var(--color-page);
+  border: 2px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  border-radius: 8px;
+  padding: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: var(--color-brand);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 81, 141, 0.1);
+}
+
+/* Status Colors */
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-danger { color: var(--color-danger); }
+.text-info { color: var(--color-info); }
+
+.bg-success { background-color: var(--color-success); }
+.bg-warning { background-color: var(--color-warning); }
+.bg-danger { background-color: var(--color-danger); }
+.bg-info { background-color: var(--color-info); }
