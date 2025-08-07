@@ -1,0 +1,4 @@
+{
+  "**/*.{ts,html}": ["prettier --write", "pnpm lint"],
+  "*": ["prettier --write"]
+}

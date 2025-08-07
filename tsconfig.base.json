@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/core/*": ["apps/room-reservation/src/app/core/*"],
+      "@/layout/*": ["apps/room-reservation/src/app/layout/*"],
+      "@/auth/*": ["apps/room-reservation/src/app/features/auth/*"],
+      "@/rooms/*": ["apps/room-reservation/src/app/features/rooms/*"],
+      "@/admin/*": ["apps/room-reservation/src/app/features/admin/*"],
+      "@/dashboard/*": ["apps/room-reservation/src/app/features/dashboard/*"],
+      "@/models/*": ["apps/room-reservation/src/app/core/models/*"],
+      "@/services/*": ["apps/room-reservation/src/app/core/services/*"],
+      "@/utils/*": ["apps/room-reservation/src/app/core/utils/*"],
+      "@/config/*": ["apps/room-reservation/src/app/core/config/*"],
+      "@/store/*": ["apps/room-reservation/src/app/core/store/*"],
+      "@/*": ["apps/room-reservation/src/app/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
