@@ -4,24 +4,60 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+
+import { AuthService } from '@/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private router = inject(Router);
+
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // For demo purposes, we'll just pass requests through
-    // In a real app, you'd add authorization headers here
+    const token = localStorage.getItem('authToken');
 
-    const modifiedRequest = request.clone({
+    // Clone request and add headers
+    let modifiedRequest = request.clone({
       setHeaders: {
         'Content-Type': 'application/json',
       },
     });
 
-    return next.handle(modifiedRequest);
+    // Add Authorization header if token exists and this is an API call
+    if (token && this.isApiCall(request.url)) {
+      modifiedRequest = modifiedRequest.clone({
+        setHeaders: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+
+    return next.handle(modifiedRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // Handle 401 errors (unauthorized)
+        if (error.status === 401 && this.isApiCall(request.url)) {
+          // Clear auth data and redirect to login
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('currentUser');
+          this.router.navigate(['/auth/login']);
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
+
+  /**
+   * Check if the request is an API call
+   */
+  private isApiCall(url: string): boolean {
+    return url.startsWith('/api') || url.includes('/api/');
   }
 }

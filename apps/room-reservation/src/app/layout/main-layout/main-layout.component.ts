@@ -12,8 +12,7 @@ import { SidebarComponent } from '@/layout/sidebar/sidebar.component';
   selector: 'app-main-layout',
   imports: [CommonModule, RouterOutlet, HeaderComponent, SidebarComponent],
   template: `
-    <div class="organization-layout">
-      <!-- Header -->
+    <div *ngIf="currentUser; else noLayout" class="h-screen flex flex-col">
       <app-header
         [user]="currentUser"
         (logout)="onLogout()"
@@ -21,9 +20,7 @@ import { SidebarComponent } from '@/layout/sidebar/sidebar.component';
       >
       </app-header>
 
-      <!-- Main Content Area -->
-      <div class="layout-body">
-        <!-- Sidebar -->
+      <div class="flex flex-1 overflow-hidden relative">
         <app-sidebar
           [user]="currentUser"
           [isOpen]="sidebarOpen"
@@ -31,92 +28,70 @@ import { SidebarComponent } from '@/layout/sidebar/sidebar.component';
         >
         </app-sidebar>
 
-        <!-- Main Content -->
         <main
-          class="layout-main"
-          [class.with-sidebar]="sidebarOpen && !isMobile"
+          class="flex-1 bg-gray-50 transition-all duration-300 overflow-hidden"
+          [class.lg:ml-0]="!sidebarOpen"
+          [class.lg:ml-72]="sidebarOpen"
         >
-          <div class="content-container">
-            <router-outlet></router-outlet>
+          <div class="h-full flex flex-col">
+            <div class="flex-1 p-4 lg:p-6 overflow-auto">
+              <div class="max-w-7xl mx-auto h-full">
+                <div
+                  class="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col"
+                >
+                  <div class="flex-1 p-6 lg:p-8 overflow-auto">
+                    <router-outlet></router-outlet>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
       </div>
     </div>
+
+    <ng-template #noLayout>
+      <div class="min-h-screen">
+        <router-outlet></router-outlet>
+      </div>
+    </ng-template>
   `,
   styles: [
     `
-      .organization-layout {
+      :host {
+        display: block;
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-        background: var(--color-page);
-      }
-
-      .layout-body {
-        flex: 1;
-        display: flex;
         overflow: hidden;
-        position: relative;
       }
 
-      .layout-main {
+      .overflow-auto::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .overflow-auto::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+
+      .overflow-auto::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+
+      .overflow-auto::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      main {
+        transition: margin-left 0.3s ease-in-out;
+      }
+
+      .h-full {
+        height: 100%;
+      }
+
+      .flex-1 {
         flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        transition: margin-left 0.3s ease;
-        margin-left: 0;
-        background: var(--color-page);
-      }
-
-      .layout-main.with-sidebar {
-        margin-left: 280px;
-      }
-
-      .content-container {
-        flex: 1;
-        padding: 24px;
-        overflow-y: auto;
-        background: var(--color-page);
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 1023px) {
-        .layout-main.with-sidebar {
-          margin-left: 0;
-        }
-      }
-
-      /* Custom scrollbar */
-      .content-container::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .content-container::-webkit-scrollbar-track {
-        background: var(--color-border-secondary);
-        border-radius: 4px;
-      }
-
-      .content-container::-webkit-scrollbar-thumb {
-        background: var(--color-border-primary);
-        border-radius: 4px;
-      }
-
-      .content-container::-webkit-scrollbar-thumb:hover {
-        background: var(--color-text-tertiary);
-      }
-
-      /* Dark mode adjustments */
-      .dark .organization-layout {
-        background: var(--color-page);
-      }
-
-      .dark .layout-main {
-        background: var(--color-page);
-      }
-
-      .dark .content-container {
-        background: var(--color-page);
+        min-height: 0;
       }
     `,
   ],
@@ -126,14 +101,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   currentUser: AuthUser | null = null;
-  sidebarOpen = true;
+  sidebarOpen = false;
 
   get isMobile(): boolean {
     return window.innerWidth < 1024;
   }
 
   ngOnInit(): void {
-    // Initialize sidebar state based on screen size
     this.sidebarOpen = !this.isMobile;
 
     this.authService.currentUser$
@@ -142,7 +116,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         this.currentUser = user;
       });
 
-    // Listen for window resize
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -165,12 +138,11 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   private handleResize(): void {
-    // Auto-close sidebar on mobile
-    if (this.isMobile && this.sidebarOpen) {
+    const newIsMobile = window.innerWidth < 1024;
+
+    if (newIsMobile) {
       this.sidebarOpen = false;
-    }
-    // Auto-open sidebar on desktop
-    else if (!this.isMobile && !this.sidebarOpen) {
+    } else if (!newIsMobile && window.innerWidth >= 1024) {
       this.sidebarOpen = true;
     }
   }

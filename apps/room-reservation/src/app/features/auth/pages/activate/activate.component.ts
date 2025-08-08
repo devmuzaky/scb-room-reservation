@@ -16,10 +16,22 @@ import { MessageModule } from 'primeng/message';
 import { DividerModule } from 'primeng/divider';
 
 import { AuthService } from '@/services/auth.service';
-import { LoginRequest } from '@/models/auth.model';
+import { LoginRequest, SetPasswordRequest } from '@/models/auth.model';
+import { Router } from '@angular/router';
+
+function passwordsMatchValidator(form: FormGroup) {
+  const password = form.get('password')?.value;
+  const confirmPassword = form.get('confirmPassword')?.value;
+
+  if (!confirmPassword) {
+    return null; 
+  }
+
+  return password === confirmPassword ? null : { passwordMismatch: true };
+}
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-activate',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -50,45 +62,31 @@ import { LoginRequest } from '@/models/auth.model';
             <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-4 border-b">
               <h2 class="text-lg font-semibold text-gray-800 flex items-center">
                 <i class="pi pi-sign-in mr-2 text-blue-600"></i>
-                Sign In to Your Account
+                Activate Your Account
               </h2>
             </div>
           </ng-template>
 
           <ng-template pTemplate="content">
             <form
-              [formGroup]="loginForm"
-              (ngSubmit)="onSubmit()"
+              [formGroup]="activateForm"
+              (ngSubmit)="onSave()"
               class="space-y-6 pt-4"
             >
-              <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700">
-                  <i class="pi pi-envelope mr-1 text-gray-500"></i>
-                  Email Address
-                </label>
-                <input
-                  pInputText
-                  formControlName="email"
-                  placeholder="Enter your email address"
-                  class="w-full"
-                  size="large"
-                  [class.ng-invalid]="
-                    loginForm.get('email')?.invalid &&
-                    loginForm.get('email')?.touched
-                  "
-                />
-                <small
-                  *ngIf="
-                    loginForm.get('email')?.invalid &&
-                    loginForm.get('email')?.touched
-                  "
-                  class="text-red-600 flex items-center"
-                >
-                  <i class="pi pi-exclamation-triangle mr-1"></i>
-                  Please enter a valid email address
-                </small>
-              </div>
 
+            <p-message
+                *ngIf="errorMessage"
+                severity="error"
+                styleClass="text-red-200 flex items-center  -mt-6 "
+                 [text]="errorMessage"
+              >
+                <ng-template pTemplate="message">
+                  <div class="flex items-center text-red-600">
+                    <i class="pi pi-times-circle mr-2"></i>
+                    <span>{{ errorMessage }}</span>
+                  </div>
+                </ng-template>
+              </p-message>
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">
                   <i class="pi pi-lock mr-1 text-gray-500"></i>
@@ -102,44 +100,94 @@ import { LoginRequest } from '@/models/auth.model';
                   [toggleMask]="true"
                   [feedback]="false"
                   size="large"
+                  (copy)="$event.preventDefault()"
+                  (paste)="$event.preventDefault()"
                   [class.ng-invalid]="
-                    loginForm.get('password')?.invalid &&
-                    loginForm.get('password')?.touched
+                    activateForm.get('password')?.invalid &&
+                    activateForm.get('password')?.touched
                   "
                 />
                 <small
                   *ngIf="
-                    loginForm.get('password')?.invalid &&
-                    loginForm.get('password')?.touched
+                    activateForm.get('password')?.invalid &&
+                    activateForm.get('password')?.touched &&
+                    !activateForm.get('password')?.value
                   "
                   class="text-red-600 flex items-center"
                 >
                   <i class="pi pi-exclamation-triangle mr-1"></i>
                   Password is required
                 </small>
+
+                <small
+                  *ngIf="
+                (activateForm.get('password')?.errors?.['pattern'] || 
+                activateForm.get('password')?.errors?.['minlength']) &&
+                activateForm.get('password')?.touched"
+                  class="text-red-600 flex items-center"
+                >
+                  <i class="pi pi-exclamation-triangle mr-1"></i>
+                  Password must be at least 6 characters and contain at least
+                  one uppercase letter, one number, and one special character
+                </small>
               </div>
 
-              <p-message
-                *ngIf="errorMessage"
-                severity="error"
-                styleClass="w-full"
-              >
-                <ng-template pTemplate>
-                  <div class="flex items-center">
-                    <i class="pi pi-times-circle mr-2"></i>
-                    <span>{{ errorMessage }}</span>
-                  </div>
-                </ng-template>
-              </p-message>
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">
+                  <i class="pi pi-lock mr-1 text-gray-500"></i>
+                  Confirm Password
+                </label>
+                <p-password
+                  formControlName="confirmPassword"
+                  placeholder="Re-enter your password"
+                  styleClass="w-full"
+                  inputStyleClass="w-full"
+                  [toggleMask]="true"
+                  [feedback]="false"
+                  size="large"
+                  (copy)="$event.preventDefault()"
+                  (paste)="$event.preventDefault()"
+                  [class.ng-invalid]="
+                    activateForm.get('confirmPassword')?.invalid &&
+                    activateForm.get('confirmPassword')?.touched
+                  "
+                />
+                <small
+                  *ngIf="
+                    activateForm.get('confirmPassword')?.invalid &&
+                    activateForm.get('confirmPassword')?.touched
+                  "
+                  class="text-red-600 flex items-center"
+                >
+                  <i class="pi pi-exclamation-triangle mr-1"></i>
+                  Confirm Password is required
+                </small>
+
+                <small
+                  *ngIf="
+                    activateForm.hasError('passwordMismatch') &&
+                    (activateForm.get('password')?.dirty ||
+                      activateForm.get('password')?.touched) &&
+                    (activateForm.get('confirmPassword')?.touched ||
+                      activateForm.get('confirmPassword')?.dirty)
+                  "
+                  class="text-red-600 flex items-center"
+                >
+                  <i class="pi pi-exclamation-triangle mr-1"></i>
+                  Passwords do not match
+                </small>
+              </div>
+
+              
 
               <div class="pt-2">
                 <p-button
                   type="submit"
-                  label="Sign In"
+                  label="Save"
                   icon="pi pi-sign-in"
                   styleClass="w-full"
                   size="large"
-                  [disabled]="loginForm.invalid || isLoading"
+                  [disabled]="activateForm.invalid || isLoading"
                   [loading]="isLoading"
                   loadingIcon="pi pi-spinner pi-spin"
                 >
@@ -164,7 +212,7 @@ import { LoginRequest } from '@/models/auth.model';
           border-radius: 16px 16px 0 0;
         }
 
-        .p-inputtext:focus,
+        
         .p-password input:focus {
           box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
           border-color: rgb(59, 130, 246) !important;
@@ -194,26 +242,41 @@ import { LoginRequest } from '@/models/auth.model';
     `,
   ],
 })
-export class LoginComponent implements OnDestroy {
+export class ActivateComponent implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-  loginForm: FormGroup;
+  activateForm: FormGroup;
   isLoading = false;
   errorMessage = '';
 
   constructor() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
+    this.activateForm = this.fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.pattern(
+              '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-={}\\[\\]:;"\'<>,.?/~`]).{6,}$'
+            ),
+          ],
+        ],
+        confirmPassword: ['', Validators.required],
+      },
+      { validators: passwordsMatchValidator }
+    );
 
-    this.loginForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.errorMessage) {
-        this.errorMessage = '';
-      }
-    });
+    this.activateForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.errorMessage) {
+          this.errorMessage = '';
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -221,16 +284,19 @@ export class LoginComponent implements OnDestroy {
     this.destroy$.complete();
   }
 
-  onSubmit(): void {
-    if (this.loginForm.invalid || this.isLoading) return;
+  onSave(): void {
+    if (this.activateForm.invalid || this.isLoading) return;
 
     this.isLoading = true;
     this.errorMessage = '';
 
-    const credentials: LoginRequest = this.loginForm.value;
+    const credentials: SetPasswordRequest = {
+      token: this.extractToken() ,
+      password: this.activateForm.get('password')?.value
+    };
 
     this.authService
-      .login(credentials)
+      .activate(credentials)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => (this.isLoading = false))
@@ -240,9 +306,18 @@ export class LoginComponent implements OnDestroy {
           // Success - navigation handled in auth service
         },
         error: (error) => {
+            console.log('Activation error:', error);
           this.errorMessage =
-            error.message || 'Login failed. Please try again.';
+            error.message || 'Activation failed. Please try again.';
         },
       });
   }
+
+  extractToken(): string {
+     const currentUrl = this.router.url;
+    const urlParams = new URLSearchParams(currentUrl.split('?')[1]);
+    const token = urlParams.get('token');
+   return token ?? '';
+  }
+
 }

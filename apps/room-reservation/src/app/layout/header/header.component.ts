@@ -1,182 +1,143 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { ToolbarModule } from 'primeng/toolbar';
 import { BadgeModule } from 'primeng/badge';
-import { TooltipModule } from 'primeng/tooltip';
+import { AvatarModule } from 'primeng/avatar';
 
 import { AuthUser } from '@/models/auth.model';
 import { UserRole } from '@/models/user.model';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, ButtonModule, ToolbarModule, BadgeModule, TooltipModule],
+  imports: [CommonModule, ButtonModule, BadgeModule, AvatarModule],
   template: `
-    <div class="organization-header">
-      <div class="flex justify-between items-center w-full px-6 py-4">
-        <!-- Left side -->
+    <header
+      class="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center px-6 relative z-50"
+    >
+      <div class="flex justify-between items-center w-full">
         <div class="flex items-center space-x-4">
-          <!-- Mobile Sidebar Toggle -->
           <button
-            class="organization-btn-ghost lg:hidden"
+            class="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
             (click)="toggleSidebar.emit()"
-            pTooltip="Toggle Menu"
-            tooltipPosition="bottom">
-            <i class="pi pi-bars text-lg"></i>
+            type="button"
+            aria-label="Toggle Menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
 
-          <!-- Logo & Title -->
+          <button
+            class="hidden lg:flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+            (click)="toggleSidebar.emit()"
+            type="button"
+            aria-label="Toggle Sidebar"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+
           <div class="flex items-center space-x-3">
-            <div class="organization-logo">
-              <i class="pi pi-home text-white"></i>
+            <div
+              class="h-10 w-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-md"
+            >
+              <i class="pi pi-home text-white text-lg"></i>
             </div>
-            <div>
-              <h1 class="text-xl font-bold text-white">Room Reservation</h1>
-              <p class="text-xs text-brand-200 hidden sm:block">Meeting Room Management System</p>
+
+            <div class="hidden sm:block">
+              <h1 class="text-xl font-bold text-gray-900">BookedIn</h1>
+              <p class="text-xs text-gray-500 -mt-0.5">Meeting Management</p>
             </div>
           </div>
         </div>
 
-        <!-- Right side -->
-        <div class="flex items-center space-x-4">
-          <!-- User Info -->
-          <div class="hidden md:flex items-center space-x-3" *ngIf="user">
+        <div class="flex items-center space-x-3">
+          <div
+            class="hidden md:flex items-center space-x-3 bg-gray-50 rounded-xl px-4 py-2"
+            *ngIf="user"
+          >
             <div class="text-right">
-              <p class="text-sm font-medium text-white">{{ user.email }}</p>
-              <div class="flex items-center justify-end space-x-1">
-                <span class="organization-badge" [class]="getRoleBadgeClass(user.role)">
+              <p class="text-sm font-medium text-gray-900 leading-tight">
+                {{ user.email }}
+              </p>
+              <div class="flex items-center justify-end space-x-1 -mt-0.5">
+                <span
+                  class="px-2 py-0.5 text-xs font-semibold rounded-full"
+                  [class]="getRoleBadgeClass(user.role)"
+                >
                   {{ getRoleDisplayName(user.role) }}
                 </span>
               </div>
             </div>
-            <div class="organization-avatar">
-              <i class="pi pi-user text-white"></i>
+
+            <div
+              class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+            >
+              <i class="pi pi-user text-blue-600 text-sm"></i>
             </div>
           </div>
 
-          <!-- Desktop Sidebar Toggle -->
           <button
-            class="organization-btn-ghost hidden lg:flex"
-            (click)="toggleSidebar.emit()"
-            pTooltip="Toggle Sidebar"
-            tooltipPosition="bottom">
-            <i class="pi pi-bars"></i>
-          </button>
-
-          <!-- Logout Button -->
-          <button
-            class="organization-btn-outline"
+            class="flex items-center px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
             (click)="logout.emit()"
-            pTooltip="Logout"
-            tooltipPosition="bottom">
+            type="button"
+          >
             <i class="pi pi-sign-out mr-2"></i>
             <span class="hidden sm:inline">Logout</span>
           </button>
         </div>
       </div>
-    </div>
+    </header>
   `,
-  styles: [`
-    .organization-header {
-      background: linear-gradient(135deg, var(--color-brand-800) 0%, var(--color-brand-700) 100%);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      border-bottom: 1px solid var(--color-brand-700);
-    }
+  styles: [
+    `
+      :host {
+        display: block;
+        width: 100%;
+      }
 
-    .organization-logo {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-500) 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(0, 81, 141, 0.3);
-    }
+      button:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
 
-    .organization-avatar {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--color-brand-300) 0%, var(--color-brand-400) 100%);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
+      .badge-admin {
+        background-color: #fecaca;
+        color: #dc2626;
+      }
 
-    .organization-btn-ghost {
-      background: transparent;
-      color: var(--color-text-always-light);
-      border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .badge-staff {
+        background-color: #bfdbfe;
+        color: #2563eb;
+      }
 
-    .organization-btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-1px);
-    }
-
-    .organization-btn-outline {
-      background: transparent;
-      color: var(--color-text-always-light);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 8px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .organization-btn-outline:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-1px);
-    }
-
-    .organization-badge {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .badge-admin {
-      background: var(--color-danger);
-      color: var(--color-text-always-light);
-    }
-
-    .badge-staff {
-      background: var(--color-info);
-      color: var(--color-text-always-light);
-    }
-
-    .badge-default {
-      background: var(--color-gray-500);
-      color: var(--color-text-always-light);
-    }
-
-    .text-brand-200 {
-      color: var(--color-brand-200);
-    }
-
-    /* Dark mode adjustments */
-    .dark .organization-header {
-      background: linear-gradient(135deg, var(--color-brand-900) 0%, var(--color-brand-800) 100%);
-      border-bottom-color: var(--color-brand-800);
-    }
-  `]
+      .badge-default {
+        background-color: #f3f4f6;
+        color: #6b7280;
+      }
+    `,
+  ],
 })
 export class HeaderComponent {
   @Input() user: AuthUser | null = null;

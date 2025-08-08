@@ -6,23 +6,37 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  access_token: string;
-  user: AuthUser;
+  token: string;
+  user: {
+    email: string;
+    role: 'admin' | 'staff';
+  };
 }
 
 export interface AuthUser {
-  id: string;
   email: string;
   role: UserRole;
-  status: UserStatus;
 }
 
 export interface SetPasswordRequest {
   token: string;
   password: string;
-  confirmPassword: string;
+}
+
+export interface SetPasswordResponse {
+  message: string;
+}
+
+export interface ApiError {
+  status: 'fail';
+  message: string;
+}
+
+export interface ApiSuccess {
+  status: 'success';
 }
 
 export enum AuthErrorType {
   INVALID_CREDENTIALS = 'INVALID_CREDENTIALS',
+  ACCOUNT_LOCKED = 'ACCOUNT_LOCKED',
 }

@@ -1,6 +1,18 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  OnInit,
+  OnChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
+import { BadgeModule } from 'primeng/badge';
+import { AvatarModule } from 'primeng/avatar';
 
 import { AuthUser } from '@/models/auth.model';
 import { UserRole } from '@/models/user.model';
@@ -10,313 +22,332 @@ interface MenuItem {
   icon: string;
   route: string;
   roles: UserRole[];
+  description?: string;
 }
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ButtonModule,
+    SidebarModule,
+    BadgeModule,
+    AvatarModule,
+  ],
   template: `
-    <!-- Mobile Overlay -->
-    <div
-      *ngIf="isOpen && isMobile"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-      (click)="closeSidebar.emit()"
-    ></div>
-
-    <!-- Sidebar -->
+    <!-- Desktop Sidebar - Positioned BELOW header -->
     <aside
-      class="organization-sidebar"
-      [class.sidebar-open]="isOpen"
-      [class.sidebar-closed]="!isOpen"
+      *ngIf="!isMobile"
+      class="fixed left-0 w-72 bg-white shadow-lg border-r border-gray-200 transform transition-transform duration-300 z-30"
+      [class.translate-x-0]="isOpen"
+      [class.-translate-x-full]="!isOpen"
+      [style.top.px]="64"
+      [style.height]="'calc(100vh - 64px)'"
     >
-      <div class="sidebar-container">
-        <!-- Navigation Menu -->
-        <nav class="sidebar-nav">
-          <div class="nav-section">
-            <h3 class="nav-section-title">Navigation</h3>
-            <div class="nav-items">
-              <a
-                *ngFor="let item of getMenuItems()"
-                [routerLink]="item.route"
-                routerLinkActive="nav-item-active"
-                class="nav-item"
-                (click)="onMobileMenuClick()"
-              >
-                <div class="nav-item-icon">
-                  <i [class]="item.icon"></i>
-                </div>
-                <span class="nav-item-label">{{ item.label }}</span>
-
-                <!-- Active indicator -->
-                <div class="nav-item-indicator"></div>
-              </a>
+      <div class="flex flex-col h-full">
+        <!-- Desktop Sidebar Header -->
+        <div
+          class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100"
+        >
+          <div class="flex items-center space-x-3">
+            <div
+              class="h-10 w-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center"
+            >
+              <i class="pi pi-home text-white text-lg"></i>
             </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Navigation</h3>
+              <p class="text-xs text-gray-600">
+                {{ getRoleDisplayName(user?.role || UserRole.STAFF) }} Panel
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Menu -->
+        <nav class="flex-1 px-4 py-6 overflow-y-auto">
+          <div class="space-y-2">
+            <a
+              *ngFor="let item of getMenuItems()"
+              [routerLink]="item.route"
+              routerLinkActive="active-nav-item"
+              class="nav-item group flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
+              (click)="onMenuClick()"
+            >
+              <!-- Icon -->
+              <div
+                class="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 group-hover:bg-blue-100 mr-3 transition-colors"
+              >
+                <i
+                  [class]="
+                    'pi pi-' +
+                    item.icon +
+                    ' text-gray-500 group-hover:text-blue-600'
+                  "
+                ></i>
+              </div>
+
+              <!-- Label & Description -->
+              <div class="flex-1">
+                <div class="font-medium">{{ item.label }}</div>
+                <div
+                  class="text-xs text-gray-500 group-hover:text-blue-500"
+                  *ngIf="item.description"
+                >
+                  {{ item.description }}
+                </div>
+              </div>
+
+              <!-- Arrow -->
+              <i
+                class="pi pi-angle-right text-gray-400 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-all"
+              ></i>
+            </a>
           </div>
         </nav>
 
-        <!-- User Info (Mobile) -->
-        <div class="sidebar-user-info lg:hidden" *ngIf="user">
-          <div class="user-avatar">
-            <i class="pi pi-user"></i>
-          </div>
-          <div class="user-details">
-            <p class="user-email">{{ user.email }}</p>
-            <p class="user-role">{{ getRoleDisplayName(user.role) }}</p>
+        <!-- Desktop User Profile -->
+        <div class="p-4 border-t border-gray-100 bg-gray-50" *ngIf="user">
+          <div
+            class="flex items-center space-x-3 p-3 bg-white rounded-xl shadow-sm"
+          >
+            <div
+              class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"
+            >
+              <i class="pi pi-user text-blue-600"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">
+                {{ user.email }}
+              </p>
+              <div class="flex items-center space-x-1 mt-1">
+                <span
+                  class="px-2 py-0.5 text-xs font-semibold rounded-full"
+                  [class]="getRoleBadgeClass(user.role)"
+                >
+                  {{ getRoleDisplayName(user.role) }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </aside>
+
+    <!-- Mobile Sidebar - PrimeNG Sidebar with proper z-index -->
+    <p-sidebar
+      *ngIf="isMobile"
+      [(visible)]="mobileVisible"
+      position="left"
+      [modal]="true"
+      [dismissible]="true"
+      [closeOnEscape]="true"
+      styleClass="mobile-sidebar"
+      (onHide)="onMobileHide()"
+    >
+      <ng-template pTemplate="header">
+        <div class="flex items-center space-x-3 w-full">
+          <div
+            class="h-8 w-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center"
+          >
+            <i class="pi pi-home text-white text-sm"></i>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-900">BookedIn</span>
+            <p class="text-xs text-gray-600">
+              {{ getRoleDisplayName(user?.role || UserRole.STAFF) }}
+            </p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="content">
+        <div class="flex flex-col h-full -m-6">
+          <!-- Mobile Navigation -->
+          <nav class="flex-1 px-6 py-4">
+            <div class="space-y-2">
+              <a
+                *ngFor="let item of getMenuItems()"
+                [routerLink]="item.route"
+                routerLinkActive="active-mobile-nav"
+                class="flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-blue-50 hover:text-blue-700 transition-all"
+                (click)="closeMobileSidebar()"
+              >
+                <div
+                  class="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 mr-3"
+                >
+                  <i
+                    [class]="'pi pi-' + item.icon + ' text-gray-500 text-sm'"
+                  ></i>
+                </div>
+                <div>
+                  <div class="font-medium">{{ item.label }}</div>
+                  <div class="text-xs text-gray-500" *ngIf="item.description">
+                    {{ item.description }}
+                  </div>
+                </div>
+              </a>
+            </div>
+          </nav>
+
+          <!-- Mobile User Info -->
+          <div class="p-6 border-t border-gray-100 bg-gray-50" *ngIf="user">
+            <div class="flex items-center space-x-3">
+              <div
+                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"
+              >
+                <i class="pi pi-user text-blue-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  {{ user.email }}
+                </p>
+                <p class="text-xs text-gray-500">
+                  {{ getRoleDisplayName(user.role) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-sidebar>
   `,
   styles: [
     `
-      .organization-sidebar {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 280px;
-        height: calc(100vh - 70px);
-        background: var(--color-container);
-        border-right: 1px solid var(--color-border-secondary);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        z-index: 50;
-        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
-      }
-
-      .sidebar-open {
-        transform: translateX(0);
-      }
-
-      .sidebar-container {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      }
-
-      .sidebar-nav {
-        flex: 1;
-        padding: 24px 0;
-      }
-
-      .nav-section {
-        margin-bottom: 32px;
-      }
-
-      .nav-section-title {
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--color-text-tertiary);
-        padding: 0 24px 12px;
-        margin: 0;
-      }
-
-      .nav-items {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding: 0 16px;
-      }
-
-      .nav-item {
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding: 12px 16px;
-        border-radius: 12px;
-        color: var(--color-text-secondary);
-        text-decoration: none;
-        transition: all 0.2s ease;
-        font-weight: 500;
-        font-size: 14px;
-        overflow: hidden;
-      }
-
-      .nav-item:hover {
-        background: var(--color-brand-50);
-        color: var(--color-text-brand);
-        transform: translateX(4px);
-      }
-
-      .nav-item-active {
-        background: var(--color-brand-50) !important;
-        color: var(--color-text-brand) !important;
-        font-weight: 600;
-      }
-
-      .nav-item-active .nav-item-icon i {
-        color: var(--color-brand) !important;
-      }
-
-      .nav-item-active .nav-item-indicator {
-        opacity: 1;
-        transform: scaleY(1);
-      }
-
-      .nav-item-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .nav-item-icon i {
-        color: var(--color-text-tertiary);
-        font-size: 16px;
-        transition: color 0.2s ease;
-      }
-
-      .nav-item:hover .nav-item-icon i {
-        color: var(--color-brand);
-      }
-
-      .nav-item-label {
-        flex: 1;
-      }
-
-      .nav-item-indicator {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%) scaleY(0);
-        width: 3px;
-        height: 24px;
-        background: var(--color-brand);
-        border-radius: 2px 0 0 2px;
-        opacity: 0;
-        transition: all 0.2s ease;
-      }
-
-      .sidebar-user-info {
-        padding: 20px 24px;
-        border-top: 1px solid var(--color-border-secondary);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: var(--color-brand-50);
-        margin: 0 16px 16px;
-        border-radius: 12px;
-      }
-
-      .user-avatar {
-        width: 40px;
-        height: 40px;
-        background: var(--color-brand);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-text-always-light);
-        font-size: 16px;
-      }
-
-      .user-details {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .user-email {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--color-text-primary);
-        margin: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .user-role {
-        font-size: 12px;
-        color: var(--color-text-tertiary);
-        margin: 0;
-        text-transform: capitalize;
-      }
-
-      /* Dark mode adjustments */
-      .dark .organization-sidebar {
-        background: var(--color-container);
-        border-right-color: var(--color-border-primary);
-      }
-
-      .dark .nav-item:hover {
-        background: var(--color-brand-950);
-        color: var(--color-brand-300);
-      }
-
-      .dark .nav-item-active {
-        background: var(--color-brand-950) !important;
-        color: var(--color-brand-300) !important;
-      }
-
-      .dark .nav-item-active .nav-item-icon i {
-        color: var(--color-brand-400) !important;
-      }
-
-      .dark .sidebar-user-info {
-        background: var(--color-brand-950);
-        border-top-color: var(--color-border-primary);
-      }
-
-      /* Responsive */
-      @media (min-width: 1024px) {
-        .organization-sidebar {
-          position: static;
-          transform: none;
-          width: 280px;
-          height: calc(100vh - 70px);
+      /* Active navigation styles */
+      :host ::ng-deep {
+        .active-nav-item {
+          background: linear-gradient(
+            135deg,
+            #3b82f6 0%,
+            #2563eb 100%
+          ) !important;
+          color: white !important;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+          transform: scale(1.02);
         }
+
+        .active-nav-item .pi {
+          color: white !important;
+        }
+
+        .active-nav-item div {
+          background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .active-mobile-nav {
+          background: #3b82f6 !important;
+          color: white !important;
+        }
+
+        .active-mobile-nav .pi {
+          color: white !important;
+        }
+
+        .active-mobile-nav div {
+          background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Mobile sidebar z-index fix */
+        .mobile-sidebar {
+          z-index: 1000 !important;
+        }
+
+        .mobile-sidebar .p-sidebar {
+          z-index: 1000 !important;
+        }
+
+        .mobile-sidebar .p-sidebar-mask {
+          z-index: 999 !important;
+        }
+      }
+
+      .badge-admin {
+        background-color: #fecaca;
+        color: #dc2626;
+      }
+
+      .badge-staff {
+        background-color: #bfdbfe;
+        color: #2563eb;
+      }
+
+      .badge-default {
+        background-color: #f3f4f6;
+        color: #6b7280;
       }
     `,
   ],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnChanges {
   @Input() user: AuthUser | null = null;
-  @Input() isOpen = true;
+  @Input() isOpen = false;
   @Output() closeSidebar = new EventEmitter<void>();
 
   private router = inject(Router);
+  mobileVisible = false;
+  UserRole = UserRole;
 
   private menuItems: MenuItem[] = [
     // Admin Menu Items
     {
       label: 'Manage People',
-      icon: 'pi pi-users',
+      icon: 'users',
       route: '/admin/manage-people',
       roles: [UserRole.ADMIN],
+      description: 'Add & manage staff users',
     },
     {
       label: 'Manage Rooms',
-      icon: 'pi pi-home',
+      icon: 'home',
       route: '/admin/manage-rooms',
       roles: [UserRole.ADMIN],
+      description: 'View & cancel bookings',
     },
     {
       label: 'Manage Requests',
-      icon: 'pi pi-inbox',
+      icon: 'inbox',
       route: '/admin/manage-requests',
       roles: [UserRole.ADMIN],
+      description: 'Approve booking requests',
     },
 
     // Staff Menu Items
     {
       label: 'Calendar',
-      icon: 'pi pi-calendar',
+      icon: 'calendar',
       route: '/dashboard/calendar',
       roles: [UserRole.STAFF],
+      description: 'View monthly calendar',
     },
     {
       label: 'My Bookings',
-      icon: 'pi pi-clock',
+      icon: 'clock',
       route: '/dashboard/my-bookings',
       roles: [UserRole.STAFF],
+      description: 'Manage your reservations',
     },
   ];
 
   get isMobile(): boolean {
     return window.innerWidth < 1024;
+  }
+
+  ngOnInit(): void {
+    this.updateMobileVisibility();
+  }
+
+  ngOnChanges(): void {
+    this.updateMobileVisibility();
+  }
+
+  private updateMobileVisibility(): void {
+    if (this.isMobile) {
+      this.mobileVisible = this.isOpen;
+    } else {
+      this.mobileVisible = false;
+    }
   }
 
   getMenuItems(): MenuItem[] {
@@ -340,9 +371,30 @@ export class SidebarComponent {
     }
   }
 
-  onMobileMenuClick(): void {
-    if (this.isMobile) {
-      this.closeSidebar.emit();
+  getRoleBadgeClass(role: UserRole): string {
+    switch (role) {
+      case UserRole.ADMIN:
+        return 'badge-admin';
+      case UserRole.STAFF:
+        return 'badge-staff';
+      default:
+        return 'badge-default';
     }
+  }
+
+  onMenuClick(): void {
+    if (this.isMobile) {
+      this.closeMobileSidebar();
+    }
+  }
+
+  onMobileHide(): void {
+    this.mobileVisible = false;
+    this.closeSidebar.emit();
+  }
+
+  closeMobileSidebar(): void {
+    this.mobileVisible = false;
+    this.closeSidebar.emit();
   }
 }
