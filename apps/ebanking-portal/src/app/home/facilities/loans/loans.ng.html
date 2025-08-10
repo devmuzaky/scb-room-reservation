@@ -1,0 +1,258 @@
+@if (status() === 'loading') {
+  <scb-table-skeleton
+    [rows]="5"
+    [columns]="4" />
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'dashboard'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="LOANS_ERROR_STATE">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="LOANS_API_FAILURE_ICON" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="LOANS_API_ERROR_TITLE">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="LOANS_API_ERROR_DETAIL">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="LoansResource.reload()"
+      data-testid="LOANS_RELOAD_BUTTON">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    *transloco="let t; prefix: 'facilities.facilitiesLoans'"
+    class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1">
+    <!-- Title & Download -->
+    <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <p class="mf-lg font-semibold">{{ t('title') }}</p>
+
+      <app-download-btn
+        [isEmpty]="isEmpty()"
+        [options]="downloadOptions"
+        data-testid="CHEQUE_IN_LIST_DOWNLOAD" />
+    </div>
+
+    @if (isEmpty()) {
+      <div
+        data-testid="LOANS_EMPTY_STATE"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="LOANS_EMPTY_STATE_ICON"
+          class="" />
+        <h4
+          data-testid="LOANS_EMPTY_STATE_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('empty.title') }}
+        </h4>
+        <p
+          data-testid="LOANS_EMPTY_STATE_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('empty.subTitle') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="loansList()"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true"
+        data-testid="LOANS_TABLE">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_LOAN_ID">
+              {{ t('table.loanId') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_ACCOUNT_NUMBER">
+              {{ t('table.accountNumber') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_ACCOUNT_NAME">
+              {{ t('table.accountName') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_LOAN_BALANCE">
+              {{ t('table.loanBalance') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_INSTALMENT_AMOUNT">
+              {{ t('table.instalmentAmount') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LOANS_TABLE_HEADER_INSTALMENT_DATE">
+              {{ t('table.instalmentDate') }}
+            </th>
+            <!--            Todo: temp hidden-->
+            <th
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="mf-sm hidden !font-medium"
+              data-testid="LOANS_TABLE_HEADER_ACTION">
+              {{ t('table.action') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-item>
+          <tr
+            (click)="navigateToDetails(item.loanId)"
+            (keydown.enter)="navigateToDetails(item.loanId)"
+            class="focus:ring-primary cursor-pointer !bg-transparent transition-colors duration-200 hover:bg-gray-50 focus:ring-2 focus:outline-none focus:ring-inset dark:hover:bg-gray-800"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'View details for loan ' + item.loanId"
+            [attr.data-testid]="'loan_row_' + item.loanId"
+            [attr.data-loan-id]="item.loanId">
+            <td class="body-sm">
+              {{ item.loanId }}
+            </td>
+
+            <td>
+              <p class="text-text-primary mf-sm">{{ item.accountNumber }}</p>
+            </td>
+
+            <td>
+              <p class="text-text-primary mf-sm">{{ item.accountName }}</p>
+            </td>
+            <td>
+              <currency-view
+                [amount]="item.loanBalance"
+                [currency]="item.currency"
+                nonZero
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td>
+              <currency-view
+                [amount]="item.installmentAmount"
+                [currency]="item.currency"
+                nonZero
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td>
+              <date-view
+                data-testid="DASH_LOANS_DETAIL_TITLE"
+                [value]="item.installmentDate"
+                variant="sm" />
+            </td>
+            <td
+              class="hidden"
+              *rolePermission="['SUPER_USER', 'MAKER']">
+              <button
+                size="xs"
+                class="!p-1"
+                variant="secondary"
+                scbButton
+                (click)="$event.stopPropagation()">
+                {{ t('table.payNowAction') }}
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  @if (!isEmpty()) {
+    <!-- Pagination Section -->
+    <div
+      *transloco="let t; prefix: 'facilities.facilitiesLoans'"
+      class="table-footer pt-2xl flex flex-col items-center justify-between max-sm:justify-center sm:flex-row"
+      data-testid="LOANS_PAGINATION_CONTAINER">
+      <div class="page-info-container">
+        <span
+          class="mf-sm text-text-secondary hidden font-normal sm:block"
+          data-testid="LOANS_PAGINATION_INFO">
+          {{ t('page') }} {{ pageNumber() + 1 }} {{ t('pageOf') }} {{ totalPages() }}</span
+        >
+      </div>
+      <div class="pagination-container">
+        <p-paginator
+          [first]="first()"
+          [rows]="rows()"
+          [totalRecords]="totalRecords()"
+          [showCurrentPageReport]="false"
+          [showFirstLastIcon]="!layoutFacade.mobileMode()"
+          (onPageChange)="onPageChange($event)"
+          data-testid="LOANS_PAGINATOR">
+          <ng-template #firstpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-left-double"
+              data-testid="LOANS_PAGINATOR_FIRST_ICON" />
+          </ng-template>
+          <ng-template #previouspagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-left"
+              data-testid="LOANS_PAGINATOR_PREVIOUS_ICON" />
+          </ng-template>
+          <ng-template #lastpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-right-double"
+              data-testid="LOANS_PAGINATOR_LAST_ICON" />
+          </ng-template>
+          <ng-template #nextpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-right"
+              data-testid="LOANS_PAGINATOR_NEXT_ICON" />
+          </ng-template>
+        </p-paginator>
+      </div>
+
+      @if (!layoutFacade.mobileMode()) {
+        <div class="mf-md text-text-secondary hidden sm:block">
+          <p-select
+            [options]="paginationSizeOptions()"
+            (onChange)="onPageSizeChange($event)"
+            optionLabel="label"
+            optionValue="value"
+            [appendTo]="lang() === 'ar' ? null : 'body'"
+            (ngModelChange)="first.set(0)"
+            [(ngModel)]="rows">
+            <ng-template pTemplate="selectedItem">
+              <div class="align-items-center flex gap-2">
+                <div>{{ rows() }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template
+              let-country
+              pTemplate="item">
+              <div class="align-items-center flex gap-2">
+                <div>{{ country.label }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+        </div>
+      }
+    </div>
+  }
+}

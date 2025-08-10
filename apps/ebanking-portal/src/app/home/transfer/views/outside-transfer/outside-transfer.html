@@ -1,0 +1,138 @@
+<div
+  class="flex flex-col"
+  *transloco="let t; prefix: 'transfer.form'">
+  <!-- Body - Scrollable Content -->
+  <main class="bg-page pb-3xl flex-grow">
+    @if (transfer.step() === 'form') {
+      <form
+        [formGroup]="form"
+        class="page-grid p-0"
+        *transloco="let t; prefix: 'transfer.form'">
+        <!-- Main section -->
+        <div class="gap-2xl col-span-12 flex flex-col 2xl:col-span-10 2xl:col-start-2">
+          <scb-card class="p-xl gap-2xl flex flex-col">
+            <div class="gap-lg flex flex-col">
+              <p class="mf-lg font-semibold">{{ t('from') }}</p>
+              <select-account-field
+                type="from"
+                transferType="OUTSIDE"
+                currency="EGP"
+                [setAccountData]="this.repeatTransferData()?.fromAccount"
+                [isLoadingState]="transfer.fromAccountsLoading()"
+                [accountsData]="transfer.fromAccountsData()"
+                [errorState]="transfer.fromAccountsError()"
+                [availableCurrencies]="transfer.getAvailableCurrencies('from')"
+                (accountSelected)="handleAccountSelected($event)"
+                (refreshRequest)="handleRefreshRequest($event)" />
+              @if (fromAccount.touched && fromAccount.invalid) {
+                <p class="mf-sm text-input-text-danger gap-sm flex items-start">
+                  <icon
+                    name="info-circle"
+                    class="w-[18px] flex-none" />
+                  {{ t('sectionRequired') }}
+                </p>
+              }
+            </div>
+
+            <div class="gap-lg flex flex-col">
+              <p class="mf-lg font-semibold">{{ t('to') }}</p>
+              <select-beneficiary-field
+                type="outside"
+                [setBeneficiaryAccountData]="this.repeatTransferData()?.beneficiary"
+                (selectedBeneficiaryChange)="handleBeneficiaryChange($event)" />
+              @if (beneficiaryId.touched && beneficiaryId.invalid) {
+                <p class="mf-sm text-input-text-danger gap-sm flex items-start">
+                  <icon
+                    name="info-circle"
+                    class="w-[18px] flex-none" />
+                  {{ t('sectionRequired') }}
+                </p>
+              }
+            </div>
+
+            <!-- Amount -->
+            <div class="gap-lg flex flex-col">
+              <p class="mf-lg font-semibold">{{ t('amount') }}</p>
+              <div class="gap-2xl flex flex-1 flex-col">
+                <!-- Currency field -->
+                <app-currency-flag-field
+                  [currency]="transferCurrency.value"
+                  [control]="currencyField" />
+
+                <scb-form-field>
+                  <label scbLabel>{{ t('reason') }}</label>
+                  <scb-select
+                    [withLabel]="true"
+                    formControlName="transferReason">
+                    <div
+                      scbSelectTrigger
+                      class="text-text-primary body-md-s">
+                      {{ form.get('transferReason')?.value }}
+                    </div>
+                    @for (reason of reasons(); track reason) {
+                      @let v = transfer.isArabic() ? reason.reasonAr : reason.reasonEn;
+                      <scb-option [value]="v">{{ v }}</scb-option>
+                    }
+                  </scb-select>
+                  <p scbError="required">{{ t('sectionRequired') }}</p>
+                </scb-form-field>
+              </div>
+              <transfer-description-field
+                [control]="descriptionField"
+                [scbMaxLength]="300"
+                [showDesc]="!!repeatTransferData()?.description?.trim()" />
+            </div>
+          </scb-card>
+
+          <scb-card class="p-xl gap-lg flex flex-col">
+            <h4 class="head-xs-s">{{ t('transferNetwork') }}</h4>
+            <scb-radio-group
+              class="gap-2xl flex-col sm:flex-row"
+              formControlName="transferNetwork">
+              @for (tn of transferNetworks(); track tn.key) {
+                <scb-radio
+                  [value]="tn.key"
+                  class="items-start">
+                  <app-transfer-network-fee
+                    [networkData]="tn"
+                    [selectedNetwork]="transferNetwork.value"
+                    [amount]="currencyField.value" />
+                </scb-radio>
+              }
+            </scb-radio-group>
+          </scb-card>
+
+          <scb-card class="p-xl gap-lg flex flex-col">
+            <h4 class="head-xs-s">{{ t('transferChargesBy') }}</h4>
+            <scb-radio-group
+              class="gap-3xl"
+              formControlName="chargeBearer">
+              @for (cb of chargeBearers(); track cb.key) {
+                <scb-radio
+                  [value]="cb.key"
+                  class="body-md">
+                  {{ cb.value }}
+                </scb-radio>
+              }
+            </scb-radio-group>
+          </scb-card>
+
+          <app-schedule-transfer
+            [setData]="repeatTransferData()?.scheduleDto"
+            [showWeekendAlert]="true" />
+        </div>
+      </form>
+    }
+
+    @if (transfer.step() === 'summary' || transfer.step() === 'otp') {
+      <transaction-summary />
+    }
+
+    @if (transfer.step() === 'success') {
+      <transaction-success class="pb-20" />
+    }
+  </main>
+
+  <!-- Footer -->
+  <submit-buttons-footer [form]="form" />
+</div>

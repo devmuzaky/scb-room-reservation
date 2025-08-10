@@ -1,0 +1,101 @@
+<section
+  class="gap-xl flex flex-col"
+  [formGroup]="form"
+  *transloco="let t; prefix: 'beneficiary.editForm'">
+  <!-- Title -->
+  <div class="gap-md flex items-center">
+    <icon
+      name="user-add"
+      class="h-3xl text-primary w-3xl" />
+    <h1 class="mf-lg font-semibold">{{ t('confirmTitle') }}</h1>
+  </div>
+
+  <!-- separator -->
+  <div class="h-[1px] w-full bg-gray-300 dark:bg-gray-600"></div>
+
+  <!-- Beneficiary Details -->
+
+  <!-- Nickname field -->
+  <scb-form-field class="w-full">
+    <label scbLabel>{{ t('nicknameField.label') }}</label>
+    <input
+      meeAutofocus
+      scbInput
+      formControlName="nickname"
+      [scbMaxLength]="50" />
+
+    <p scbHint>
+      {{ t('nicknameField.hint') }}
+    </p>
+
+    <!-- Frontend validation -->
+    <p scbError="required">
+      {{ t('nicknameField.required') }}
+    </p>
+    <!-- Backend validation -->
+    <p scbError="tooLong">
+      {{ form.controls.nickname.errors?.['message'] }}
+    </p>
+    <p scbError="unique">
+      {{ form.controls.nickname.errors?.['message'] }}
+    </p>
+  </scb-form-field>
+
+  <!-- Name field -->
+  <scb-form-field
+    class="w-full"
+    [ngClass]="{ 'opacity-50': form.get('name')?.disabled }">
+    <label scbLabel>{{ t('nameField.label') }}</label>
+    <input
+      scbInput
+      formControlName="name"
+      readonly
+      [scbMaxLength]="50" />
+  </scb-form-field>
+
+  <!-- Transaction method field -->
+  <scb-form-field
+    class="w-full"
+    [ngClass]="{ 'opacity-50': form.get('paymentMethod')?.disabled }">
+    <label scbLabel>{{ t('transactionTitle') }}</label>
+    <input
+      scbInput
+      readonly
+      formControlName="paymentMethod" />
+  </scb-form-field>
+
+  <!-- Transaction method field -->
+  <scb-form-field
+    class="w-full"
+    [ngClass]="{ 'opacity-50': form.get('beneficiaryNumber')?.disabled }">
+    <label scbLabel>{{ t('transactionTypeOptions.' + data.transactionMethod) }}</label>
+    <input
+      scbInput
+      readonly
+      formControlName="beneficiaryNumber" />
+  </scb-form-field>
+
+  <!-- Bank field -->
+  <scb-form-field
+    class="w-full"
+    [ngClass]="{ 'opacity-50': form.get('bank')?.disabled }">
+    <label scbLabel>{{ t('bankField.label') }}</label>
+    <input
+      scbInput
+      readonly
+      formControlName="bank" />
+  </scb-form-field>
+
+  <button
+    scbButton
+    (click)="confirm()">
+    {{ t('update') }}
+  </button>
+
+  <button
+    scbButton
+    variant="secondary"
+    (click)="close()">
+    {{ t('cancel') }}
+  </button>
+</section>

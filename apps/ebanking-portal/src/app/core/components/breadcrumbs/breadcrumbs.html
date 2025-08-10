@@ -1,0 +1,25 @@
+<div class="gap-sm flex items-center text-sm whitespace-nowrap">
+  @for (route of routes; track route.label) {
+    @if (route.path) {
+      <a
+        scbButton
+        variant="link"
+        size="sm"
+        class="!inline-flex"
+        [routerLink]="route.path"
+        data-testid="breadcrumb-link">
+        {{ route.label }}
+      </a>
+    } @else {
+      <span
+        data-testid="breadcrumb-text"
+        class="caption">
+        {{ route.label }}
+      </span>
+    }
+
+    @if (!$last) {
+      <span data-testid="breadcrumb-separator">/</span>
+    }
+  }
+</div>

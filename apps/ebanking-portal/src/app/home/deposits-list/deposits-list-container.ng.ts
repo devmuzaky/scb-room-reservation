@@ -1,0 +1,21 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AppBreadcrumbsComponent } from '@/core/components';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { DepositsListPage } from './deposits-list.page';
+
+@Component({
+  selector: 'app-deposits-list-container',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DepositsListPage, AppBreadcrumbsComponent, TranslocoDirective],
+  template: `<section class="col-span-12 max-sm:hidden">
+      <app-breadcrumbs
+        *transloco="let t; prefix: 'breadcrumbs'"
+        [routes]="[{ label: t('home'), path: '/dashboard' }, { label: t('timeDepositOverview') }]"></app-breadcrumbs>
+    </section>
+
+    <app-deposits-list class="col-span-12" />`,
+  host: {
+    class: `container-grid py-3xl px-3xl`,
+  },
+})
+export default class DepositsListContainer {}

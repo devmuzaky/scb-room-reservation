@@ -1,0 +1,56 @@
+@if (selectedAccount(); as sa) {
+  <div
+    *transloco="let t; prefix: 'transfer.accountsDrawer'"
+    class="p-xl border-border-secondary flex items-center justify-between rounded-lg border">
+    <div class="gap-md flex flex-1 flex-col sm:flex-row sm:justify-between">
+      <div class="gap-sm flex flex-col">
+        <div class="head-xs-s truncate-force">{{ sa.nickname }}</div>
+        <div class="gap-sm flex items-center">
+          <scb-badge
+            size="xs"
+            class="whitespace-nowrap"
+            >{{ sa.categoryDescription }}</scb-badge
+          >
+          <span class="mf-sm text-text-tertiary truncate-force">{{ sa.accountNumber }}</span>
+        </div>
+      </div>
+      <div class="gap-lg flex items-center text-right sm:w-auto">
+        <div class="gap-sm flex flex-col">
+          <div class="mf-sm text-text-secondary flex whitespace-nowrap">{{ t('availableBalance') }}</div>
+          <currency-view
+            size="xs"
+            [amount]="sa.workingBalance"
+            [currency]="sa.currency" />
+        </div>
+      </div>
+    </div>
+    <button
+      scbButton
+      variant="ghost"
+      size="md"
+      (click)="openDrawer()">
+      {{ t('change') }}
+    </button>
+  </div>
+} @else {
+  <div
+    (click)="openDrawer()"
+    *transloco="let t; prefix: 'transfer.form'"
+    class="border-border-primary p-xl min-h-8xl flex cursor-pointer items-center justify-center rounded-lg border border-dashed text-center transition hover:border-gray-400">
+    <span class="text-text-tertiary inline-flex items-center space-x-1">
+      <icon
+        name="plus"
+        class="h-3xl w-3xl" />
+      <span class="mf-md font-normal">{{ t('selectAccount') }}</span>
+    </span>
+  </div>
+}
+
+<linked-accounts-drawer
+  [(open)]="open"
+  [type]="type()"
+  [requestType]="requestType()"
+  [currency]="currency()"
+  [(selectedAccount)]="selectedAccount"
+  (selectedAccountChange)="accountChange($event!)"
+  (accountListChange)="handleAccountList($event)" />

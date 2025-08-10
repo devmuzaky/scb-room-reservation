@@ -1,0 +1,273 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('products'), path: '/products' },
+      { label: t('certificateOfDeposits'), path: '/products/certificate-of-deposits' },
+      { label: detail()?.title, path: '' },
+    ]"></app-breadcrumbs>
+</section>
+
+<app-product-form-container
+  [apiRef]="detailsSource"
+  class="gap-2xl col-span-12 row-span-8 grid">
+  <ng-template #headSection>
+    @let isReview = steps() !== 'form';
+    <scb-card
+      class="{{ `gap-lg flex flex-col ${isReview ? 'border border-border-secondary' : ''}` }}"
+      *transloco="let t; prefix: 'products'">
+      <div class="gap-md flex items-center">
+        <div>
+          <round-icon icon="bank" />
+        </div>
+        <div class="gap-md flex flex-1 flex-col sm:flex-row">
+          <span class="head-xs-s">{{ detail()?.title }}</span>
+          <span class="body-lg text-text-tertiary">
+            @if (!withInterest()) {
+              ({{ t('nonInterest') }})
+            } @else {
+              ({{ t('interest') }})
+            }
+          </span>
+        </div>
+        @if (!isReview) {
+          <div>
+            <button
+              scbButton
+              variant="ghost"
+              size="md"
+              routerLink="/products/certificate-of-deposits">
+              {{ t('change') }}
+            </button>
+          </div>
+        }
+      </div>
+      <scb-separator class="!my-0" />
+      <div class="{{ 'gap-y-lg grid grid-cols-2 ' + (withInterest() ? 'sm:grid-cols-5' : '') }}">
+        @if (withInterest()) {
+          <div class="gap-xs grid">
+            <h4 class="body-label-sm-m text-text-tertiary">{{ t('interestRate') }}</h4>
+            <!-- <div class="body-md-s">Available</div> -->
+            <currency-view [amount]="detail()?.interestRate" />
+          </div>
+          <div class="gap-xs grid">
+            <h4 class="body-label-sm-m text-text-tertiary">{{ t('frequency') }}</h4>
+            <div class="body-md-s">{{ detail()?.frequency }}</div>
+          </div>
+          <div class="gap-xs grid">
+            <h4 class="body-label-sm-m text-text-tertiary">{{ t('interestType') }}</h4>
+            <div class="body-md-s">{{ t(detail()?.interestType || '') }}</div>
+          </div>
+        }
+        <div class="gap-xs grid">
+          <h4 class="body-label-sm-m text-text-tertiary">{{ t('minimumDeposit') }}</h4>
+          <currency-view [amount]="detail()?.minimumDeposit" />
+        </div>
+        <div class="gap-xs grid">
+          <h4 class="body-label-sm-m text-text-tertiary">{{ t('actionMaturity') }}</h4>
+          <div class="body-md-s">{{ t(detail()?.maturityAction || '') }}</div>
+        </div>
+      </div>
+    </scb-card>
+  </ng-template>
+  @if (steps() === 'form') {
+    <ng-container *ngTemplateOutlet="headSection"></ng-container>
+    <scb-card *transloco="let t; prefix: 'products.depositForm'">
+      <form
+        [formGroup]="form"
+        class="gap-2xl grid">
+        <div class="gap-lg grid">
+          <h4 class="head-xs-s">{{ t('deductAccount') }}</h4>
+          <select-account-field
+            type="from"
+            transferType="OUTSIDE"
+            currency="USD"
+            [isLoadingState]="fromAccountsLoading()"
+            [accountsData]="fromAccountsData()"
+            [errorState]="fromAccountsError()"
+            [setAccountData]="fromAccount()"
+            [skipAccount]="toAccount()?.accountNumber"
+            (accountSelected)="handleAccountSelected($event)"
+            (refreshRequest)="handleRefreshRequest($event)" />
+          @if (drawdownAccount.touched && drawdownAccount.invalid) {
+            <p class="mf-sm text-input-text-danger gap-sm flex items-start">
+              <icon
+                name="info-circle"
+                class="w-[18px] flex-none" />
+              {{ t('sectionRequired') }}
+            </p>
+          }
+        </div>
+        <div class="space-y-lg">
+          <h4 class="head-xs-s">{{ t('creditedPrincipleAccount') }}</h4>
+          <scb-radio-group
+            class="gap-lg grid"
+            [(value)]="accountType">
+            <scb-radio
+              class="{{ `!p-xl border-border-secondary flex-row-reverse rounded-lg border` }}"
+              value="1">
+              <span class="body-lg flex-1">{{ t('sameDebitedAccount') }}</span>
+            </scb-radio>
+            <scb-radio
+              class="!p-xl border-border-secondary flex-row-reverse rounded-lg border"
+              value="2">
+              <span class="body-lg flex-1">{{ t('chooseAnotherAccount') }}</span>
+            </scb-radio>
+          </scb-radio-group>
+          @if (accountType() === '2') {
+            <select-account-field
+              type="from"
+              transferType="OUTSIDE"
+              currency="USD"
+              [isLoadingState]="fromAccountsLoading()"
+              [accountsData]="fromAccountsData()"
+              [errorState]="fromAccountsError()"
+              [setAccountData]="toAccount()"
+              [skipAccount]="fromAccount()?.accountNumber"
+              (accountSelected)="handleToAccountSelected($event)"
+              (refreshRequest)="handleRefreshRequest($event)" />
+            @if (anotherAccount.touched && anotherAccount.invalid) {
+              <p class="mf-sm text-input-text-danger gap-sm mt-lg flex items-start">
+                <icon
+                  name="info-circle"
+                  class="w-[18px] flex-none" />
+                {{ t('sectionRequired') }}
+              </p>
+            }
+          }
+        </div>
+        <div class="gap-lg grid">
+          <h4 class="head-xs-s">{{ t('amount') }}</h4>
+          <app-currency-input-field
+            [control]="amount"
+            [currency]="currency()"
+            [placeholder]="t('certificateAmount')"
+            [minError]="t('minAmountError', { value: minAmountValue() })"
+            [mainHint]="interestPercentage() ? t('amountHint', { percentage: interestPercentage() }) : ''" />
+        </div>
+        <app-terms-and-conditions
+          [field]="acceptTerms"
+          [type]="tcType()" />
+        <div class="pt-2xl flex justify-end">
+          <button
+            scbButton
+            class="w-[200px]"
+            (click)="next()">
+            {{ t('submitRequest') }}
+          </button>
+        </div>
+      </form>
+    </scb-card>
+  } @else {
+    <ng-template #reviewSection>
+      <div
+        class="gap-2xl flex flex-col sm:flex-row"
+        *transloco="let t; prefix: 'products.depositForm'">
+        <div class="gap-sm grid flex-1">
+          <div class="body-label-md-m text-text-secondary">{{ t('from') }}</div>
+          <app-account-selected-view
+            [nickname]="fromAccount()!.accountNickname"
+            [accountNumber]="fromAccount()!.accountNumber" />
+        </div>
+
+        <div class="gap-sm grid flex-1">
+          <div class="body-label-md-m text-text-secondary">{{ t('to') }}</div>
+          <app-account-selected-view
+            [nickname]="selectedToAccount()!.accountNickname"
+            [accountNumber]="selectedToAccount()!.accountNumber" />
+        </div>
+      </div>
+      <ng-container *ngTemplateOutlet="headSection"></ng-container>
+    </ng-template>
+    @switch (steps()) {
+      @case ('review') {
+        <scb-card
+          class="gap-xl grid"
+          *transloco="let t; prefix: 'products.depositForm'">
+          <div class="gap-xs grid justify-center text-center">
+            <div class="head-2xs-s text-text-tertiary">{{ t('amount') }}</div>
+            <currency-view
+              [amount]="amount.value"
+              variant="primary"
+              size="xs" />
+          </div>
+
+          <ng-container *ngTemplateOutlet="reviewSection" />
+
+          <div class="gap-md mt-xl flex justify-end">
+            <button
+              scbButton
+              variant="secondary"
+              class="w-[200px]"
+              (click)="goBack()">
+              {{ t('back') }}
+            </button>
+            <button
+              scbButton
+              class="w-[200px]"
+              (click)="next()">
+              {{ t('continue') }}
+            </button>
+          </div>
+        </scb-card>
+      }
+      @case ('completed') {
+        <scb-card
+          class="gap-xl grid"
+          *transloco="let t; prefix: 'products.depositForm'">
+          <div class="flex flex-col items-center justify-start gap-5">
+            <icon
+              [name]="isError() ? 'web-error' : 'web-success'"
+              class="text-3xl" />
+            <div
+              data-decimal-="false"
+              data-only-number="Off"
+              data-size="md"
+              class="inline-flex items-center justify-end">
+              <currency-view
+                [amount]="amount.value"
+                variant="primary"
+                size="xl"
+                class="mt-xl" />
+            </div>
+
+            <p class="text-text-primary head-lg-s text-center">
+              @switch (isError()) {
+                @case ('API') {
+                  {{ t('apiFails') }}
+                }
+                @case ('TOKEN') {
+                  {{ t('invalidToken') }}
+                }
+                @case ('INSUFFICIENT_BALANCE') {
+                  {{ t('insufficientBalance') }}
+                }
+              }
+              @if (!isError()) {
+                <ng-container *rolePermission="['SUPER_USER']">{{ t('successMessage') }}</ng-container>
+                <ng-container *rolePermission="['MAKER']">{{ t('makerSuccess') }}</ng-container>
+              }
+            </p>
+          </div>
+          <ng-container *ngTemplateOutlet="reviewSection" />
+
+          <div class="gap-md mt-xl flex justify-center">
+            <button
+              scbButton
+              variant="secondary"
+              class="w-[200px]"
+              routerLink="/products">
+              {{ t('viewProducts') }}
+            </button>
+            <button
+              scbButton
+              class="w-[200px]"
+              routerLink="/products">
+              {{ t('done') }}
+            </button>
+          </div>
+        </scb-card>
+      }
+    }
+  }
+</app-product-form-container>

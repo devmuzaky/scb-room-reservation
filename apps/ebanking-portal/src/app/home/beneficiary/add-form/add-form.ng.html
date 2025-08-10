@@ -1,0 +1,528 @@
+<div
+  [formGroup]="form"
+  class="flex flex-col"
+  *transloco="let t; prefix: 'beneficiary.addForm'">
+  <!-- Main section -->
+  <main class="flex-grow">
+    <div class="gap-2xl flex flex-col">
+      <p class="mf-lg font-semibold">{{ t('beneficiaryDetails') }}</p>
+
+      <div
+        class="{{ `gap-2xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+        <!-- Name field -->
+        <scb-form-field class="w-full">
+          <label scbLabel>{{ t('nameField.label') }}</label>
+          <input
+            scbInput
+            singleSpaceBetweenWords
+            formControlName="name"
+            [scbMaxLength]="50" />
+
+          <!-- Frontend validation -->
+          <p scbError="required">
+            {{ t('nameField.required') }}
+          </p>
+          <!-- Backend validation -->
+          <p scbError="tooLong">
+            {{ form.controls.name.errors?.['message'] | capitalize }}
+          </p>
+        </scb-form-field>
+
+        <!-- Nickname field -->
+        <scb-form-field class="w-full">
+          <label scbLabel>{{ t('nicknameField.label') }}</label>
+          <input
+            scbInput
+            singleSpaceBetweenWords
+            formControlName="nickname"
+            [scbMaxLength]="50" />
+
+          @if (form.get('nickname')?.pristine) {
+            <p scbHint>
+              {{ t('nicknameField.hint') }}
+            </p>
+          }
+
+          <!-- Frontend validation -->
+          <p scbError="required">
+            {{ t('nicknameField.required') }}
+          </p>
+          <!-- Backend validation -->
+          <p scbError="tooLong">
+            {{ form.controls.nickname.errors?.['message'] | capitalize }}
+          </p>
+          <p scbError="unique">
+            {{ form.controls.nickname.errors?.['message'] | capitalize }}
+          </p>
+        </scb-form-field>
+      </div>
+    </div>
+
+    <!-- separator -->
+    <div class="my-2xl h-[1px] w-full bg-gray-300 dark:bg-gray-600"></div>
+
+    <div class="gap-2xl flex flex-col">
+      <p class="mf-lg font-semibold">{{ t('bankDetails') }}</p>
+
+      <!-- Payment Method section -->
+      <div class="flex gap-2 overflow-auto pb-2">
+        @for (item of paymentOptions(); track item.id) {
+          <div
+            class="gap-lg flex items-center rounded-lg border p-4"
+            [ngClass]="{
+              'border-gray-300 dark:border-gray-600': form.get(item.formControlName)?.value !== item.value,
+              'border-brand-800 dark:border-brand-700 bg-brand-50 dark:bg-brand-900':
+                form.get(item.formControlName)?.value === item.value,
+            }">
+            <label
+              [for]="item.id"
+              class="mf-md gap-md flex cursor-pointer items-center font-semibold text-nowrap">
+              <icon
+                [name]="item.icon"
+                class="h-2xl w-2xl"
+                [ngClass]="{
+                  'text-text-primary': form.get(item.formControlName)?.value !== item.value,
+                  'text-brand-800 dark:text-brand-300': form.get(item.formControlName)?.value === item.value,
+                }" />
+              <span
+                [ngClass]="{
+                  'text-text-primary': form.get(item.formControlName)?.value !== item.value,
+                  'text-brand-800 dark:text-brand-300': form.get(item.formControlName)?.value === item.value,
+                }"
+                >{{ t(item.label) }}</span
+              >
+            </label>
+            <p-radiobutton
+              size="large"
+              [value]="item.value"
+              [inputId]="item.id"
+              [formControlName]="item.formControlName" />
+          </div>
+        }
+      </div>
+
+      <!-- Bank Account Fields -->
+      @if (showBankAccountFields()) {
+        <!-- Bank Select -->
+
+        @if (outside()) {
+          <div class="gap-3xl relative flex flex-1 flex-col">
+            <scb-form-field class="w-full">
+              <scb-select
+                #bankSelectForAccounts
+                [placeholder]="t('bankField.label')"
+                [filterFn]="filterBankList"
+                [searchPlaceholder]="t('bankField.searchPlaceholder')"
+                [options]="bankList()"
+                formControlName="bank">
+                @for (item of bankSelectForAccounts.optionsFilter.filteredList(); track item.bankNameAr) {
+                  <scb-option [value]="item.code">
+                    {{ lang() === 'ar' ? item.bankNameAr : item.bankNameEn }}
+                  </scb-option>
+                }
+              </scb-select>
+              <p scbError="required">
+                {{ t('bankField.required') }}
+              </p>
+              <p scbError="requiredFromAPI">
+                {{ form.controls.bank.errors?.['message'] | capitalize }}
+              </p>
+            </scb-form-field>
+          </div>
+        }
+
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('accountNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="accountNumber"
+              [scbMaxLength]="outside() ? selectedBankLength() : 16"
+              noInitialSpace />
+
+            @if (form.get('accountNumber')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+
+            @if (form.get('accountNumber')?.pristine && inside()) {
+              <p scbHint>
+                {{ t('accountNumberField.hint') }}
+              </p>
+            }
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('accountNumberField.required') }}
+            </p>
+            <p scbError="bankAccountNumber">
+              {{ t('accountNumberField.dynamic', { length: selectedBankLength() }) }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidBeneficiaryNumberAccount">
+              {{ form.controls.accountNumber.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidAccountNumber">
+              {{ form.controls.accountNumber.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidBeneficiaryNumberBankAccountOutside">
+              {{ form.controls.accountNumber.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('confirmAccountNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="confirmAccountNumber"
+              [scbMaxLength]="outside() ? selectedBankLength() : 16"
+              noInitialSpace />
+            <p scbError="required">
+              {{ t('confirmAccountNumberField.required') }}
+            </p>
+            <p scbError="mismatch">
+              {{ t('confirmAccountNumberField.mismatch') }}
+            </p>
+          </scb-form-field>
+        </div>
+      }
+
+      <!-- Card Fields -->
+      @if (showCardFields()) {
+        @if (outside()) {
+          <div class="gap-3xl flex flex-1 flex-col">
+            <scb-form-field class="w-full">
+              <scb-select
+                #bankSelectForCards
+                [placeholder]="t('bankField.label')"
+                [filterFn]="filterBankList"
+                [searchPlaceholder]="t('bankField.searchPlaceholder')"
+                [options]="bankList()"
+                formControlName="bank">
+                @for (item of bankSelectForCards.optionsFilter.filteredList(); track item.code) {
+                  <scb-option [value]="item.code">
+                    {{ lang() === 'ar' ? item.bankNameAr : item.bankNameEn }}
+                  </scb-option>
+                }
+              </scb-select>
+              <p scbError="required">
+                {{ t('bankField.required') }}
+              </p>
+              <p scbError="requiredFromAPI">
+                {{ form.controls.bank.errors?.['message'] | capitalize }}
+              </p>
+            </scb-form-field>
+          </div>
+        }
+
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('cardNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="cardNumber"
+              [scbMaxLength]="16" />
+            @if (form.get('cardNumber')?.pristine) {
+              <p scbHint>
+                {{ t('cardNumberField.hint') }}
+              </p>
+            }
+
+            @if (form.get('cardNumber')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('cardNumberField.required') }}
+            </p>
+            <p scbError="creditCardNumber">
+              {{ t('cardNumberField.invalid') }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidCardNumber">
+              {{ form.controls.cardNumber.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidBeneficiaryNumberCard">
+              {{ form.controls.cardNumber.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('confirmCardNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="confirmCardNumber"
+              [scbMaxLength]="16" />
+            <p scbError="required">
+              {{ t('confirmCardNumberField.required') }}
+            </p>
+            <p scbError="mismatch">
+              {{ t('confirmCardNumberField.mismatch') }}
+            </p>
+          </scb-form-field>
+        </div>
+      }
+
+      <!-- Wallet Fields -->
+      @if (showWalletFields()) {
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('walletNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="walletNumber"
+              [scbMaxLength]="11" />
+            @if (form.get('walletNumber')?.pristine) {
+              <p scbHint>
+                {{ t('walletNumberField.hint') }}
+              </p>
+            }
+
+            @if (form.get('walletNumber')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('walletNumberField.required') }}
+            </p>
+            <p scbError="walletNumber">
+              {{ t('walletNumberField.invalid') }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidWalletNumber">
+              {{ form.controls.walletNumber.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('confirmWalletNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="confirmWalletNumber"
+              [scbMaxLength]="11" />
+            <p scbError="required">
+              {{ t('confirmWalletNumberField.required') }}
+            </p>
+            <p scbError="mismatch">
+              {{ t('confirmWalletNumberField.mismatch') }}
+            </p>
+          </scb-form-field>
+        </div>
+      }
+
+      <!-- Mobile Fields -->
+      @if (showMobileFields()) {
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('mobileNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="mobileNumber"
+              [scbMaxLength]="11" />
+            @if (form.get('mobileNumber')?.pristine) {
+              <p scbHint>
+                {{ t('mobileNumberField.hint') }}
+              </p>
+            }
+
+            @if (form.get('mobileNumber')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('mobileNumberField.required') }}
+            </p>
+            <p scbError="mobileNumber">
+              {{ t('mobileNumberField.invalid') }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidMobileNumber">
+              {{ form.controls.mobileNumber.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidBeneficiaryNumberMobile">
+              {{ form.controls.mobileNumber.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('confirmMobileNumberField.label') }}</label>
+            <input
+              scbInput
+              formControlName="confirmMobileNumber"
+              [scbMaxLength]="11" />
+            <p scbError="required">
+              {{ t('confirmMobileNumberField.required') }}
+            </p>
+            <p scbError="mismatch">
+              {{ t('confirmMobileNumberField.mismatch') }}
+            </p>
+          </scb-form-field>
+        </div>
+      }
+
+      <!-- Payment Address Fields -->
+      @if (showPaymentAddressFields()) {
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('paymentAddressField.label') }}</label>
+            <input
+              scbInput
+              formControlName="paymentAddress"
+              [scbMaxLength]="29" />
+            @if (form.get('paymentAddress')?.pristine) {
+              <p scbHint>
+                {{ t('paymentAddressField.hint') }}
+              </p>
+            }
+
+            @if (form.get('paymentAddress')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('paymentAddressField.required') }}
+            </p>
+            <p scbError="paymentAddress">
+              {{ t('paymentAddressField.invalid') }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidPaymentAddress">
+              {{ form.controls.paymentAddress.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+        </div>
+      }
+
+      <!-- IBAN Fields -->
+      @if (showIbanFields()) {
+        <div
+          class="{{ `gap-3xl flex flex-1 ${quickMode() ? 'flex-col' : 'flex-col 2xl:flex-row 2xl:justify-between'}` }}">
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('ibanField.label') }}</label>
+            <input
+              scbInput
+              autocomplete="off"
+              formControlName="iban"
+              [scbMaxLength]="29" />
+            @if (form.get('iban')?.errors && form.get('iban')?.pristine) {
+              <p scbHint>
+                {{ t('ibanField.hint') }}
+              </p>
+            }
+
+            @if (form.get('iban')?.valid) {
+              <icon
+                name="check-filled"
+                class="suffix text-text-info w-[24px] flex-none" />
+            }
+
+            <!-- Frontend validation -->
+            <p scbError="required">
+              {{ t('ibanField.required') }}
+            </p>
+            <p scbError="iban">
+              {{ t('ibanField.invalid') }}
+            </p>
+            <!-- Backend validation -->
+            <p scbError="invalidIban">
+              {{ form.controls.iban.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidIbanPrefix">
+              {{ form.controls.iban.errors?.['message'] | capitalize }}
+            </p>
+            <p scbError="invalidIbanCode">
+              {{ form.controls.iban.errors?.['message'] | capitalize }}
+            </p>
+          </scb-form-field>
+          <scb-form-field class="w-full">
+            <label scbLabel>{{ t('confirmIbanField.label') }}</label>
+            <input
+              scbInput
+              autocomplete="off"
+              formControlName="confirmIban"
+              [scbMaxLength]="29" />
+            <p scbError="required">
+              {{ t('confirmIbanField.required') }}
+            </p>
+            <p scbError="mismatch">
+              {{ t('confirmIbanField.mismatch') }}
+            </p>
+          </scb-form-field>
+        </div>
+
+        @if (outside() && form.get('bank')?.value) {
+          <div class="gap-3xl flex flex-1 flex-col">
+            <scb-form-field class="w-full">
+              <scb-select
+                #bankSelectForIban
+                [placeholder]="t('bankField.label')"
+                [filterFn]="filterBankList"
+                [searchPlaceholder]="t('bankField.searchPlaceholder')"
+                [options]="bankList()"
+                formControlName="bank">
+                @for (item of bankSelectForIban.optionsFilter.filteredList(); track item.bankNameAr) {
+                  <scb-option [value]="item.code">
+                    {{ lang() === 'ar' ? item.bankNameAr : item.bankNameEn }}
+                  </scb-option>
+                }
+              </scb-select>
+            </scb-form-field>
+          </div>
+        }
+      }
+
+      @if (quickMode()) {
+        <div class="flex items-center gap-3">
+          <p-checkbox
+            inputId="size_normal"
+            name="size"
+            size="large"
+            binary="true"
+            formControlName="isActive"
+            variant="filled" />
+
+          <span class="mf-lg text-text-primary"> {{ t('saveBeneficiary') }}</span>
+        </div>
+      }
+    </div>
+
+    @if (!quickMode()) {
+      <div class="mt-2xl flex flex-col justify-end sm:flex-row">
+        <button
+          scbButton
+          size="lg"
+          type="submit"
+          [loading]="loading()"
+          (click)="confirm()"
+          class="col-span-4 sm:col-start-2 2xl:col-start-5">
+          {{ t('confirm') }}
+        </button>
+      </div>
+    }
+  </main>
+
+  @if (quickMode()) {
+    <footer class="pt-lg pb-2xl dark:bg-gray-850 fixed right-0 bottom-0 left-0 flex w-full">
+      <div class="page-grid">
+        <button
+          scbButton
+          size="lg"
+          type="submit"
+          [loading]="loading()"
+          (click)="confirm()"
+          class="col-span-12">
+          {{ t('confirm') }}
+        </button>
+      </div>
+    </footer>
+  }
+</div>

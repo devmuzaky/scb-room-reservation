@@ -1,0 +1,149 @@
+<p-drawer
+  *transloco="let t; prefix: 'transfer.charityDrawer'"
+  [visible]="open()"
+  [blockScroll]="true"
+  [closable]="false"
+  [dismissible]="false"
+  [position]="lang() === 'ar' ? 'left' : 'right'"
+  styleClass="mobile-full"
+  [closeOnEscape]="false">
+  <ng-template
+    #header
+    styleClass="block"
+    class="block">
+    <div class="w-full">
+      <div class="flex items-center justify-between">
+        <h2 class="text-text-primary mf-lg flex items-center gap-6 font-semibold">
+          <icon
+            name="building"
+            class="prefixy text-primary" />
+          {{ t('title') }}
+        </h2>
+        <button
+          (click)="closeDrawer()"
+          color="primary"
+          class="!text-brand"
+          scbIconButton="close"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (status() === 'loading') {
+    <div
+      class="py-3xl sm:px-3xl col-span-12 px-4"
+      data-testid="charity_div_loadingState">
+      <scb-skeleton
+        width="15%"
+        height="40px" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="80%" />
+      <scb-skeleton width="90%" />
+      <scb-skeleton width="100%" />
+    </div>
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'dashboard'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="charity_div_errorState">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="charity_icon_apiFailure" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="charity_h4_apiError">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="charity_p_apiErrorDetail">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="reload()"
+        data-testid="charity_button_reload">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    @if (isEmpty() && status() !== 'loading') {
+      <div
+        *transloco="let t; prefix: 'transfer.charityDrawer'"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          name="not-found"
+          data-testid="CHARITY_EMPTY_STATE_ICON" />
+        <h4
+          data-testid="CHARITY_EMPTY_STATE_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('empty.title') }}
+        </h4>
+        <p
+          data-testid="CHARITY_EMPTY_STATE_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('empty.subTitle') }}
+        </p>
+      </div>
+    } @else if (!isEmpty() && status() !== 'loading') {
+      <div class="gap-2xl flex flex-col">
+        <!--        <scb-form-field-->
+        <!--          mode="search"-->
+        <!--          class="mt-xs">-->
+        <!--          <icon-->
+        <!--            name="search-normal"-->
+        <!--            class="prefix text-input-icon-enabled" />-->
+        <!--          <input-->
+        <!--            #searchInput-->
+        <!--            class="mf-sm text-text-tertiary font-normal"-->
+        <!--            type="text"-->
+        <!--            data-testid="charity_input_search"-->
+        <!--            [placeholder]="t('searchPlaceholder')"-->
+        <!--            scbInput-->
+        <!--            (input)="onSearch(searchInput.value)" />-->
+        <!--        </scb-form-field>-->
+
+        <div class="gap-2xl flex flex-col">
+          @if (filteredList().length > 0) {
+            @for (charity of filteredList(); track charity.customerId) {
+              <div
+                (click)="selectCharity(charity)"
+                class="p-xl border-border-secondary flex cursor-pointer rounded-lg border sm:flex-row sm:items-center sm:justify-between dark:border-gray-600">
+                <div class="gap-sm flex w-full flex-col sm:w-auto">
+                  <div class="gap-lg flex items-center">
+                    <icon
+                      [name]="charity.customerId"
+                      class="text-3xl" />
+                    <div class="flex flex-col">
+                      <div class="mf-lg text-text-primary truncate-force font-semibold">
+                        {{ getCharityName(charity) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          } @else {
+            <div
+              *transloco="let t; prefix: 'transfer.charityDrawer'"
+              class="emptyState flex w-full flex-col items-center justify-center text-center">
+              <icon
+                name="not-found"
+                class="text-xl" />
+              <h4 class="mt-sm mb-sm mf-lg font-semibold">
+                {{ t('noResults.title') }}
+              </h4>
+              <p class="text-text-tertiary text-sm-sm">
+                {{ t('noResults.subTitle') }}
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</p-drawer>

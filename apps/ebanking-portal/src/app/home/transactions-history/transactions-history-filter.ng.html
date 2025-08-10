@@ -1,0 +1,189 @@
+<div
+  class="gap-md mb-4 flex flex-col justify-between px-4 py-0.5 whitespace-nowrap md:flex-row md:items-center"
+  data-testid="TRANSACTIONS_HISTORY_FILTER_CONTAINER"
+  *transloco="let t; prefix: 'transactions'">
+  <!-- Filter-by block -->
+  <div class="gap-md flex flex-nowrap items-center overflow-auto p-2 2xl:order-1">
+    <div>
+      <p
+        class="mf-md w-full whitespace-nowrap"
+        data-testid="TRANSACTIONS_HISTORY_filterBy">
+        {{ t('filterBy') }}:
+      </p>
+    </div>
+
+    <div class="gap-md flex overflow-auto p-0.5">
+      <!-- DATE filter -->
+      <scb-form-field
+        [variant]="_settlementDate() ? 'primary' : 'ghost'"
+        class="[&>.input-main]:w-max"
+        data-testid="TRANSACTIONS_HISTORY_FORMFIELD_DATE">
+        <scb-select
+          [(value)]="_settlementDate"
+          data-testid="TRANSACTIONS_HISTORY_SELECT_DATE_VALUE"
+          (closed)="dateClosed()"
+          (opened)="dateOpened()"
+          noAutoClose>
+          <div class="select-header body-md-s px-md">{{ t('date') }}</div>
+
+          <app-select-value
+            scbSelectTrigger
+            [placeholder]="t('date')"
+            [len]="_settlementDate() && _settlementDate() !== 'custom' ? 1 : 0" />
+
+          @for (item of settlementDateList; track item.name) {
+            <scb-option [value]="item.value">
+              <div class="gap-lg flex items-center">
+                <p-radiobutton
+                  name="dateRange"
+                  [value]="item.value"
+                  [(ngModel)]="_settlementDate"
+                  inputId="date{{ $index }}" />
+                <label
+                  for="date{{ $index }}"
+                  class="body-md cursor-pointer">
+                  {{ t(item.name) }}
+                </label>
+              </div>
+            </scb-option>
+          }
+
+          <!-- Custom range date-pickers -->
+          @if (isCustomRange()) {
+            <div class="border-border-tertiary border-t-1 px-4 py-3">
+              <div class="space-y-3">
+                <!-- FROM -->
+                <scb-form-field>
+                  <scb-datepicker
+                    [ngModel]="customFromDate()"
+                    (ngModelChange)="customFromDate.set($event); onCustomDateChange()"
+                    dateFormat="dd-mm-yy"
+                    dataType="date"
+                    appendTo="body"
+                    [minDate]="minDate()"
+                    [maxDate]="customToDate() ?? maxDate()"
+                    placeholder="{{ t('fromDate') }}"
+                    data-testid="TRANSACTIONS_HISTORY_FROM_DATE">
+                  </scb-datepicker>
+                  <icon
+                    name="calendar"
+                    class="suffix text-text-info w-[24px] flex-none" />
+                </scb-form-field>
+                <scb-form-field>
+                  <scb-datepicker
+                    [ngModel]="customToDate()"
+                    (ngModelChange)="customToDate.set($event); onCustomDateChange()"
+                    dateFormat="dd-mm-yy"
+                    dataType="date"
+                    appendTo="body"
+                    [minDate]="customFromDate() ?? minDate()"
+                    [maxDate]="maxDate()"
+                    placeholder="{{ t('toDate') }}"
+                    data-testid="TRANSACTIONS_HISTORY_TO_DATE">
+                  </scb-datepicker>
+                  <icon
+                    name="calendar"
+                    class="suffix text-text-info w-[24px] flex-none" />
+                </scb-form-field>
+              </div>
+            </div>
+          }
+
+          <app-select-footer
+            class="select-footer"
+            (apply)="apply()"
+            (resetValue)="resetDateSelection()" />
+        </scb-select>
+      </scb-form-field>
+
+      <!-- STATUS -->
+      <scb-form-field
+        [variant]="_status().length ? 'primary' : 'ghost'"
+        class="[&>.input-main]:w-max"
+        data-testid="TRANSACTIONS_HISTORY_FORMFIELD_STATUS">
+        <scb-select
+          [filterFn]="statusFn"
+          [(value)]="_status"
+          multiple
+          data-testid="TRANSACTIONS_HISTORY_SELECT_STATUS_VALUE"
+          (closed)="statusClosed()"
+          noAutoClose>
+          <div class="select-header body-md-s px-md">{{ t('status') }}</div>
+          <app-select-value
+            scbSelectTrigger
+            [placeholder]="t('status')"
+            [len]="_status().length" />
+          @for (item of statusList(); track item) {
+            <scb-option
+              [value]="item.value"
+              class="capitalize">
+              {{ t(item.name) }}
+            </scb-option>
+          }
+          <app-select-footer
+            class="select-footer"
+            (apply)="apply()"
+            (resetValue)="_status.set([])" />
+        </scb-select>
+      </scb-form-field>
+
+      <!-- TRANSFER TYPE -->
+      <scb-form-field
+        [variant]="_transferType().length ? 'primary' : 'ghost'"
+        class="[&>.input-main]:w-max"
+        data-testid="TRANSACTIONS_HISTORY_FORMFIELD_TRANSFER_TYPE">
+        <scb-select
+          [filterFn]="transferTypeFn"
+          [(value)]="_transferType"
+          multiple
+          data-testid="TRANSACTIONS_HISTORY_SELECT_TRANSFER_TYPE_VALUE"
+          [searchPlaceholder]="t('searchOptions')"
+          (closed)="transferTypeClosed()"
+          noAutoClose>
+          <div class="select-header body-md-s px-md">{{ t('transferType') }}</div>
+          <app-select-value
+            scbSelectTrigger
+            [placeholder]="t('transferType')"
+            [len]="_transferType().length" />
+          @for (item of transferTypeList(); track item) {
+            <scb-option [value]="item.value">
+              {{ item.name }}
+            </scb-option>
+          }
+          <app-select-footer
+            class="select-footer"
+            (apply)="apply()"
+            (resetValue)="_transferType.set([])" />
+        </scb-select>
+      </scb-form-field>
+
+      <!-- CLEAR FILTER -->
+      @if (showClearFilter()) {
+        <button
+          scbButton
+          size="md"
+          variant="secondary"
+          class="flex-none !px-2"
+          (click)="clearFilter()">
+          {{ t('clearFilter') }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- SEARCH box -->
+  <div class="2xl:order-2">
+    <scb-form-field mode="search">
+      <icon
+        name="search-normal"
+        class="prefix text-input-icon-enabled" />
+      <input
+        type="text"
+        [placeholder]="t('search')"
+        data-testid="TRANSACTIONS_HISTORY_input_search"
+        [(ngModel)]="_searchTerm"
+        scbInput
+        [disabled]="true" />
+    </scb-form-field>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<section>
+  <scb-tabs
+    [(selectedIndex)]="selectedTab"
+    class="bg-transparent">
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/pending-approvals/all">
+        All
+      </a>
+      <all-list *scbTabLazy />
+    </scb-tab>
+
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/pending-approvals/pending">
+        Pending
+      </a>
+      <pending-list *scbTabLazy />
+    </scb-tab>
+
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/pending-approvals/waiting">
+        Waiting with Others
+      </a>
+      <waiting-list *scbTabLazy />
+    </scb-tab>
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/pending-approvals/approved">
+        Approved
+      </a>
+      <approved-list *scbTabLazy />
+    </scb-tab>
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/pending-approvals/rejected">
+        Rejected
+      </a>
+      <rejected-list *scbTabLazy />
+    </scb-tab>
+  </scb-tabs>
+</section>

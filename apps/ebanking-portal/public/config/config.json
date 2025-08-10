@@ -1,0 +1,9 @@
+{
+  "apiUrl": "http://localhost:3000",
+  "featureFlag": false,
+  "siteKey": "6Lf5CKwqAAAAAHv29Nscld6rlpbxCa1Nj6ZyGwpb",
+  "mapAPIKey": "AIzaSyCaHYBtNH-d4E3mWo24zAWt1Gs_7F5MjcU",
+  "idle": 1800,
+  "timeout": 30,
+  "keepalive": 900
+}

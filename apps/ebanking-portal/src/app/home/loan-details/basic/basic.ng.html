@@ -1,0 +1,204 @@
+<div
+  *transloco="let t; prefix: 'loanDetailsPage.basicDetails'"
+  class="gap-lg relative flex flex-col">
+  @if (detailsResource()) {
+    <div
+      class="gap-sm flex flex-col sm:flex-row sm:justify-between"
+      data-testid="accounts_div_tableHeader">
+      <div class="sm:self-center">
+        <p
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_TITLE">
+          {{ details()?.loanDescription }}
+        </p>
+      </div>
+    </div>
+
+    <div class="gap-sm flex flex-col">
+      <div class="flex justify-between">
+        <span class="mf-sm text-text-secondary font-normal"
+          >{{ t('totalLoanAmount') }}:
+          <span
+            class="mf-sm text-text-primary ltr-force font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_AVAILABLE_BALANCE">
+            {{ details()?.totalLoanAmount | numberCommaFormat }}
+            <span
+              class="text-text-secondary mf-xs font-normal"
+              data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY">
+              {{ details()?.currency }}
+            </span>
+          </span></span
+        >
+        <span class="mf-sm text-text-secondary font-normal"
+          >{{ t('tenor') }}: <span class="mf-md text-text-primary font-semibold">{{ details()?.tenor }}</span></span
+        >
+      </div>
+
+      <p-progressbar
+        [value]="progressValue()"
+        [color]="darkMode() ? '#4ADE80' : '#16A34A'"
+        [showValue]="false"
+        valueStyleClass="rounded-full"
+        styleClass="!h-2 rounded-full" />
+
+      <div class="flex justify-between">
+        <span class="mf-sm text-text-secondary">{{ t('paidAmount') }}</span>
+        <span class="mf-sm text-text-secondary">{{ t('remainingAmount') }}</span>
+      </div>
+
+      <div class="flex justify-between">
+        <p
+          class="mf-sm text-text-primary ltr-force font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_AVAILABLE_BALANCE">
+          {{ details()?.paidAmount | numberCommaFormat }}
+          <span
+            class="text-text-secondary mf-xs font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY">
+            {{ details()?.currency }}
+          </span>
+        </p>
+
+        <p
+          class="mf-sm text-text-primary ltr-force font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_AVAILABLE_BALANCE">
+          {{ details()?.remainingAmount | numberCommaFormat }}
+          <span
+            class="text-text-secondary mf-xs font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY">
+            {{ details()?.currency }}
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="rounded-5xl border-border-secondary gap-lg p-xl flex flex-col border-1">
+      <!-- First Row -->
+      <div class="gap-lg flex justify-between max-sm:flex-col">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('totalInstallments') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_NUMBER">
+            {{ details()?.totalInstallments }}
+          </p>
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('totalPaidInstallments') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ details()?.totalPaidInstallments }}
+          </p>
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('remainingInstallments') }}
+          </h2>
+          <p class="mf-md text-text-primary font-semibold">{{ details()?.remainingInstallments }}</p>
+        </div>
+      </div>
+
+      <!-- Second row -->
+      <div class="gap-lg flex justify-between max-sm:flex-col">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('installmentFrequency') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ details()?.installmentFrequency }}
+          </p>
+        </div>
+
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('maturityDate') }}
+          </h2>
+
+          <date-view
+            data-testid="DASH_LOANS_DETAIL_TITLE"
+            [value]="details()?.maturityDate"
+            variant="md" />
+        </div>
+
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('appliedInterestRate') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ details()?.interestRate }}%
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-5xl border-border-secondary gap-lg p-xl flex flex-col border-1">
+      <div
+        class="border-border-secondary bg-container flex justify-between border-b pb-2.5 align-middle"
+        data-testid="DASH_CERTIFICATE_BASIC_DETAIL_CONTAINER">
+        <h2
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_CERTIFICATE_BASIC_DETAIL_HEADING">
+          {{ t('installmentsDue') }}
+        </h2>
+      </div>
+
+      <div class="gap-lg flex max-sm:flex-col sm:items-center sm:justify-between">
+        <div class="gap-sm flex flex-col max-2xl:w-full">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('instalmentAmount') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_NUMBER">
+            {{ details()?.installmentAmount }}
+          </p>
+        </div>
+        <div class="gap-sm flex flex-col max-2xl:w-full">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('instalmentDate') }}
+          </h2>
+
+          <date-view
+            data-testid="DASH_LOANS_DETAIL_TITLE"
+            [value]="details()?.installmentDate"
+            variant="md" />
+        </div>
+
+        <div
+          *rolePermission="['SUPER_USER', 'MAKER']"
+          class="flex flex-col max-2xl:w-full">
+          <button
+            scbButton
+            size="lg"
+            variant="primary">
+            {{ t('PayNowAction') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

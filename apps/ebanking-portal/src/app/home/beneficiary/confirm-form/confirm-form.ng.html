@@ -1,0 +1,77 @@
+<section
+  class="gap-xl flex flex-col"
+  *transloco="let t; prefix: 'beneficiary.addForm'">
+  <!-- Title -->
+  <div class="gap-md flex items-center">
+    <icon
+      name="user-add"
+      class="h-3xl text-primary w-3xl" />
+    <h1 class="mf-lg font-semibold">{{ t('confirmTitle') }}</h1>
+  </div>
+
+  <!-- separator -->
+  <div class="h-[1px] w-full bg-gray-300 dark:bg-gray-600"></div>
+
+  <!-- Beneficiary Details -->
+  <div class="gap-xl p-lg flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950">
+    <div class="gap-sm flex flex-col">
+      <p class="mf-md text-text-secondary">{{ t('nameField.label') }}</p>
+      <p class="mf-md font-semibold whitespace-pre">{{ data.beneficiaryName }}</p>
+    </div>
+    <div class="gap-sm flex flex-col">
+      <p class="mf-md text-text-secondary">{{ t('nicknameField.label') }}</p>
+      <p class="mf-md font-semibold whitespace-pre">{{ data.beneficiaryNickname }}</p>
+    </div>
+  </div>
+
+  <!-- Beneficiary Details -->
+  <div class="gap-xl p-lg flex flex-col rounded-lg bg-gray-50 dark:bg-gray-950">
+    <div class="gap-sm flex flex-col">
+      <p class="mf-md text-text-secondary">{{ t('transactionTitle') }}</p>
+      <p class="mf-md font-semibold">{{ t('transactionTypeOptions.' + data.transactionMethod) }}</p>
+    </div>
+
+    @if (outside) {
+      <div class="gap-sm flex flex-col">
+        <p class="mf-md text-text-secondary">{{ t('bankField.label') }}</p>
+        <p class="mf-md font-semibold">{{ isArabic() ? foundBank.bankNameAr : foundBank.bankNameEn }}</p>
+      </div>
+    }
+
+    <div class="gap-sm flex flex-col">
+      @if (data.transactionMethod === 'BANK_ACCOUNT') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.BANK_ACCOUNT') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      } @else if (data.transactionMethod === 'CARD') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.CARD') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      } @else if (data.transactionMethod === 'IBAN') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.IBAN') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      } @else if (data.transactionMethod === 'WALLET') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.WALLET') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      } @else if (data.transactionMethod === 'MOBILE_NUMBER') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.MOBILE_NUMBER') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      } @else if (data.transactionMethod === 'PAYMENT_ADDRESS') {
+        <p class="mf-md text-text-secondary">{{ t('transactionTypeOptions.PAYMENT_ADDRESS') }}</p>
+        <p class="mf-md font-semibold">{{ data.beneficiaryNumber }}</p>
+      }
+    </div>
+  </div>
+
+  <button
+    scbButton
+    meeAutofocus
+    (click)="confirm()">
+    {{ t('confirm') }}
+  </button>
+
+  <button
+    scbButton
+    variant="secondary"
+    (click)="close()">
+    {{ t('edit') }}
+  </button>
+</section>

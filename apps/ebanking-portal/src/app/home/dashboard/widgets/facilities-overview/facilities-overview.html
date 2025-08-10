@@ -1,0 +1,87 @@
+<dashboard-widget
+  class="h-full min-h-[268px]"
+  [status]="status()"
+  [verticalTitle]="true"
+  (reload)="facilitiesData.reload()"
+  *transloco="let t">
+  <div class="title">{{ t('facilitiesOverview.title') }}</div>
+  @if (status() === 'default') {
+    <h4 class="body-lg sub-title gap-sm flex">
+      <span data-testid="FACILITY_UTILIZED">{{ t('facilitiesOverview.utilized') }}</span>
+      <div class="gap-sm flex">
+        <currency-view
+          data-testid="FACILITY_TYPE_UTILIZED"
+          [amount]="facilitiesData.value()?.totalAuthorizedLimit"
+          [show]="layoutFacade.showBalances()"
+          short />
+        <!-- /
+      <div>
+        <span
+          data-testid="FACILITY_TOTAL_AUTHORIZED"
+          class="head-2xs-s">
+          {{ facilities.value()?.totalAuthorizedLimit | shortNumber | mask: layoutFacade.showBalances() }}
+        </span>
+        <span class="text-text-secondary body-md">EGP</span>
+      </div> -->
+      </div>
+    </h4>
+  }
+  <a
+    scbButton
+    size="xs"
+    variant="ghost"
+    class="seeAll"
+    routerLink="facilities"
+    data-testid="FACILITY_BTN_SEE_ALL">
+    <span class="mf-sm">{{ t('seeAll') }}</span>
+  </a>
+
+  <div class="loading">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="100%" />
+  </div>
+
+  <div class="sm:gap-3xl flex flex-col gap-[47px] sm:flex-row sm:items-center">
+    <div class="relative mx-auto h-[176px] w-[176px] sm:order-2">
+      <p-chart
+        type="doughnut"
+        [data]="data()"
+        [options]="options"
+        data-testid="FACILITY_CHART"
+        class="w-full md:w-[30rem]" />
+      <!-- <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+        <div class="body-md text-text-tertiary">{{ t('facilitiesOverview.Remaining') }}</div>
+        <h4
+          class="body-lg-s"
+          data-testid="FACILITY_REMAINING">
+          {{ facilities.value()?.availableLimit | shortNumber | mask: layoutFacade.showBalances() }}
+        </h4>
+      </div> -->
+    </div>
+    <div class="px-lg py-2xl gap-x-3xl grid flex-1 grid-cols-2 gap-y-[33px] 2xl:grid-cols-3">
+      @for (item of facilities(); track $index) {
+        <div class="gap-lg flex">
+          <div class="{{ `h-[11px] w-[11px] flex-none ${typesOfFacilities[item.type][0]}` }}"></div>
+          <div class="gap-sm flex flex-col">
+            <h4
+              class="body-md text-text-secondary whitespace-nowrap"
+              data-testid="FACILITY_TYPE_NAME">
+              {{ t('facilitiesOverview.' + item.type) }}
+            </h4>
+            <currency-view
+              data-testid="FACILITY_TYPE_UTILIZED"
+              [amount]="item.utilized"
+              [currency]="item.currency"
+              [show]="layoutFacade.showBalances()"
+              short />
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</dashboard-widget>

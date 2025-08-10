@@ -1,0 +1,178 @@
+@if (status() === 'loading') {
+  <scb-table-skeleton
+    [rows]="5"
+    [columns]="4" />
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'dashboard'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="LCS_ERROR_STATE">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="LCS_API_FAILURE_ICON" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="LCS_API_ERROR_TITLE">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="LCS_API_ERROR_DETAIL">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="lcsData.reload()"
+      data-testid="LCS_RELOAD_BUTTON">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1"
+    *transloco="let t; prefix: 'facilities.facilitiesLcs'">
+    <!-- Title and Download Statement Button -->
+    <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <p class="mf-lg font-semibold">{{ t('title') }}</p>
+      <app-download-btn
+        [isEmpty]="isEmpty()"
+        [options]="downloadOptions" />
+    </div>
+
+    <!-- Filter Section -->
+    <app-lcs-filter
+      [(lcType)]="lcType"
+      [lcTypeList]="lcTypeList()"
+      [isEmpty]="isEmpty()" />
+
+    <!-- Empty state & Table -->
+    @if (isEmpty()) {
+      <div
+        data-testid="LCS_EMPTY_STATE"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="LCS_EMPTY_STATE_ICON"
+          class="" />
+        <h4
+          data-testid="LCS_EMPTY_STATE_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('empty.title') }}
+        </h4>
+        <p
+          data-testid="LCS_EMPTY_STATE_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('empty.subTitle') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="lcsList()"
+        [paginator]="false"
+        [rows]="page.rows()"
+        [first]="page.first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true"
+        data-testid="LCS_TABLE">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_NUMBER">
+              {{ t('table.lcNumber') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_TYPE">
+              {{ t('table.lcType') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_AMOUNT">
+              {{ t('table.lcAmount') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_DUE_DATE">
+              {{ t('table.dueDate') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_CASH_COVER">
+              {{ t('table.cashCover') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_COVER_PERCENTAGE">
+              {{ t('table.coverPercentage') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_REMAINING">
+              {{ t('table.remaining') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account>
+          <tr
+            (click)="navigateToDetails(account.lcNumber)"
+            (keydown.enter)="navigateToDetails(account.lcNumber)"
+            class="focus:ring-primary cursor-pointer !bg-transparent transition-colors duration-200 hover:bg-gray-50 focus:ring-2 focus:outline-none focus:ring-inset dark:hover:bg-gray-800"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'View details for LC ' + account.lcNumber"
+            [attr.data-testid]="'lcs_row_' + account.lcNumber"
+            [attr.data-lc-number]="account.lcNumber">
+            <td class="body-sm">
+              {{ account.lcNumber }}
+            </td>
+            <td class="body-sm">{{ account.lcTypeDescription }}</td>
+            <td>
+              <currency-view
+                [amount]="account.lcAmount"
+                [currency]="account.lcCurrency"
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td>
+              <date-view [value]="account.maturityDate" />
+            </td>
+            <td>
+              @if (account.cashCover !== null) {
+                <currency-view
+                  [amount]="account.cashCover"
+                  [currency]="account.cashCoverCurrency"
+                  size="sm" />
+              } @else {
+                <span class="body-sm-s ltr-force rtl:!text-right">N/A</span>
+              }
+            </td>
+            <td class="body-sm">{{ account.cashCoverPercentage }}%</td>
+            <td>
+              <currency-view
+                [amount]="account.outstandingBalance"
+                [currency]="account.lcCurrency"
+                size="sm"
+                emptyValue="–" />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (!isEmpty()) {
+    <app-pagination
+      [totalPages]="totalPages()"
+      [totalRecords]="totalRecords()"
+      [page]="page" />
+  }
+}

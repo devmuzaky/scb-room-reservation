@@ -1,0 +1,266 @@
+<header-auth
+  class="z-p sticky top-0"
+  data-testid="LOCATEUS_HEADER" />
+@if (branchLocationsData.isLoading()) {
+  <scb-spinner [root]="true" />
+}
+@if (scrollPosition()) {
+  <div
+    class="bg-page sticky top-[72px] 2xl:hidden"
+    [ngClass]="{
+      'h-[214px]': scrollPosition() > 198,
+      'sm:h-[242px]': scrollPosition() > 214,
+    }"></div>
+}
+<div
+  class="mx-xl sm:mx-3xl mb-3xl 2xl:mx-[71px]"
+  *transloco="let t; prefix: 'locateUs'">
+  <scb-card
+    class="mt-3xl sm:mt-4xl 2xl:mt-5xl p-lg 2xl:p-2xl rounded-2xl 2xl:static 2xl:rounded-4xl"
+    [ngClass]="{
+      'card-shadow-sm sm:card-shadow-xl sticky top-[88px] sm:top-[104px] 2xl:static 2xl:shadow-none': scrollPosition(),
+    }"
+    data-testid="LOCATEUS_CARD_SEARCH">
+    <scb-selectable
+      [(activeIndex)]="activeTab"
+      class="mb-lg 2xl:mb-2xl gap-sm w-full 2xl:max-w-[343px]"
+      data-testid="LOCATEUS_TAB_SELECTOR">
+      <scb-selectable-item
+        [value]="LocateUsTypesEnum.BRANCH"
+        class="test-branchSelect"
+        data-testid="LOCATEUS_TAB_BRANCH">
+        {{ t('branches') }}
+      </scb-selectable-item>
+      <scb-selectable-item
+        [value]="LocateUsTypesEnum.ATM"
+        class="test-atmSelect"
+        data-testid="LOCATEUS_TAB_ATM">
+        {{ t('atm') }}
+      </scb-selectable-item>
+    </scb-selectable>
+    <div class="gap-lg 2xl:gap-3xl flex flex-col 2xl:flex-row">
+      <scb-form-field
+        class="2xl:w-[475px]"
+        mode="search"
+        data-testid="LOCATEUS_FIELD_SEARCH">
+        <icon
+          name="search-normal"
+          class="prefix text-i-secondary" />
+        @if (this.selectedBranch()) {
+          <button
+            class="suffix text-i-secondary flex items-center"
+            (click)="clearSearch()"
+            data-testid="LOCATEUS_BTN_CLEAR_SEARCH">
+            <icon name="close-circle" />
+          </button>
+        }
+        <scb-autocomplete [(value)]="selectedBranch">
+          <input
+            scbAutocompleteInput
+            [(value)]="search"
+            [placeholder]="t('searchPlaceholder')"
+            class="test-searchInput body-md-s"
+            data-testid="LOCATEUS_INPUT_SEARCH" />
+          @for (item of branchesFiltered(); track item.title) {
+            <scb-option
+              [value]="item.title"
+              data-testid="LOCATEUS_OPTION_SEARCH">
+              {{ item.title }}
+            </scb-option>
+          }
+        </scb-autocomplete>
+      </scb-form-field>
+      <div
+        class="gap-lg flex overflow-x-auto p-[2px] sm:overflow-x-visible sm:p-0"
+        #filterContainer>
+        <scb-form-field
+          [variant]="governorValue().length > 0 ? 'primary' : 'ghost'"
+          class="min-w-[146px]"
+          data-testid="LOCATEUS_DROPDOWN_GOVERNOR">
+          <scb-select
+            #governorSelect
+            [options]="governorList()"
+            [(value)]="governorValue"
+            [hideIcon]="governorValue().length > 0"
+            multiple
+            data-testid="LOCATEUS_SELECT_VALUE"
+            [searchPlaceholder]="t('searchOptions')">
+            <div
+              scbSelectTrigger
+              class="gap-md body-label-md-m flex items-center">
+              {{ t('governorate') }}
+              @if (governorValue().length) {
+                <div class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl">
+                  +{{ governorValue().length }}
+                </div>
+              }
+            </div>
+            @for (item of governorSelect.optionsFilter.filteredList(); track item) {
+              <scb-option
+                [value]="item"
+                class="min-w-[300px]">
+                {{ item }}
+              </scb-option>
+            }
+          </scb-select>
+        </scb-form-field>
+        <scb-form-field
+          [variant]="areaValue().length > 0 ? 'primary' : 'ghost'"
+          class="min-w-[114px]"
+          data-testid="LOCATEUS_DROPDOWN_AREA">
+          <scb-select
+            #areaSelect
+            [options]="areaList()"
+            [(value)]="areaValue"
+            [hideIcon]="areaValue().length > 0"
+            [searchPlaceholder]="t('searchOptions')"
+            multiple>
+            <div
+              scbSelectTrigger
+              class="gap-md body-label-md-m flex items-center">
+              {{ t('area') }}
+              @if (areaValue().length) {
+                <div class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl">+{{ areaValue().length }}</div>
+              }
+            </div>
+            @for (item of areaSelect.optionsFilter.filteredList(); track item) {
+              <scb-option [value]="item">
+                {{ item }}
+              </scb-option>
+            }
+          </scb-select>
+        </scb-form-field>
+
+        @if (showApplyFilters()) {
+          <button
+            #applyBtn
+            scbButton
+            variant="primary"
+            size="lg"
+            class="test-apply-filters pl-md pr-md sm:px-lg min-w-[93px] rounded-xl py-[10px] text-sm sm:rounded-2xl"
+            (click)="applyFilters()"
+            data-testid="LOCATEUS_BTN_APPLY_FILTERS">
+            {{ t('applyFilter') }}
+          </button>
+        } @else if (showClearFilters()) {
+          <button
+            scbButton
+            variant="secondary"
+            size="lg"
+            class="test-clear-filters pl-md pr-md sm:px-lg min-w-[95px] rounded-xl py-[10px] text-sm sm:rounded-2xl"
+            (click)="clearFilters()"
+            data-testid="LOCATEUS_BTN_CLEAR_FILTERS">
+            {{ t('clearFilter') }}
+          </button>
+        }
+      </div>
+    </div>
+  </scb-card>
+  <scb-card
+    class="mt-3xl 2xl:gap-3xl 2xl:p-2xl 2xl:bg-foreground grid flex-1 grid-cols-1 bg-transparent p-[0px] 2xl:grid-cols-2"
+    data-testid="LOCATEUS_CARD_RESULTS">
+    <section data-testid="LOCATEUS_SECTION_RESULTS">
+      <div
+        class="gap-xl sm:gap-2xl 2xl:xl grid flex-1 grid-cols-1 sm:grid-cols-2 2xl:max-h-[628px] 2xl:grid-cols-1 2xl:overflow-y-auto">
+        @if (branchLocations().length; as len) {
+          <p
+            class="text-primary text-lg sm:col-span-2 2xl:col-span-1"
+            data-testid="LOCATEUS_TEXT_RESULTS">
+            {{ t('results', { count: len }) }}
+          </p>
+        }
+        @for (item of branchLocations(); track item.title; let index = $index) {
+          <scb-card
+            class="border-border-secondary gap-lg p-xl 2xl:p-2xl flex cursor-pointer justify-between rounded-4xl border"
+            (click)="showInfoIcon(item)"
+            [ngClass]="{ 'border-primary border-2': selectedItem()?.Id === item.Id }"
+            [attr.data-testid]="'LOCATEUS_CARD_' + index">
+            <div class="gap-lg flex flex-1 flex-col">
+              <h4
+                class="head-xs-s"
+                [attr.data-testid]="'LOCATEUS_TEXT_BRANCH_NAME_' + index">
+                {{ item.title }}
+              </h4>
+              @if (item.atmServices) {
+                <div
+                  class="gap-md flex flex-wrap"
+                  [attr.data-testid]="'LOCATEUS_ATM_SERVICES_' + index">
+                  @for (service of item.atmServices; track service) {
+                    <scb-badge>{{ service }}</scb-badge>
+                  }
+                </div>
+              }
+              <div
+                class="gap-md body-md flex"
+                [attr.data-testid]="'LOCATEUS_BRANCH_HOURS_' + index">
+                <icon
+                  name="clock"
+                  class="w-2xl min-w-2xl" />
+                {{ item.openHours }}
+              </div>
+
+              <div
+                class="gap-md mb-xl body-md flex 2xl:mb-0"
+                [attr.data-testid]="'LOCATEUS_BRANCH_ADDRESS' + index">
+                <icon
+                  name="location"
+                  class="w-2xl min-w-2xl" />
+                @if (item.distanceInKm && userCurrentLocation().latitude && userCurrentLocation().longitude) {
+                  {{ item.distanceInKm }} {{ t('Km') }}
+                }
+                {{ item.address }}
+              </div>
+              <a
+                scbButton
+                class="mt-auto w-full 2xl:hidden"
+                variant="secondary"
+                size="sm"
+                suffixIcon="export"
+                href="https://www.google.com/maps/dir/?api=1&destination={{ item.latitude }},{{ item.longitude }}"
+                target="_blank"
+                [attr.data-testid]="'LOCATEUS_BRANCH_DIRECTION_' + index">
+                {{ t('direction') }}
+              </a>
+            </div>
+            <div class="hidden items-end 2xl:flex">
+              <a
+                scbButton
+                variant="secondary"
+                size="sm"
+                suffixIcon="export"
+                href="https://www.google.com/maps/dir/?api=1&destination={{ item.latitude }},{{ item.longitude }}"
+                target="_blank"
+                [attr.data-testid]="'LOCATEUS_BRANCH_DIRECTION_LARGE_' + index">
+                {{ t('direction') }}
+              </a>
+            </div>
+          </scb-card>
+        } @empty {
+          <div
+            class="col-span-2 flex flex-col items-center overflow-hidden"
+            data-testid="LOCATEUS_NO_RESULTS">
+            <icon
+              [name]="darkMode() ? 'no-locations-dark' : 'no-locations-light'"
+              class="w-[128px]" />
+            <p class="head-xs text-text-secondary">{{ t('noResults.title') }}</p>
+            <p class="text-text-tertiary text-sm">{{ t('noResults.subTitle') }}</p>
+          </div>
+        }
+      </div>
+    </section>
+    <section
+      class="hidden 2xl:block"
+      data-testid="LOCATEUS_MAP_SECTION">
+      <scb-map
+        [locations]="branchMapLocations()"
+        [askLocationAPermission]="locationPermission"
+        (userLocation)="currentLocation($event)"
+        #map
+        class="hidden lg:block"
+        data-testid="LOCATEUS_MAP">
+      </scb-map>
+    </section>
+  </scb-card>
+</div>
+<!-- Below section will make sure to scroll right whenever user make any selection to dropdown so that he/she can view the action button -->
+{{ scrollAtApplyBtn() }}

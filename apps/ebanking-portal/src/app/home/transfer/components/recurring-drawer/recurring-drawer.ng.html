@@ -1,0 +1,94 @@
+<p-drawer
+  *transloco="let t; prefix: 'transfer.recurring'"
+  [visible]="open()"
+  [blockScroll]="false"
+  [closable]="false"
+  [dismissible]="false"
+  [position]="lang() === 'ar' ? 'left' : 'right'"
+  styleClass="mobile-full overflow-none"
+  [closeOnEscape]="false">
+  <!-- Header -->
+  <ng-template
+    #header
+    styleClass="block"
+    class="block">
+    <div class="w-full">
+      <div class="flex items-center justify-between">
+        <h2 class="text-text-primary mf-lg flex items-center gap-6 font-semibold">{{ t('title') }}</h2>
+        <button
+          (click)="closeDrawer()"
+          color="primary"
+          scbIconButton="close"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <scb-card
+    class="max-h-[50vh] overflow-auto !pr-0 !pl-0 sm:max-h-[70vh] lg:max-h-[80vh]"
+    data-testid="ACCOUNTS_LIST_CARD">
+    <div
+      class="mb-4 rounded-4xl border-1 border-gray-200 dark:border-gray-700"
+      data-testid="accounts_div_accountListTableContainer">
+      <div
+        class="gap-sm mb-3 flex flex-col p-4 pb-0 sm:flex-row sm:justify-between"
+        data-testid="accounts_div_tableHeader">
+        <div class="sm:self-center">
+          <p
+            class="mf-lg font-semibold"
+            data-testid="accounts_p_tableTitle">
+            {{ t('transferDate') }}
+          </p>
+        </div>
+      </div>
+
+      <p-table
+        [value]="transferDates"
+        class="block"
+        [paginator]="false"
+        [showFirstLastIcon]="false"
+        lazy="true">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('numberOfTransfers') }}</th>
+            <th class="mf-sm !font-medium">{{ t('date') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-transferDate
+          let-rowIndex="rowIndex">
+          <tr>
+            <td
+              [ngClass]="{
+                'bg-icon-container-blue !border-border-secondary':
+                  (isFriday(transferDate) || isSaturday(transferDate)) && showWeekendAlert(),
+              }">
+              <p class="mf-sm text-text-primary">{{ rowIndex + 1 }}</p>
+            </td>
+            <td
+              [ngClass]="{
+                'bg-icon-container-blue !border-border-secondary':
+                  (isFriday(transferDate) || isSaturday(transferDate)) && showWeekendAlert(),
+              }">
+              <date-view
+                data-testid="DASH_LGS_BASIC_DETAIL_ISSUED_DATE"
+                [value]="transferDate"
+                format="EEEE, d MMM yyyy"
+                variant="sm" />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </scb-card>
+
+  <ng-template #footer>
+    @if (showWeekendAlert() && friday()) {
+      <scb-alert
+        [desc]="t('scheduledInfo')"
+        [hideClose]="true"
+        class="absolute right-4 bottom-4 left-4 mt-4 max-sm:bottom-1"
+        type="info" />
+    }
+  </ng-template>
+</p-drawer>

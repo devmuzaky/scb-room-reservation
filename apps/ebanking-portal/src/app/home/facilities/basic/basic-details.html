@@ -1,0 +1,116 @@
+<div
+  *transloco="let t; prefix: 'facilities.basicDetails'"
+  class="mb-4 flex justify-between">
+  <!-- Left Details -->
+  <div class="gap-md sm:gap-sm flex flex-col sm:justify-center">
+    <div class="sm:self-start">
+      <p
+        class="mf-lg font-semibold"
+        data-testid="FACILITIES_BASIC_TITLE">
+        {{ t('title') }}
+      </p>
+    </div>
+    <div class="gap-sm hidden sm:flex">
+      <p
+        class="text-text-tertiary mf-md"
+        data-testid="FACILITIES_BASIC_UTILIZED_LABEL">
+        {{ t('utilizedLimit') }}:
+      </p>
+      <currency-view
+        data-testid="FACILITIES_BASIC_UTILIZED_VALUE"
+        [amount]="details()?.totalAuthorizedLimit"
+        short />
+    </div>
+    <div class="flex flex-col gap-2 sm:hidden">
+      <app-last-updated
+        [date]="lastUpdatedAt()"
+        noRefresh
+        mobileVisible />
+      <div class="gap-sm flex sm:hidden">
+        <p
+          class="text-text-tertiary mf-md"
+          data-testid="FACILITIES_BASIC_UTILIZED_LABEL_MOBILE">
+          {{ t('utilizedLimit') }}:
+        </p>
+        <currency-view
+          data-testid="FACILITIES_BASIC_UTILIZED_VALUE_MOBILE"
+          [amount]="details()?.totalUtilizedLimit"
+          short />
+      </div>
+      <div class="gap-sm flex sm:hidden">
+        <p class="text-text-tertiary mf-md self-center">{{ t('totalLiabilities') }}</p>
+        <button
+          appDownloadBtn
+          [options]="downloadOptions"
+          [isEmpty]="false"
+          mode="icon"
+          [pTooltip]="downloadTooltip"
+          tooltipPosition="top"
+          data-testid="FACILITIES_BASIC_DOWNLOAD_BUTTON"></button>
+        <ng-template #downloadTooltip>
+          <p class="mf-sm whitespace-nowrap">{{ t('downloadTooltip') }}</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Details -->
+  <div class="flex flex-col items-end">
+    <app-last-updated
+      [date]="lastUpdatedAt()"
+      (refresh)="reload.emit()" />
+    <div class="gap-sm hidden sm:flex">
+      <app-download-btn
+        [options]="downloadOptions"
+        [isEmpty]="isEmpty()"
+        data-testid="FACILITIES_BASIC_DOWNLOAD_BUTTON"
+        >{{ t('totalLiabilities') }}</app-download-btn
+      >
+    </div>
+  </div>
+</div>
+
+<!-- Inner Details Card -->
+<div
+  *transloco="let t; prefix: 'facilities'"
+  class="rounded-5xl border-border-secondary bg-container border-[1px] p-4">
+  <!-- Title -->
+  <div
+    class="border-border-secondary bg-container flex items-center align-middle sm:flex-row"
+    data-testid="FACILITIES_BASIC_DETAIL_CONTAINER">
+    <h2
+      class="mf-lg text-text-primary font-normal"
+      data-testid="FACILITIES_BASIC_DETAIL_HEADING">
+      {{ t('basicDetails.facilityMaturityDate') }}:&nbsp;
+    </h2>
+
+    <date-view
+      data-testid="DASH_CERTIFICATE_BASIC_DETAIL_TITLE"
+      [value]="details()?.maturityDate"
+      variant="md" />
+  </div>
+
+  <!-- Separator -->
+
+  <div class="my-lg border-border-secondary block border-b"></div>
+
+  <!-- Details -->
+  <div class="grid grid-cols-1 grid-rows-6 gap-3 sm:grid-cols-3 sm:grid-rows-2">
+    @for (item of details()?.facilities; track item.type) {
+      <div
+        class="gap-sm flex flex-col"
+        ngClass="{ 'row-start-2': item.type === 'LGs', 'row-start-2': item.type === 'LCs', 'row-start-2': item.type === 'IDCs' }">
+        <h2
+          class="mf-md text-text-secondary font-normal"
+          data-testid="FACILITIES_BASIC_DETAIL_TYPE_HEADING">
+          {{ t('tabs.' + item.type.toLowerCase()) }}
+        </h2>
+
+        <currency-view
+          data-testid="FACILITIES_BASIC_DETAIL_TYPE_VALUE"
+          [amount]="item.authorized"
+          short />
+      </div>
+    }
+  </div>
+</div>

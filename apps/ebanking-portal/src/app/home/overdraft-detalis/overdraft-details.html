@@ -1,0 +1,68 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('home'), path: '/dashboard' },
+      { label: t('facilities'), path: '/dashboard/facilities' },
+      { label: t('overdraftDetails') },
+    ]"></app-breadcrumbs>
+</section>
+
+<!-- Basic Details -->
+<section
+  class="col-span-12"
+  *transloco="let t; prefix: 'overdraftDetailsPage'">
+  <scb-card class="p-xl col-span-12 flex flex-col 2xl:row-span-2">
+    @if (status() === 'loading') {
+      <scb-card-skeleton />
+    } @else if (status() === 'error') {
+      <div class="flex w-full flex-col items-center justify-center gap-3 text-center">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl" />
+        <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+        <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          (click)="overdraftDetailsResource.reload()"
+          icon="refresh">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <overdraft-basic-details [resource]="overdraftDetailsResource" />
+    }
+  </scb-card>
+</section>
+
+<section
+  class="col-span-12"
+  *transloco="let t; prefix: 'overdraftDetailsPage'">
+  <scb-tabs
+    class="bg-transparent"
+    (selectedTabChange)="onTabChange($event)">
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block cursor-pointer p-2">
+        {{ t('upcomingDues') }}
+      </a>
+      <section class="col-span-12">
+        <upcoming-table></upcoming-table>
+      </section>
+    </scb-tab>
+
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block cursor-pointer p-2">
+        {{ t('transactionsHistory') }}
+      </a>
+      <section class="col-span-12">
+        <transactions-table></transactions-table>
+      </section>
+    </scb-tab>
+  </scb-tabs>
+</section>

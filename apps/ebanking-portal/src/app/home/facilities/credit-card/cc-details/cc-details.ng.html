@@ -1,0 +1,104 @@
+<scb-card
+  class="p-xl col-span-12 flex flex-col 2xl:row-span-2"
+  *transloco="let t; prefix: 'facilities.facilitiesCcDetails'">
+  @if (status() === 'loading') {
+    <scb-card-skeleton />
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'accounts'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="accounts_div_errorState">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="accounts_icon_apiFailure" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="accounts_h4_apiError">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="accounts_p_apiErrorDetail">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="creditCardData.reload()"
+        data-testid="accounts_button_reload">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <div class="gap-lg flex flex-col">
+      <div class="head-xs-s">{{ t('title') }}</div>
+      <scb-separator class="!my-0" />
+
+      @let cc = creditCardData.value()!;
+      <div class="gap-4xl flex flex-col 2xl:flex-row">
+        <div class="gap-4xl flex flex-1 flex-col items-center sm:flex-row">
+          <div>
+            <div class="relative mx-auto h-[176px] w-[176px]">
+              <p-chart
+                type="doughnut"
+                [data]="data()"
+                [options]="options"
+                data-testid="FACILITY_CHART"
+                class="w-full md:w-[30rem]" />
+              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <div class="body-md text-text-tertiary">{{ t('remaining') }}</div>
+                <currency-view
+                  [amount]="cc.availableBalance"
+                  [show]="layoutFacade.showBalances()" />
+              </div>
+            </div>
+          </div>
+          <div class="gap-x-sm gap-y-3xl grid w-full flex-1 grid-cols-2 2xl:grid-cols-3">
+            <div class="gap-sm flex flex-col">
+              <h4 class="text-text-secondary body-md">{{ t('cardLimit') }}</h4>
+              <currency-view [amount]="cc.cardLimit" />
+            </div>
+            <div class="gap-sm flex flex-col">
+              <h4 class="text-text-secondary body-md">{{ t('utilizedAmount') }}</h4>
+              <currency-view [amount]="cc.utilizedAmount" />
+            </div>
+            <!-- <div class="gap-sm flex flex-col">
+              <h4 class="text-text-secondary body-md">{{ t('heldAmount') }}</h4>
+              <currency-view [amount]="cc.heldAmount" />
+            </div> -->
+            <div class="gap-sm flex flex-col">
+              <h4 class="text-text-secondary body-md">{{ t('minDueAmount') }}</h4>
+              <currency-view [amount]="cc.dueAmount" />
+            </div>
+            <div class="gap-sm flex flex-col">
+              <h4 class="text-text-secondary body-md">{{ t('dueDate') }}</h4>
+              <date-view
+                [value]="cc.dueDate"
+                variant="md" />
+            </div>
+            <div
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="gap-sm flex flex-col">
+              <button
+                scbButton
+                size="lg"
+                class="w-full">
+                {{ t('payNow') }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <app-cc-card
+            [name]="cc.cardholderName"
+            [company]="cc.companyName"
+            [expires]="cc.expiryDate"
+            [cardNumber]="cc.cardNumber" />
+        </div>
+      </div>
+    </div>
+  }
+</scb-card>

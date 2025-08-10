@@ -1,0 +1,75 @@
+<dashboard-widget
+  class="select-none"
+  *transloco="let t; prefix: 'dashboard'"
+  [status]="status()"
+  (reload)="dashboardData.reload()">
+  <span class="title body-lg-s">{{ t('accountOverview.title') }}</span>
+
+  <div class="loading">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+
+  <p class="lastUpdated text-text-tertiary body-sm">{{ t('lastUpdatedAt') }} {{ lastUpdatedAt() }}</p>
+
+  <button
+    scbButton
+    variant="ghost"
+    size="xs"
+    icon="refresh"
+    class="showReload"
+    (click)="dashboardData.reload()"></button>
+
+  <scb-tabs (selectedTabChange)="onTabChange($event)">
+    @if (totalEquivalent()) {
+      <p class="tab-header-content body-md gap-sm text-text-tertiary flex items-center">
+        {{ t('accountOverview.equivalent') }}:
+        @if (isArabic()) {
+          <span
+            [pTooltip]="totalEquivalentTooltip"
+            tooltipPosition="top"
+            class="head-2xs-s text-text-primary"
+            >{{ totalEquivalent() | shortNumber | mask: layoutFacade.showBalances() }}</span
+          >
+          <span class="text-text-secondary body-md">EGP</span>
+          <ng-template #totalEquivalentTooltip>
+            <p class="mf-sm whitespace-nowrap">
+              {{ totalEquivalent() | numberCommaFormat }}
+              <span class="text-text-white font-normal">EGP</span>
+            </p>
+          </ng-template>
+        } @else {
+          <span
+            [pTooltip]="totalEquivalentTooltip"
+            tooltipPosition="top"
+            class="head-2xs-s text-text-primary"
+            >{{ totalEquivalent() | shortNumber | mask: layoutFacade.showBalances() }}</span
+          >
+          <span class="text-text-secondary body-md">EGP</span>
+
+          <ng-template #totalEquivalentTooltip>
+            <p class="mf-sm whitespace-nowrap">
+              {{ totalEquivalent() | numberCommaFormat }}
+              <span class="text-text-white font-normal">EGP</span>
+            </p>
+          </ng-template>
+        }
+      </p>
+    }
+    <scb-tab label="{{ t('accountOverview.accountsTab') }}">
+      <app-accounts-tab [accounts]="accounts()" />
+    </scb-tab>
+    <scb-tab label="{{ t('accountOverview.certificatesTab') }}">
+      <app-certificates-tab [certificates]="certificates()" />
+    </scb-tab>
+    <scb-tab label="{{ t('accountOverview.depositsTab') }}">
+      <app-time-deposits-tab [deposits]="deposits()" />
+    </scb-tab>
+  </scb-tabs>
+</dashboard-widget>

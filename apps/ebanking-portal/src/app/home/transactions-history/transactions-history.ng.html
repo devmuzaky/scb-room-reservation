@@ -1,0 +1,214 @@
+<section class="col-span-12 max-sm:hidden">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[{ label: t('transfer'), path: '/transfer' }, { label: t('transferHistory') }]"></app-breadcrumbs>
+</section>
+
+<scb-card
+  class="py-3xl sm:px-3xl col-span-12 px-4"
+  data-testid="TRANSACTIONS_HISTORY_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'transactions'">
+  @if (status() === 'loading') {
+    <div
+      class="py-3xl sm:px-3xl col-span-12 px-4"
+      data-testid="TRANSACTIONS_HISTORY_SKELTON_CONTAINER">
+      <scb-skeleton
+        width="15%"
+        height="40px" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="80%" />
+      <scb-skeleton width="90%" />
+      <scb-skeleton width="100%" />
+    </div>
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'accounts'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl" />
+      <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+      <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        data-testid="TRANSACTIONS_HISTORY_REFRESH"
+        (click)="transactionsData.reload()">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else if (hasNoRecords() && !hasFilters()) {
+    <div
+      data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE"
+      class="emptyState flex w-full flex-col items-center justify-center text-center">
+      <icon
+        name="not-found"
+        data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_ICON" />
+      <h4
+        data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_TITLE"
+        class="mt-sm mb-sm mf-2xl font-semibold">
+        {{ t('empty.title') }}
+      </h4>
+      <p
+        data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_SUBTITLE"
+        class="text-text-tertiary text-sm-sm">
+        {{ t('empty.subTitle') }}
+      </p>
+    </div>
+  } @else {
+    <div class="pb-xl mb-xl border-border-secondary rounded-4xl border-1">
+      <div class="gap-sm px-xl pt-xl mb-3 flex flex-col sm:flex-row sm:justify-between">
+        <div class="sm:self-center">
+          <p class="mf-lg font-semibold">{{ t('title') }}</p>
+        </div>
+
+        <div class="gap-sm flex flex-col justify-between sm:items-end">
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            [mobileVisible]="true"
+            (refresh)="transactionsData.reload()" />
+          <div class="gap-sm flex items-center">
+            <app-download-btn
+              [options]="downloadOptions"
+              [isEmpty]="hasNoRecords()"
+              data-testid="TRANSACTIONS_HISTORY_DOWNLOAD" />
+          </div>
+        </div>
+      </div>
+
+      @if (!hasNoRecords() || hasFilters()) {
+        <app-transactions-history-filter
+          [(status)]="transactionStatus"
+          [(settlementDate)]="date"
+          [(transferType)]="transferType"
+          [(searchTerm)]="searchTerm" />
+      }
+
+      @if (hasFilters() && transactions().length === 0) {
+        <div
+          data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            name="not-found"
+            data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_ICON" />
+          <h4
+            data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_TITLE"
+            class="mt-sm mb-sm mf-2xl font-semibold">
+            {{ t('noResults.title') }}
+          </h4>
+          <p
+            data-testid="TRANSACTIONS_HISTORY_EMPTY_STATE_SUBTITLE"
+            class="text-text-tertiary text-sm-sm">
+            {{ t('noResults.subTitle') }}
+          </p>
+        </div>
+      } @else {
+        <p-table
+          [value]="transactions()"
+          [paginator]="false"
+          [rows]="rows()"
+          [first]="first()"
+          [showFirstLastIcon]="false"
+          [totalRecords]="totalRecords()"
+          lazy="true">
+          <ng-template #header>
+            <tr>
+              <th class="mf-sm !font-medium">{{ t('table.transactionDate') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.referenceNumber') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.debitedAccount') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.beneficiaryName') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.transferType') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.amount') }}</th>
+              <th class="mf-sm !font-medium">{{ t('table.status') }}</th>
+            </tr>
+          </ng-template>
+          <ng-template
+            #body
+            let-transaction>
+            <tr
+              class="cursor-pointer !bg-transparent hover:bg-blue-300"
+              (click)="viewTransfer(transaction.transferId)">
+              <td>
+                <date-view
+                  data-testid="TRANSACTIONS_HISTORY_DATE"
+                  [value]="transaction.transactionDate"
+                  [istFormat]="true"
+                  variant="sm" />
+              </td>
+              <td class="mf-sm">{{ transaction.referenceNumber }}</td>
+              <td class="mf-sm">{{ transaction.debitedAccount }}</td>
+              <td class="mf-sm">{{ transaction.beneficiaryName || '-' }}</td>
+              <td class="mf-sm">
+                <span class="capitalize">{{ getTransferTypeLabel(transaction.transferType) }}</span>
+              </td>
+              <td class="mf-sm ltr-force rtl:!text-right">
+                {{ transaction.transferAmount }} {{ transaction.transferCurrency }}
+              </td>
+              <td class="mf-sm">
+                <scb-badge
+                  size="xs"
+                  [variant]="getStatusVariant(transaction.transferStatus)"
+                  class="flex items-center gap-1">
+                  <span>{{ getStatusLabel(transaction.transferStatus) }}</span>
+                  @if (transaction.isRecurring) {
+                    <icon
+                      name="calendar-recurring"
+                      class="text-xs" />
+                  }
+                </scb-badge>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
+    </div>
+
+    @if (!hasNoRecords() && transactions().length > 0) {
+      <div
+        class="table-footer flex items-center justify-between max-sm:justify-center"
+        data-testid="TRANSACTIONS_HISTORY_PAGINATION_CONTAINER">
+        <div class="page-info-container">
+          <span class="mf-sm text-text-secondary hidden font-normal sm:block">
+            {{ t('page') }} {{ pageNumber() }} {{ t('pageOf') }} {{ totalPages() }}
+          </span>
+        </div>
+        <div class="pagination-container">
+          <p-paginator
+            [first]="first()"
+            [rows]="rows()"
+            [totalRecords]="totalRecords()"
+            [showCurrentPageReport]="false"
+            [showFirstLastIcon]="!layoutFacade.mobileMode()"
+            (onPageChange)="onPageChange($event)">
+          </p-paginator>
+        </div>
+        @if (!layoutFacade.mobileMode()) {
+          <div class="mf-md text-text-secondary hidden sm:block">
+            <p-select
+              [options]="dropdownOptions"
+              optionLabel="label"
+              optionValue="value"
+              [(ngModel)]="rows">
+              <ng-template pTemplate="selectedItem">
+                <div class="align-items-center flex gap-2">
+                  <div>{{ rows() }} {{ t('perPage') }}</div>
+                </div>
+              </ng-template>
+
+              <ng-template
+                let-option
+                pTemplate="item">
+                <div class="align-items-center flex gap-2">
+                  <div>{{ option.label }} {{ t('perPage') }}</div>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+        }
+      </div>
+    }
+  }
+</scb-card>

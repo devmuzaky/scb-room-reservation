@@ -1,0 +1,207 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('transfer'), path: '/transfer' },
+      { label: t('scheduledTransfer'), path: '/transfer/scheduled-transfers' },
+      { label: t('scheduledTransferDetails'), path: '' },
+    ]"></app-breadcrumbs>
+</section>
+<scb-card
+  class="gap-2xl col-span-12 row-span-8 flex flex-col"
+  *transloco="let t; prefix: 'transfer.scheduledTransfers'">
+  @if (status() === 'loading') {
+    <div
+      class="py-3xl sm:px-3xl col-span-12 px-4"
+      data-testid="LCS_LOADING_STATE">
+      <scb-skeleton
+        width="15%"
+        height="40px" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="80%" />
+      <scb-skeleton width="90%" />
+      <scb-skeleton width="100%" />
+    </div>
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'dashboard'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="LCS_ERROR_STATE">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="LCS_API_FAILURE_ICON" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="LCS_API_ERROR_TITLE">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="LCS_API_ERROR_DETAIL">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="scheduledTransfer.reload()"
+        data-testid="LCS_RELOAD_BUTTON">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <div class="gap-sm flex flex-col items-start justify-between md:flex-row md:items-center">
+      <p class="body-lg-s">{{ t('scheduledTransferDetails') }}</p>
+      <button
+        *rolePermission="['SUPER_USER', 'MAKER']"
+        scbButton
+        variant="secondary"
+        size="lg"
+        [loading]="
+          isRecurring() ? stService.cancelLoadingId() === scheduleId : stService.cancelLoadingId() === data().transferId
+        "
+        (click)="cancel(isRecurring() ? scheduleId : data().transferId)">
+        {{ t(isRecurring() ? 'cancelAllTransfer' : 'cancelTransfer') }}
+      </button>
+    </div>
+    <div class="gap-2xl flex flex-col md:flex-row">
+      <div class="gap-2xl flex flex-1 flex-col">
+        <div class="border-border-tertiary p-xl gap-2xl flex flex-col rounded-4xl border">
+          @if (data().scheduleStats?.numberOfFailed; as failed) {
+            <scb-alert
+              [desc]="t('failedWarning', { count: failed })"
+              hideClose
+              type="danger">
+              <a
+                scbButton
+                variant="ghost"
+                size="sm"
+                [routerLink]="`/transfer/transfer-details/${data().transferId}`">
+                {{ t('viewDetails') }}
+              </a>
+            </scb-alert>
+          }
+          @if (isRecurring() && data().scheduleStats; as stat) {
+            <app-transfer-progress
+              [totalCount]="stat.total"
+              [successCount]="stat.numberOfSuccess"
+              [failedCount]="stat.numberOfFailed" />
+          }
+          <div class="{{ `gap-x-2xl gap-y-xl grid ${isRecurring() ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2'}` }}">
+            <div class="gap-sm flex flex-col">
+              <div class="body-label-sm text-text-secondary">{{ t('transferAmount') }}</div>
+              <currency-view
+                [amount]="data().transferAmount"
+                [currency]="data().transferCurrency"
+                size="xs"
+                variant="primary" />
+            </div>
+            @if (isRecurring()) {
+              <div class="gap-sm flex flex-col">
+                <div class="body-label-sm text-text-secondary">{{ t('nextTransferDate') }}</div>
+                <date-view
+                  [value]="data().nextTransferDate"
+                  variant="md" />
+              </div>
+            } @else {
+              <div class="gap-sm flex flex-col">
+                <div class="body-label-sm text-text-secondary">{{ t('ExecutionDate') }}</div>
+                <date-view
+                  [value]="data().transactionDate"
+                  variant="md" />
+              </div>
+            }
+            <div class="gap-sm flex flex-col">
+              <div class="body-label-sm text-text-secondary">{{ t('frequency') }}</div>
+              <div class="body-md-s">{{ t('frequencyTypeOptions.' + data().scheduleDto.frequencyType) }}</div>
+            </div>
+            @if (isRecurring()) {
+              <div class="gap-sm flex flex-col">
+                <div class="body-label-sm text-text-secondary">{{ t('startDate') }}</div>
+                <date-view
+                  [value]="data().scheduleDto.submitDate"
+                  variant="md"
+                  [istFormat]="data().transferType !== 'OUTSIDE'" />
+              </div>
+              <div class="gap-sm flex flex-col">
+                <div class="body-label-sm text-text-secondary">{{ t('endDate') }}</div>
+                <date-view
+                  [value]="data().scheduleDto.endDate"
+                  variant="md"
+                  [istFormat]="data().transferType !== 'OUTSIDE'" />
+              </div>
+            }
+            <div class="gap-sm flex flex-col">
+              <div class="body-label-sm text-text-secondary">{{ t('transferType') }}</div>
+              <div class="body-md-s">{{ t('transferTypeOptions.' + data().transferType) }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="border-border-tertiary p-xl gap-2xl flex flex-col rounded-4xl border">
+          <div class="gap-sm flex flex-col">
+            <div class="body-label-md-m">{{ t('from') }}</div>
+            <app-account-selected-view
+              [nickname]="data().fromAccount.accountNickname"
+              [accountNumber]="data().fromAccount.accountNumber" />
+          </div>
+          <div class="gap-sm flex flex-col">
+            <div class="body-label-md-m">{{ t('to') }}</div>
+            @if (data().transferType === 'OWN') {
+              <app-account-selected-view
+                [nickname]="data().toAccount.accountNickname"
+                [accountNumber]="data().toAccount.accountNumber" />
+            } @else {
+              <app-beneficiary-selected-view [beneficiary]="data().beneficiary" />
+            }
+          </div>
+        </div>
+      </div>
+      <div class="border-border-tertiary p-xl gap-xl flex flex-col rounded-2xl border md:w-[30%]">
+        <div class="gap-sm flex flex-col">
+          <div class="head-xs-s">{{ t('approvalTimeline') }}</div>
+          <div class="body-sm text-text-secondary">{{ t('approvalTimelineDesc') }}</div>
+        </div>
+        <scb-separator />
+        <div>
+          @for (item of ['authorizer']; track $index) {
+            <div class="gap-xl flex">
+              <div class="flex w-3xl flex-col items-center">
+                @if ($last) {
+                  <icon
+                    name="check-green"
+                    class="p-xs" />
+                } @else {
+                  <div class="h-lg bg-brand my-md w-lg rounded-full"></div>
+                  <div class="border-border-hard w-[1px] flex-1 border border-dashed"></div>
+                }
+              </div>
+              <div class="gap-md flex flex-col">
+                <div class="gap-md flex">
+                  <span class="body-md-s">{{ data().username }}</span>
+                  <span class="body-md text-brand">({{ t(item) }})</span>
+                </div>
+                <div class="gap-sm pb-2xl flex">
+                  <span class="body-md">{{ t('approved') }},</span>
+                  <span class="body-md text-text-secondary">
+                    <date-view
+                      [value]="data().transactionDate"
+                      format="d MMM yyyy, h:mm a" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</scb-card>
+
+@if (isRecurring()) {
+  <app-upcoming-transfer-details
+    class="col-span-12 row-span-8"
+    (reload)="reload($event)" />
+}

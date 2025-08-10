@@ -1,0 +1,148 @@
+@if (status() === 'loading') {
+  <div
+    class="py-3xl sm:px-3xl col-span-12 px-4"
+    data-testid="LCS_LOADING_STATE">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'dashboard'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="LCS_ERROR_STATE">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="LCS_API_FAILURE_ICON" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="LCS_API_ERROR_TITLE">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="LCS_API_ERROR_DETAIL">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="utData.reload()"
+      data-testid="LCS_RELOAD_BUTTON">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1"
+    *transloco="let t; prefix: 'transfer.upcomingTransfer'">
+    <!-- Title and Download Statement Button -->
+    <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <p class="mf-lg font-semibold">{{ t('title') }}</p>
+    </div>
+
+    <!-- Filter Section -->
+    <app-upcoming-transfer-filter [(date)]="date" />
+
+    <!-- Empty state & Table -->
+    @if (isEmpty()) {
+      <div
+        data-testid="LCS_EMPTY_STATE"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          name="not-found"
+          data-testid="LCS_EMPTY_STATE_ICON" />
+        <h4
+          data-testid="LCS_EMPTY_STATE_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t(isFiltersApplied() ? 'noResults.title' : 'empty.title') }}
+        </h4>
+        <p
+          data-testid="LCS_EMPTY_STATE_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t(isFiltersApplied() ? 'noResults.subTitle' : 'empty.subTitle') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="utList()"
+        [paginator]="false"
+        [rows]="page.rows()"
+        [first]="page.first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true"
+        data-testid="LCS_TABLE">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_NUMBER">
+              {{ t('table.noOfTransfers') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_TYPE">
+              {{ t('table.transferDate') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_LC_AMOUNT">
+              {{ t('table.amount') }}
+            </th>
+            <th
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="mf-sm !font-medium"
+              data-testid="LCS_TABLE_HEADER_DUE_DATE">
+              {{ t('table.action') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account
+          let-rowIndex="rowIndex">
+          <tr class="!bg-transparent">
+            <td class="body-sm">{{ page.reqPageNumber() * page.rows() + rowIndex + 1 }}</td>
+            <td>
+              <date-view [value]="account.transactionDate" />
+            </td>
+            <td>
+              <currency-view
+                [amount]="account.transferAmount"
+                [currency]="account.transferCurrency"
+                size="sm" />
+            </td>
+            <td
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="body-sm">
+              <button
+                scbButton
+                variant="ghost"
+                size="md"
+                icon="close-square"
+                [loading]="stService.cancelLoadingId() === account.transferId"
+                (click)="cancel(account.transferId)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (!isEmpty()) {
+    <app-pagination
+      [totalPages]="totalPages()"
+      [totalRecords]="totalRecords()"
+      [page]="page" />
+  }
+}

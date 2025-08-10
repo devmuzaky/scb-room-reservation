@@ -1,0 +1,315 @@
+@if (status() === 'loading') {
+  <div
+    class="py-3xl sm:px-3xl col-span-12 px-4"
+    data-testid="accounts_div_loadingState">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'dashboard'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="accounts_div_errorState">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="accounts_icon_apiFailure" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="accounts_h4_apiError">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="accounts_p_apiErrorDetail">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="upcomingDuesResponse.reload()"
+      data-testid="accounts_button_reload">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    *transloco="let t; prefix: 'overdraftDetailsPage.upcoming'"
+    class="border-border-secondary py-xl flex flex-col rounded-4xl border-1">
+    <div class="gap-sm px-xl flex sm:flex-row sm:justify-between">
+      @if (!isEmpty() || dateRangeValue()) {
+        <div class="gap-md mb-4 flex flex-col px-4 sm:flex-row sm:items-center">
+          <p
+            class="mf-md text-text-secondary font-medium"
+            data-testid="ACCOUNT_TRANSACTION_FILTER_BY">
+            {{ t('filterBy') }}
+          </p>
+
+          <div class="gap-md flex items-center">
+            <scb-form-field
+              [variant]="dateRangeValue() ? 'primary' : 'ghost'"
+              data-testid="IDC_FORMFIELD_STATUS">
+              <scb-select
+                [(value)]="dateRangeValue"
+                data-testid="IDC_SELECT_STATUS_VALUE"
+                [searchPlaceholder]="t('searchOptions')"
+                (closed)="dateRangeClosed()"
+                noAutoClose>
+                <div
+                  scbSelectTrigger
+                  class="gap-md body-label-md-m flex items-center"
+                  data-testid="date_range_select_trigger">
+                  {{ t('filterPlaceholder') }}
+                  @if (dateRangeValue()) {
+                    <div
+                      class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl"
+                      data-testid="accounts_div_currencyValueCount">
+                      +{{ 1 }}
+                    </div>
+                  }
+                </div>
+                @for (item of dateRangeList(); track item) {
+                  <scb-option
+                    [value]="item"
+                    class="capitalize">
+                    {{ t(item) }}
+                  </scb-option>
+                }
+                <app-select-footer
+                  class="select-footer"
+                  (apply)="applyFilter()"
+                  (resetValue)="dateRangeValue.set('')" />
+              </scb-select>
+            </scb-form-field>
+
+            @if (showClearFilter()) {
+              <button
+                scbButton
+                variant="secondary"
+                size="md"
+                (click)="clearFilter()"
+                class="!px-2"
+                data-testid="accounts_button_clearFilter">
+                {{ t('clearFilters') }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div
+        class="gap-sm flex"
+        data-testid="ACOUNT_DETAIL_DOWNLOAD_STATEMENT_CONTAINER">
+        <button
+          scbButton
+          size="lg"
+          [disabled]="isEmpty()"
+          icon="download"
+          (click)="downloadOptionsMenu.toggle($event)"
+          type="button"
+          class="mf-md"
+          data-testid="DOWNLOAD_STATEMENT">
+          {{ t('downloadStatement') }}
+        </button>
+
+        <p-menu
+          #downloadOptionsMenu
+          [model]="downloadOptionsList"
+          [popup]="true"
+          data-testid="accounts_pMenu_downloadOptions">
+          <ng-template
+            #item
+            let-item>
+            <div
+              tabindex="0"
+              class="flex flex-1 gap-3"
+              (click)="download(item.icon)"
+              role="button"
+              data-testid="accounts_div_downloadOption">
+              <icon
+                class="w-2xl"
+                [name]="item.icon"></icon>
+              <p class="mf-md text-text-primary flex-1">{{ item.label }}</p>
+              <icon
+                class="text-text-brand w-2xl"
+                name="download"></icon>
+            </div>
+          </ng-template>
+        </p-menu>
+      </div>
+    </div>
+
+    @if (isEmpty()) {
+      <div
+        data-testid="ACOUNT_DETAIL_RETURNED_EMPTY"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_ICON"
+          class="text-3xl" />
+        <h4
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('NoUpcomingFoundTitle') }}
+        </h4>
+        <p
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('NoUpcomingFoundDesc') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="upcomingDues().upcomingDuesList"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [totalRecords]="totalRecords()">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('table.referenceNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.IssueDate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.dueAmount') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.dueDate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.remainingAmount') }}</th>
+            <th
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="mf-sm !font-medium">
+              {{ t('table.action') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-item>
+          <tr>
+            <td>
+              @if (item.referenceNumber) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ item.referenceNumber }}
+                </p>
+              } @else {
+                –
+              }
+            </td>
+            <td>
+              <date-view
+                data-testid="DASH_LOANS_DETAIL_TITLE"
+                [value]="item.transactionDate"
+                variant="sm" />
+            </td>
+            <td>
+              @if (item.dueAmount !== 0) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ item.dueAmount | shortNumber: false }}
+                  <span class="text-text-secondary ltr-force font-normal">{{ item.currency }}</span>
+                </p>
+              }
+            </td>
+            <td>
+              <date-view
+                data-testid="DASH_LOANS_DETAIL_TITLE"
+                [value]="item.dueDate"
+                variant="sm" />
+            </td>
+            <td>
+              @if (item.remainingAmount) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ item.remainingAmount | shortNumber: false }}
+                  <span class="text-text-secondary ltr-force font-normal">{{ item.currency }}</span>
+                </p>
+              } @else {
+                –
+              }
+            </td>
+            <td *rolePermission="['SUPER_USER', 'MAKER']">
+              <button
+                size="xs"
+                class="!p-1"
+                variant="secondary"
+                scbButton>
+                {{ t('table.payNowAction') }}
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  @if (!isEmpty()) {
+    <div
+      *transloco="let t; prefix: 'overdraftDetailsPage.upcoming'"
+      class="table-footer pt-2xl flex flex-col items-center justify-between max-sm:justify-center sm:flex-row">
+      <div class="page-info-container">
+        <span class="mf-sm text-text-secondary hidden font-normal sm:block">
+          {{ t('page') }} {{ currentPage() }} {{ t('pageOf') }} {{ totalPages() }}</span
+        >
+      </div>
+      <div class="pagination-container">
+        <p-paginator
+          [first]="first()"
+          [rows]="rows()"
+          [totalRecords]="totalRecords()"
+          [showCurrentPageReport]="false"
+          [showFirstLastIcon]="!layoutFacade.mobileMode()"
+          (onPageChange)="onPageChange($event)">
+          <ng-template #firstpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-left-double" />
+          </ng-template>
+          <ng-template #previouspagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-left" />
+          </ng-template>
+          <ng-template #lastpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-right-double" />
+          </ng-template>
+          <ng-template #nextpagelinkicon>
+            <icon
+              class="h-3xl w-3xl"
+              name="arrow-right" />
+          </ng-template>
+        </p-paginator>
+      </div>
+
+      @if (!layoutFacade.mobileMode()) {
+        <div class="mf-md text-text-secondary hidden sm:block">
+          <p-select
+            [options]="paginationSizeOptions()"
+            (onChange)="onPageSizeChange($event)"
+            optionLabel="label"
+            optionValue="value"
+            (ngModelChange)="first.set(0)"
+            [(ngModel)]="rows">
+            <ng-template pTemplate="selectedItem">
+              <div class="align-items-center flex gap-2">
+                <div>{{ rows() }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template
+              let-country
+              pTemplate="item">
+              <div class="align-items-center flex gap-2">
+                <div>{{ country.label }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+        </div>
+      }
+    </div>
+  }
+}

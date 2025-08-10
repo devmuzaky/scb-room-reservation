@@ -1,0 +1,188 @@
+<p-drawer
+  [visible]="open()"
+  [blockScroll]="true"
+  [closable]="false"
+  [dismissible]="false"
+  [position]="lang() === 'ar' ? 'left' : 'right'"
+  styleClass="mobile-full"
+  [closeOnEscape]="false">
+  @if (step() === 'list') {
+    <ng-template
+      #header
+      styleClass="block"
+      class="block">
+      <div *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer'">
+        <div class="w-full">
+          <div class="flex items-center justify-between">
+            <h2 class="text-text-primary mf-xl flex items-center gap-6 font-semibold">
+              <icon
+                name="bank"
+                class="prefixy text-primary" />
+              {{ t('selectBeneficiary') }}
+            </h2>
+            <button
+              (click)="closeDrawer()"
+              color="primary"
+              class="!text-brand"
+              scbIconButton="close"></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    @if (isLoading()) {
+      <div
+        class="py-3xl sm:px-3xl col-span-12 px-4"
+        data-testid="beneficiary_div_loadingState">
+        <scb-skeleton
+          width="15%"
+          height="40px" />
+        <scb-skeleton width="50%" />
+        <scb-skeleton width="50%" />
+        <scb-skeleton width="80%" />
+        <scb-skeleton width="90%" />
+        <scb-skeleton width="100%" />
+      </div>
+    } @else if (hasError()) {
+      <div
+        *transloco="let t; prefix: 'dashboard'"
+        class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+        data-testid="beneficiary_div_errorState">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl"
+          data-testid="beneficiary_icon_apiFailure" />
+        <h4
+          class="head-2xs-s text-text-primary"
+          data-testid="beneficiary_h4_apiError">
+          {{ t('error.apiError') }}
+        </h4>
+        <p
+          class="body-sm text-text-primary"
+          data-testid="beneficiary_p_apiErrorDetail">
+          {{ t('error.apiErrorDetail') }}
+        </p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          icon="refresh"
+          (click)="reload()"
+          data-testid="beneficiary_button_reload">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <div
+        class="pt-1"
+        *transloco="let t; prefix: 'transfer'">
+        <!--        <scb-form-field mode="search">-->
+        <!--          <icon-->
+        <!--            name="search-normal"-->
+        <!--            class="prefix text-input-icon-enabled" />-->
+        <!--          <input-->
+        <!--            #searchInput-->
+        <!--            class="mf-sm text-text-tertiary font-normal"-->
+        <!--            type="text"-->
+        <!--            data-testid="beneficiary_input_search"-->
+        <!--            [placeholder]="t('insideScb.searchBeneficiary')"-->
+        <!--            scbInput-->
+        <!--            (input)="onSearch(searchInput.value)" />-->
+        <!--        </scb-form-field>-->
+        <div class="gap-2xl mt-3xl flex flex-col">
+          <div
+            class="flex flex-nowrap gap-2 overflow-auto pb-2"
+            *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer.transactionTypeOptions'">
+            <p-chip
+              class="cursor-pointer"
+              [ngClass]="{ active: selectedTransactionMethod() === '' }"
+              (click)="setTransactionMethod('')">
+              <div class="mf-sm text-text-primary all-btn flex items-center gap-2 px-4">{{ t('ALL') }}</div>
+            </p-chip>
+            @for (item of transactionFilterOptions(); track item.transactionMethod) {
+              <p-chip
+                (click)="setTransactionMethod(item.transactionMethod)"
+                class="cursor-pointer"
+                [ngClass]="{ active: selectedTransactionMethod() === item.transactionMethod }">
+                <div class="mf-sm text-text-primary flex items-center gap-2">
+                  <img
+                    [src]="'/icons/' + item.icon + '.svg'"
+                    alt="icon" />
+                  {{ t(item.transactionMethod) }}
+                </div>
+              </p-chip>
+            }
+          </div>
+          @if (!isLoading()) {
+            @for (beneficiary of filteredList(); track beneficiary.beneficiaryId) {
+              <app-beneficiary-selected-view
+                class="cursor-pointer"
+                [beneficiary]="beneficiary"
+                (click)="selectBeneficiary(beneficiary)" />
+            }
+          }
+        </div>
+      </div>
+
+      @if (isEmpty() && !isLoading()) {
+        <div
+          class="emptyState mt-4 flex w-full flex-col items-center justify-center text-center"
+          *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer'">
+          <icon
+            [name]="'empty-state'"
+            class="text-xl" />
+          <h4 class="mt-sm mb-sm mf-lg font-semibold">
+            {{ t('noBeneficiaries.title') }}
+          </h4>
+          <p class="text-text-tertiary text-sm-sm">
+            {{ t('noBeneficiaries.subTitle') }}
+          </p>
+        </div>
+      }
+    }
+
+    <ng-template #footer>
+      <!-- @if (!isEmpty()) { -->
+      <div
+        class="block"
+        *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer'">
+        <button
+          scbButton
+          size="lg"
+          type="button"
+          (click)="addNewBeneficiary()"
+          class="w-full">
+          <icon name="plus" />{{ t('transferNewBeneficiary') }}
+        </button>
+      </div>
+      <!-- } -->
+    </ng-template>
+  } @else {
+    <ng-template
+      #header
+      styleClass="block"
+      class="block">
+      <div *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer'">
+        <div class="w-full">
+          <div class="mb-2.5 flex items-center justify-between">
+            <h2 class="text-text-primary mf-xl flex items-center gap-6 font-semibold">
+              <icon
+                name="bank"
+                class="prefixy text-primary" />
+              {{ t('addBeneficiary') }}
+            </h2>
+            <button
+              (click)="closeBeneficiary()"
+              color="primary"
+              scbIconButton="close"></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <beneficiary-add-form
+      [type]="type()"
+      [quickMode]="true"
+      (closed)="addNewBeneficiaryOrClose($event)" />
+  }
+</p-drawer>

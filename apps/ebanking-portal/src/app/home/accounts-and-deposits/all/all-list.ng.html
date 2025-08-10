@@ -1,0 +1,199 @@
+<!-- Time Deposits Card -->
+<scb-card
+  *transloco="let t; prefix: 'accountsAndDeposits.allList'"
+  class="py-3xl sm:px-3xl px-4"
+  data-testid="ALL_CARD_ALLLIST">
+  <!-- Loading/Error States (Optional - Add similar to accounts list if needed) -->
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <!-- Error state - Copy structure from accounts-list.html if desired -->
+    <div
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="accounts_div_errorState">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="accounts_icon_apiFailure" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="accounts_h4_apiError">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="accounts_p_apiErrorDetail">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="refreshAll()"
+        data-testid="accounts_button_reload">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <!-- Time Deposits Table container (Similar structure) -->
+    <div
+      class="mb-4 rounded-4xl border-1 border-gray-200 dark:border-gray-700"
+      data-testid="ALL_DIV_ALLTABLECONTAINER">
+      <!-- Header: Title, Balance, Timestamp, Refresh, Export -->
+      <div
+        class="gap-sm mb-3 flex flex-col p-4 pb-0 sm:flex-row sm:justify-between"
+        data-testid="ALL_DIV_TABLEHEADER">
+        <div class="sm:self-center">
+          <p
+            class="mf-lg font-semibold"
+            data-testid="ALL_P_TABLETITLE">
+            {{ t('title') }}
+          </p>
+        </div>
+
+        <div
+          class="gap-sm flex flex-col justify-between sm:items-end"
+          data-testid="ALL_DIV_TABLEACTIONS">
+          <!-- Timestamp and Refresh -->
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="allListResource.reload()" />
+          <!-- Total Balance and Export -->
+          <div
+            class="gap-sm flex items-center"
+            data-testid="ALL_DIV_TOTALBALANCE">
+            <p
+              class="text-text-tertiary mf-md"
+              data-testid="ALL_P_EQUIVALENTLABEL">
+              {{ t('equivalent') }}:
+            </p>
+
+            <currency-view
+              [pTooltip]="amountTooltip"
+              tooltipPosition="top"
+              [amount]="totalAmount()"
+              [show]="layoutFacade.showBalances()"
+              [short]="true" />
+
+            <ng-template #amountTooltip>
+              <p class="mf-sm whitespace-nowrap">
+                {{ totalAmount() | numberCommaFormat }}
+                <span
+                  class="text-text-white font-normal"
+                  data-testid="ALL_TOTAL_BALANCE_CURRENCY_TOOLTIP"
+                  >EGP</span
+                >
+              </p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Deposits Table -->
+      <p-table
+        [value]="timeDepositsList()"
+        [paginator]="false"
+        [rows]="page.rows()"
+        [first]="page.first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalSize()"
+        lazy="true"
+        data-testid="ALL_TABLE_MAIN">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="ALL_TH_ACCOUNTNUMBER">
+              {{ t('table.accountNumber') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="ALL_TH_PRODUCT_TYPE">
+              {{ t('table.productType') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="ALL_TH_AVAILABLE_BALANCE">
+              {{ t('table.availableBalance') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="ALL_TH_TENOR">
+              {{ t('table.action') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account
+          let-i="rowIndex">
+          <tr
+            class="!bg-transparent"
+            [attr.data-testid]="'ALL_TR_ROW_' + i">
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACCOUNT_NUMBER_' + i">
+              <a
+                class="text-primary dark:text-brand-300 mf-sm underline"
+                [routerLink]="
+                  `../${
+                    account.accountType === 'CD'
+                      ? 'certificates'
+                      : account.accountType === 'TD'
+                        ? 'deposits'
+                        : 'accounts'
+                  }/${account.accountNumber}`
+                ">
+                {{ account.accountNumber }}
+              </a>
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACCOUNT_TYPE_' + i">
+              <p class="mf-sm text-text-secondary font-semibold">{{ account.accountType }}</p>
+              <p class="mf-sm text-text-primary">{{ account.productName }}</p>
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_AVAILABLE_BALANCE_' + i">
+              @if (account.availableBalance !== 0) {
+                <currency-view
+                  [amount]="account.availableBalance"
+                  [currency]="account.currency"
+                  [show]="layoutFacade.showBalances()"
+                  size="sm" />
+              }
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACTIONS_' + i">
+              @if (account.accountType !== 'CD' && account.accountType !== 'TD') {
+                <div class="ltr-force flex gap-1 rtl:justify-end">
+                  <button
+                    scbButton
+                    variant="ghost"
+                    size="md"
+                    icon="export"
+                    (click)="showAccountDetailPDF(account)"></button>
+                  <button
+                    scbButton
+                    variant="ghost"
+                    size="md"
+                    icon="download"></button>
+                </div>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <!-- End Table Container -->
+
+    <!-- Paginator outside the bordered container -->
+
+    <div class="flex justify-end">
+      <app-pagination
+        [totalPages]="totalPages()"
+        [totalRecords]="totalSize()"
+        [page]="page"
+        onlyPagination />
+    </div>
+  }
+
+  <!-- End else block for loaded/error state -->
+</scb-card>

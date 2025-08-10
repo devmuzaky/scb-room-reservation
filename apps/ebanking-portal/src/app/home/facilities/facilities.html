@@ -1,0 +1,66 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[{ label: t('home'), path: '/dashboard' }, { label: t('facilities') }]"></app-breadcrumbs>
+</section>
+
+<!--            Todo: temp hidden-->
+<!-- Basic Details -->
+<section class="col-span-12">
+  <scb-card class="p-xl col-span-12 flex flex-col 2xl:row-span-2">
+    @if (status() === 'loading') {
+      <scb-card-skeleton />
+    } @else if (status() === 'error') {
+      <div
+        *transloco="let t; prefix: 'dashboard'"
+        class="flex w-full flex-col items-center justify-center gap-3 text-center">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl" />
+        <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+        <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          (click)="FAresource.reload()"
+          icon="refresh">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <facilities-basic-details
+        [details]="FAresource.value()"
+        (reload)="FAresource.reload()" />
+    }
+  </scb-card>
+</section>
+
+<section
+  class="col-span-12 2xl:row-span-2 2xl:row-start-3"
+  *transloco="let t; prefix: 'facilities'">
+  <div class="col-span-12 row-span-8">
+    <scb-tabs
+      [(selectedIndex)]="selectedTab"
+      class="bg-transparent">
+      <scb-tab [label]="t('tabs.overdraft')">
+        <overdraft-tab *scbTabLazy />
+      </scb-tab>
+      <scb-tab label="{{ t('tabs.loans') }}">
+        <loans-tab *scbTabLazy />
+      </scb-tab>
+      <scb-tab [label]="t('tabs.cards')">
+        <app-credit-card *scbTabLazy />
+      </scb-tab>
+      <scb-tab [label]="t('tabs.lgs')">
+        <lgs-table *scbTabLazy />
+      </scb-tab>
+      <scb-tab [label]="t('tabs.lcs')">
+        <app-lcs *scbTabLazy />
+      </scb-tab>
+      <scb-tab [label]="t('tabs.idcs')">
+        <idc-table *scbTabLazy />
+      </scb-tab>
+    </scb-tabs>
+  </div>
+</section>

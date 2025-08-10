@@ -1,0 +1,115 @@
+<section class="px-3xl pt-3xl col-span-12 max-sm:hidden">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('transfer'), path: '/transfer' },
+      { label: t('transferHistory'), path: '/transfer/transfer-history' },
+      { label: t('transferDetails') },
+    ]"></app-breadcrumbs>
+</section>
+
+<div class="px-3xl pt-3xl">
+  <div class="gap-2xl mb-8xl col-span-12 flex flex-col sm:mb-0 2xl:col-span-10 2xl:col-start-2">
+    <scb-card
+      *transloco="let t; prefix: 'transferDetails'"
+      class="p-xl gap-xl col-span-12 flex flex-col 2xl:col-span-10 2xl:col-start-2">
+      @if (status() === 'loading') {
+        <div
+          class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center px-4"
+          data-testid="transferDetails_loadingState">
+          <scb-skeleton
+            width="40px"
+            height="36px"
+            class="rounded-full" />
+          <scb-skeleton width="30%" />
+          <scb-skeleton width="40%" />
+          <scb-skeleton width="50%" />
+        </div>
+      } @else if (status() === 'error') {
+        <div
+          class="flex w-full flex-col items-center justify-center gap-3 px-4 py-6 text-center sm:px-6 sm:py-8"
+          data-testid="transferDetails_errorState">
+          <icon
+            [name]="'api-failure'"
+            class="text-3xl" />
+          <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+          <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+          <button
+            scbButton
+            variant="ghost"
+            size="sm"
+            icon="refresh"
+            (click)="refreshAll()"
+            data-testid="transferDetails_reloadButton">
+            {{ t('error.reload') }}
+          </button>
+        </div>
+      } @else {
+        <div
+          class="flex flex-wrap items-center justify-between gap-4 pb-1"
+          data-testid="transferDetails_header">
+          <div
+            *transloco="let t; prefix: 'titles'"
+            class="text-color-text-primary text-lg font-semibold"
+            data-testid="transferDetails_title">
+            {{ t('transferDetails') }}
+          </div>
+
+          @if (transferDetails()?.transferStatus !== 'PENDING') {
+            <div
+              class="flex w-full flex-row-reverse flex-wrap justify-between gap-4 sm:w-auto sm:flex-row sm:justify-end">
+              @if (!transferDetails()?.scheduleId || !transferDetails()?.scheduleStats) {
+                <button
+                  *rolePermission="['SUPER_USER', 'MAKER']"
+                  scbButton
+                  size="lg"
+                  variant="secondary"
+                  icon="repeat"
+                  type="button"
+                  class="mf-md min-w-[140px]"
+                  (click)="repeatTransfer()"
+                  data-testid="transferDetails_repeatButton">
+                  {{ t('repeat') }}
+                </button>
+              }
+              <!--              <button-->
+              <!--                scbButton-->
+              <!--                size="lg"-->
+              <!--                icon="statement-download"-->
+              <!--                type="button"-->
+              <!--                class="mf-md text-color-text-primary min-w-[140px]"-->
+              <!--                data-testid="transferDetails_downloadButton">-->
+              <!--                {{ t('download') }}-->
+              <!--              </button>-->
+            </div>
+          }
+        </div>
+
+        <transfer-summary-widget
+          [dataInput]="transferDetails()"
+          data-testid="transferSummaryWidget"></transfer-summary-widget>
+
+        <div class="grid grid-cols-1 items-start gap-4 sm:gap-6 md:grid-cols-3">
+          <!-- Left Side Section -->
+          <transfer-additional-detail-widget
+            [dataInput]="transferDetails()"
+            class="flex flex-col gap-4 rounded-2xl border border-gray-200 sm:gap-6 md:col-span-2 dark:border-gray-700"
+            data-testid="transferAdditionalDetailWidget"></transfer-additional-detail-widget>
+
+          <!-- Right Side Section -->
+          <div class="flex flex-col gap-4 sm:gap-6">
+            @if (transferDetails()?.scheduleId && transferDetails()?.scheduleStats) {
+              <recurring-details-widget
+                [dataInput]="transferDetails()"
+                data-testid="recurringDetailsWidget"></recurring-details-widget>
+            }
+
+            <approval-timeline-widget
+              [dataInput]="transferDetails()"
+              data-testid="approvalTimelineWidget"></approval-timeline-widget>
+          </div>
+        </div>
+      }
+    </scb-card>
+  </div>
+</div>

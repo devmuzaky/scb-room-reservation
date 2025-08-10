@@ -1,0 +1,151 @@
+<app-certificate-details-widget
+  [status]="status()"
+  (reload)="certificateDetailsData()?.reload()"
+  data-testid="ACCOUNT_DETAIL_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'certificatesDetail'">
+  <div class="loading">
+    <scb-card-skeleton />
+  </div>
+
+  @if (certificateDetailsData()) {
+    <div
+      class="gap-sm mb-3 flex flex-col sm:flex-row sm:justify-between"
+      data-testid="accounts_div_tableHeader">
+      <div class="sm:self-center">
+        <p
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_TITLE">
+          {{ certificateDetails()?.cdName }}
+        </p>
+      </div>
+
+      <div
+        class="gap-sm flex flex-col justify-between sm:items-end"
+        data-testid="accounts_div_tableActions">
+        <div class="gap-sm flex items-center">
+          <p
+            class="text-text-tertiary mf-md"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_EQUIVALENT">
+            {{ t('equivalent') }}
+          </p>
+
+          <p
+            [pTooltip]="totalEquivalentBalance"
+            tooltipPosition="top"
+            class="mf-md ltr-force font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_AVAILABLE_BALANCE">
+            {{ certificateDetails()?.equivalentBalanceInEGP | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            <span
+              class="text-text-secondary font-normal"
+              data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY"
+              >EGP</span
+            >
+          </p>
+        </div>
+
+        <ng-template #totalEquivalentBalance>
+          <p class="mf-sm whitespace-nowrap">
+            {{ certificateDetails()?.equivalentBalanceInEGP | numberCommaFormat }}
+            <span
+              class="text-text-white font-normal"
+              data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY_TOOLTIP"
+              >EGP</span
+            >
+          </p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="progress-container flex flex-col gap-1">
+      <div class="mf-md text-text-primary flex justify-between">
+        <span>{{ t('totalTenor') }}</span>
+        <span>{{ certificateDetails()?.tenorInMonths }} {{ t('months') }} </span>
+      </div>
+      <p-progressbar
+        [value]="progressValue()"
+        [color]="darkMode() ? '#4ADE80' : '#16A34A'"
+        [showValue]="false"
+        valueStyleClass="rounded-full"
+        styleClass="!h-2 rounded-full" />
+      <div class="mf-sm text-text-secondary flex justify-between">
+        <span>{{ t('interestFrequency') }}</span>
+        <span>{{ t('maturityLeft') }}</span>
+      </div>
+      <div class="mf-sm text-text-primary ltr-force flex justify-between font-semibold rtl:text-right">
+        <span>{{ certificateDetails()?.interestFrequency }}</span>
+        @if (certificateDetails()?.matured) {
+          <span>{{ t('matured') }} </span>
+        } @else {
+          @if (lang() === 'ar') {
+            <span>
+              {{ t('months') }} <span class="ltr-force">{{ certificateDetails()?.maturityRemaining }}</span>
+            </span>
+          } @else {
+            <span>{{ certificateDetails()?.maturityRemaining }} {{ t('months') }} </span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="rounded-5xl border-border-secondary bg-container mt-5 border-[1px] p-4">
+      <div class="flex justify-between max-sm:flex-col max-sm:gap-2">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('cdBalance') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_NUMBER">
+            {{ certificateDetails()?.balance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            {{ certificateDetails()?.currency }}
+          </p>
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('interestRate') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ certificateDetails()?.interestRate }}%
+          </p>
+        </div>
+      </div>
+      <div class="flex justify-between pt-3.5 max-sm:flex-col max-sm:gap-2">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('interestCreditDate') }}
+          </h2>
+
+          @if (certificateDetails()?.interestCreditDate) {
+            <date-view
+              data-testid="DASH_LGS_BASIC_DETAIL_ISSUED_DATE"
+              [value]="certificateDetails()?.interestCreditDate"
+              variant="md" />
+          } @else {
+            <p class="mf-md text-text-primary font-semibold">N/A</p>
+          }
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('interestAmount') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ certificateDetails()?.interestAmount | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            {{ certificateDetails()?.currency }}
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</app-certificate-details-widget>

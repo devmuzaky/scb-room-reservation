@@ -1,0 +1,194 @@
+<main class="bg-login-page flex min-h-screen">
+  <section
+    class="flex flex-1 flex-col justify-center"
+    *transloco="let t; prefix: 'login'"
+    data-testid="LOGIN_SECTION_FORM">
+    <div
+      class="2xl:py-6xl w-full"
+      data-testid="LOGIN_DIV_HEADER">
+      <header-auth
+        hideLogin
+        class="bg-login-page" />
+    </div>
+
+    <div class="page-grid 2xl:flex 2xl:justify-center">
+      <div
+        class="col-span-4 flex flex-1 flex-col justify-center sm:col-span-4 sm:col-start-2 2xl:col-span-8 2xl:col-start-2 2xl:max-w-[392px]">
+        <h4
+          class="body-lg mb-sm"
+          data-testid="LOGIN_H4_WELCOME_TEXT">
+          {{ t('welcomeText') }}
+        </h4>
+        <h4
+          class="head-xl-s"
+          data-testid="LOGIN_H4_PORTAL_TEXT">
+          {{ t('welcomePortalText') }}
+        </h4>
+        <form
+          [formGroup]="form"
+          (ngSubmit)="submit()"
+          class="gap-2xl mt-4xl flex flex-col"
+          data-testid="LOGIN_FORM">
+          <!-- EMAIL Inout field -->
+          <scb-form-field data-testid="LOGIN_FIELD_USERNAME">
+            <label
+              scbLabel
+              data-testid="LOGIN_LABEL_USERNAME">
+              {{ t('userNameFieldText') }}
+            </label>
+            <input
+              scbInput
+              autocomplete="off"
+              class="test-username-input"
+              formControlName="username"
+              data-testid="LOGIN_INPUT_USERNAME" />
+            <p
+              scbError="required"
+              class="test-error-message"
+              data-testid="LOGIN_ERROR_USERNAME">
+              {{ t('userNameRequired') }}
+            </p>
+          </scb-form-field>
+
+          <!-- PASSWORD Inout field -->
+          <div class="gap-sm flex flex-col">
+            <scb-form-field data-testid="LOGIN_FIELD_PASSWORD">
+              <label
+                scbLabel
+                data-testid="LOGIN_LABEL_PASSWORD">
+                {{ t('passwordFieldText') }}
+              </label>
+              <input
+                scbPasswordInput
+                formControlName="password"
+                data-testid="LOGIN_INPUT_PASSWORD" />
+              <p
+                scbError="required"
+                data-testid="LOGIN_ERROR_PASSWORD">
+                {{ t('passwordRequired') }}
+              </p>
+            </scb-form-field>
+            <div class="flex justify-end">
+              <a
+                scbButton
+                variant="ghost"
+                size="sm"
+                routerLink="/forget-password"
+                data-testid="LOGIN_LINK_FORGOT_PASSWORD">
+                {{ t('forgotPasswordText') }}
+              </a>
+            </div>
+            @if (alertErrorDetail().title) {
+              <scb-alert
+                hideClose="true"
+                class="mt-4xl"
+                title="{{ t(alertErrorDetail().title) }}"
+                desc="{{ t(alertErrorDetail().message) }}"
+                data-testid="LOGIN_ALERT_ERROR" />
+            }
+          </div>
+
+          <scb-captcha
+            #captcha
+            data-testid="LOGIN_CAPTCHA" />
+
+          <button
+            scbButton
+            type="submit"
+            [loading]="loading()"
+            class="test-login-submit"
+            data-testid="LOGIN_BTN_SUBMIT">
+            {{ t('logInButtonText') }}
+          </button>
+
+          <div
+            class="text-md flex items-center justify-center gap-1"
+            *transloco="let t; prefix: 'registration'">
+            <p>{{ t('newToCorporate') }}</p>
+            <a
+              scbButton
+              variant="link"
+              size="lg"
+              class="test-registration"
+              routerLink="/registration"
+              data-testid="LOGIN_LINK_REGISTRATION">
+              {{ t('register') }}
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="p-xl 2xl:p-6xl text-primary w-full text-xs">
+      <div class="gap-2xl flex items-center justify-center font-semibold">
+        <a
+          scbButton
+          variant="ghost"
+          size="xs sm:sm"
+          icon="call-calling"
+          class="test-call-us"
+          [href]="callUsUrl()"
+          target="_blank"
+          data-testid="LOGIN_LINK_CALL_US">
+          19093
+        </a>
+        <a
+          scbButton
+          variant="ghost"
+          size="xs sm:sm"
+          icon="sms"
+          class="test-suggestion-and-complaints"
+          [href]="sncUrl()"
+          target="_blank"
+          data-testid="LOGIN_LINK_SNC">
+          {{ t('sncText') }}
+        </a>
+        <a
+          scbButton
+          variant="ghost"
+          size="xs sm:sm"
+          icon="location"
+          routerLink="/locate-us"
+          data-testid="LOGIN_LINK_LOCATE_US">
+          {{ t('locateUs') }}
+        </a>
+      </div>
+      <scb-separator />
+      <div
+        class="gap-2xl flex items-center justify-center"
+        data-testid="LOGIN_DIV_TERMS_POLICY">
+        <button
+          scbButton
+          variant="link"
+          size="sm sm:md"
+          data-testid="LOGIN_BTN_FAQS">
+          {{ t('faqsText') }}
+        </button>
+        <a
+          scbButton
+          variant="link"
+          size="sm sm:md"
+          class="test-terms-and-conditions"
+          [href]="termsAndConditionsURL()"
+          target="_blank"
+          data-testid="LOGIN_LINK_TNC">
+          {{ t('tncText') }}
+        </a>
+        <a
+          scbButton
+          variant="link"
+          size="sm sm:md"
+          class="test-privacy-policy"
+          [href]="privacyPolicyURL()"
+          target="_blank"
+          data-testid="LOGIN_LINK_PRIVACY_POLICY">
+          {{ t('privacyPolicyText') }}
+        </a>
+      </div>
+    </div>
+  </section>
+  <section
+    class="hidden flex-1 bg-[url('/login_bg.jpg')] bg-cover 2xl:block"
+    data-testid="LOGIN_SECTION_BACKGROUND"></section>
+</main>

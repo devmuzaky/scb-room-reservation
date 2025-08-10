@@ -1,0 +1,163 @@
+<div
+  class="page-grid p-0"
+  *transloco="let t; prefix: 'transfer.summary'">
+  <div class="gap-2xl col-span-12 flex flex-col sm:mb-0 2xl:col-span-10 2xl:col-start-2">
+    <!-- ACH information -->
+    @if (value().transferNetwork === 'ACH' || value().transferNetwork === 'IPN') {
+      <scb-alert
+        size="sm"
+        type="info"
+        [desc]="t('achInfo')"
+        hideClose />
+    }
+    <!-- Main section -->
+    <scb-card class="p-xl gap-xl col-span-12 flex flex-col 2xl:col-span-10 2xl:col-start-2">
+      <p class="mf-lg font-semibold">{{ t('title') }}</p>
+      <div class="bg-border-primary h-[1px]"></div>
+
+      <!-- Amount Section -->
+      <div class="gap-xs flex flex-col items-center justify-center">
+        <p class="text-text-tertiary mf-md font-semibold">{{ t('amount') }}</p>
+        <div class="gap-sm ltr-force flex items-center justify-center">
+          <p class="text-text-brand mf-4xl font-semibold">
+            {{ transfer.totalAmount() | numberCommaFormat }}
+          </p>
+          <p class="text-text-secondary mf-md">{{ value().transferCurrency }}</p>
+        </div>
+      </div>
+
+      <!-- Account Section -->
+      <div class="gap-2xl flex flex-col 2xl:flex-row">
+        <div class="gap-sm flex flex-1 flex-col">
+          <p class="text-text-secondary mf-md font-medium">{{ t('from') }}</p>
+          <app-account-selected-view
+            [nickname]="value().fromAccount.accountNickname"
+            [accountNumber]="value().fromAccount.accountNumber" />
+        </div>
+
+        @if (value().transferType === 'OWN') {
+          <div class="gap-sm flex flex-1 flex-col">
+            <p class="text-text-secondary mf-md font-medium">{{ t('to') }}</p>
+            <app-account-selected-view
+              [nickname]="value().toAccount!.accountNickname"
+              [accountNumber]="value().toAccount!.accountNumber" />
+          </div>
+        } @else if (value().transferType === 'CHARITY') {
+          <!-- Charity -->
+          <div class="gap-sm flex flex-1 flex-col">
+            <p class="text-text-secondary mf-md font-medium">{{ t('to') }}</p>
+            @if (value().charityTransferDto; as charity) {
+              <app-charity-selected-view
+                [charity]="charity"
+                [customerId]="charity.customerId" />
+            }
+          </div>
+        } @else {
+          <!-- Beneficiary -->
+          <div class="gap-sm flex flex-1 flex-col">
+            <p class="text-text-secondary mf-md font-medium">{{ t('to') }}</p>
+            <app-beneficiary-selected-view [beneficiary]="beneficiary()!" />
+          </div>
+        }
+      </div>
+
+      <!-- Charges Section -->
+      @let isOutside = value().transferType === 'OUTSIDE';
+      @if (isOutside) {
+        <app-transaction-summary-outside [value]="value()" />
+      }
+
+      <!-- Transfer information -->
+      <div class="p-xl gap-2xl border-border-secondary grid grid-cols-1 rounded-2xl border md:grid-cols-2">
+        <div class="gap-xs flex flex-1 flex-col">
+          <p class="mf-sm text-text-tertiary font-medium">{{ t('transferType') }}</p>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            *transloco="let t; prefix: 'transfer'">
+            {{ t(value().transferType) }}
+            @if (isOutside) {
+              - {{ value().transferNetwork }}
+            }
+          </p>
+        </div>
+
+        @if (value().transferType === 'OWN' && isFc()) {
+          <div class="gap-xs flex flex-col">
+            <p class="mf-sm text-text-tertiary font-medium">{{ t('convertedAmount') }}</p>
+            <currency-view
+              data-testid="FACILITIES_BASIC_UTILIZED_VALUE_MOBILE"
+              [amount]="convertedAmount()"
+              [short]="false"
+              [decimalPlaces]="2" />
+          </div>
+
+          <div class="gap-xs flex flex-col">
+            <p class="mf-sm text-text-tertiary font-medium">{{ t('exchangeRate') }}</p>
+            <p class="mf-md text-text-primary ltr-force font-semibold rtl:text-right">{{ exchangeRate() }}</p>
+          </div>
+        }
+
+        @if (value().transferReason && (value().transferType === 'OUTSIDE' || 'INSIDE')) {
+          <div class="gap-xs flex flex-1 flex-col">
+            <p class="mf-sm text-text-tertiary font-medium">{{ t('reasonOfTransfer') }}</p>
+            <p class="mf-md text-text-primary font-semibold">{{ value().transferReason }}</p>
+          </div>
+        }
+
+        @if (value().description) {
+          <div class="gap-xs flex flex-1 flex-col flex-wrap">
+            <p class="mf-sm text-text-tertiary font-medium">{{ t('description') }}</p>
+            <p class="mf-md text-text-primary break-words-force font-semibold break-all whitespace-pre-wrap">
+              {{ value().description }}
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- Schedule information -->
+      @if (value().isSchedule) {
+        @let isOnce = value().scheduleDto?.frequencyType === 'ONCE';
+        <div class="p-xl gap-2xl border-border-secondary flex flex-col rounded-2xl border">
+          <div class="gap-xs flex flex-1 flex-col">
+            <p class="mf-md text-text-primary font-semibold">{{ t('scheduledDetails') }}</p>
+          </div>
+
+          <div class="{{ `gap-2xl grid grid-cols-1 rounded-2xl md:grid-cols-2 ${isOnce ? '' : '2xl:grid-cols-4'}` }}">
+            <div class="gap-xs flex flex-1 flex-col">
+              <p class="mf-sm text-text-tertiary font-medium">{{ t('scheduleDate') }}</p>
+
+              <date-view
+                variant="md"
+                [value]="value().scheduleDto?.submitDate"
+                istFormat
+                format="d MMM yyyy" />
+            </div>
+            @if (!isOnce) {
+              <div class="gap-xs flex flex-1 flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('endDate') }}</p>
+                <date-view
+                  variant="md"
+                  [value]="value().scheduleDto?.endDate"
+                  istFormat
+                  format="d MMM yyyy" />
+              </div>
+            }
+
+            <div class="gap-xs flex flex-1 flex-col">
+              <p class="mf-sm text-text-tertiary font-medium">{{ t('frequencyType') }}</p>
+              <p class="mf-md text-text-primary font-semibold">
+                {{ t('frequencyTypeOptions.' + value().scheduleDto?.frequencyType) }}
+              </p>
+            </div>
+            @if (!isOnce) {
+              <div class="gap-xs flex flex-1 flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('numberOfTransfers') }}</p>
+                <p class="mf-md text-text-primary font-semibold">{{ value().scheduleDto?.numberOfTransfers }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </scb-card>
+  </div>
+</div>

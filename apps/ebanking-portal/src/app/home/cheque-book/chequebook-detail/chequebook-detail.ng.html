@@ -1,0 +1,242 @@
+@if (!isRequestSubmitted()) {
+  <section class="px-3xl pt-3xl col-span-12 max-sm:hidden">
+    <app-breadcrumbs
+      *transloco="let t; prefix: 'breadcrumbs'"
+      [routes]="[{ label: t('chequeBook'), path: '/chequebook' }, { label: t('chequeBookDetails') }]"></app-breadcrumbs>
+  </section>
+}
+@if (status() === 'loading') {
+  <div class="py-3xl sm:px-3xl col-span-12 px-4">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'accounts'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="CHEQUEBOOK_LIST_ERROR_STATE">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="CHEQUEBOOK_LIST_API_FAILURE_ICON" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="CHEQUEBOOK_LIST_API_ERROR_TITLE">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="CHEQUEBOOK_LIST_API_ERROR_DETAIL">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="chequebookDetailResource.reload()"
+      data-testid="CHEQUEBOOK_LIST_RELOAD_BUTTON">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    class="px-3xl pt-3xl max-sm:px-4"
+    *transloco="let t; prefix: 'chequeBook'">
+    <div class="mb-3 grid grid-cols-12 gap-6 max-sm:gap-2">
+      <!-- Left: Full-width Card (2/3 on 2xl screens) -->
+      <div class="col-span-12 2xl:col-span-8">
+        <scb-card>
+          <div class="flex w-full flex-col items-center gap-6 overflow-hidden">
+            @if (isRequestSubmitted()) {
+              <div class="flex flex-col items-center gap-4 text-center">
+                <!-- Icon -->
+                <icon
+                  [name]="chequeBookService.isError() ? 'web-error' : 'web-success'"
+                  class="text-3xl" />
+
+                <p class="text-text-primary head-lg-s text-center">
+                  @switch (chequeBookService.isError()) {
+                    @case ('API') {
+                      {{ t('form.apiFails') }}
+                    }
+                    @case ('TOKEN') {
+                      {{ t('form.invalidToken') }}
+                    }
+                    @case ('NOTELIGIBLE') {
+                      {{ t('form.notEligible') }}
+                    }
+                  }
+                  @if (!chequeBookService.isError()) {
+                    <ng-container *rolePermission="['SUPER_USER']">{{ t('successMessage') }}</ng-container>
+                    <ng-container *rolePermission="['MAKER']">{{ t('makerSuccess') }}</ng-container>
+                  }
+                </p>
+              </div>
+            }
+
+            <div class="rounded-5xl border-border-secondary flex w-full flex-col gap-4 border p-4">
+              <div class="flex w-full flex-wrap gap-5 md:flex-nowrap">
+                <div class="flex flex-1 flex-col gap-1 max-sm:w-1/5">
+                  <span class="mf-sm text-text-tertiary font-medium">{{ t('chequeBookDetail.requestDate') }}</span>
+                  @if (detail()?.requestDate) {
+                    <date-view
+                      [value]="detail()?.requestDate"
+                      variant="md" />
+                  } @else {
+                    <p class="mf-md text-text-primary font-semibold">N/A</p>
+                  }
+                </div>
+                <div class="flex flex-1 flex-col gap-1 max-sm:w-1/5">
+                  <span class="mf-sm text-text-tertiary font-medium">{{ t('chequeBookDetail.chequesBooks') }}</span>
+                  <span class="text-md font-semibold">{{ detail()?.chequebooksIssued }}</span>
+                </div>
+                <div class="flex flex-1 flex-col gap-1">
+                  <span class="mf-sm text-text-tertiary font-medium">{{ t('chequeBookDetail.leaves') }}</span>
+                  <span class="text-md font-semibold">{{ detail()?.leavesCount }}</span>
+                </div>
+              </div>
+
+              <div class="flex w-full flex-wrap gap-5 md:flex-nowrap">
+                <div class="flex flex-1 flex-col gap-1">
+                  <span class="mf-sm text-text-tertiary font-medium">{{ t('chequeBookDetail.fees') }}</span>
+                  <currency-view
+                    data-testid="FACILITY_TYPE_UTILIZED"
+                    [amount]="detail()?.issueFee"
+                    [currency]="'EGP'"
+                    short />
+                </div>
+                <div class="flex flex-1 flex-col gap-1">
+                  <span class="mf-sm text-text-tertiary font-medium">{{ t('chequeBookDetail.branch') }}</span>
+                  <span class="text-md font-semibold">{{ detail()?.cifBranch }}</span>
+                </div>
+                <div class="hidden flex-1 flex-col gap-1 opacity-0 md:flex">
+                  <span class="text-xs">Hidden</span>
+                  <span class="text-sm">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second Section -->
+            <div class="flex w-full flex-col gap-4">
+              <div class="rounded-5xl border-border-secondary flex w-full flex-col gap-4 border p-4">
+                <div class="flex flex-wrap gap-5 md:flex-nowrap">
+                  <div class="flex flex-1 flex-col gap-1">
+                    <span class="body-md text-text-secondary">{{ t('chequeBookDetail.linkedAccount') }}</span>
+                    <span class="body-md-s text-text-primary">{{ detail()?.accountNumber }}</span>
+                  </div>
+                  <div class="flex flex-1 flex-col gap-1">
+                    <span class="body-md text-text-secondary">{{ t('chequeBookDetail.accountNickname') }}</span>
+                    <span class="body-md-s text-text-primary">{{ detail()?.accountNickname }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-5 md:flex-nowrap">
+                  <div class="flex flex-1 flex-col gap-1">
+                    <span class="body-md text-text-secondary">{{ t('chequeBookDetail.accountType') }}</span>
+                    <span class="body-md-s text-text-primary">{{ detail()?.accountType }}</span>
+                  </div>
+                  <div class="flex flex-1 flex-col gap-1">
+                    <span class="body-md text-text-secondary">{{ t('chequeBookDetail.currency') }}</span>
+                    <span class="body-md-s text-text-primary">{{ detail()?.accountType }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Second Section -->
+            @if (chequeBookService.isOVDAccount()) {
+              <div class="flex w-full flex-col gap-4">
+                <div class="rounded-5xl border-border-secondary flex w-full flex-col gap-4 border p-4">
+                  <div class="flex flex-wrap gap-5 md:flex-nowrap">
+                    <div class="flex flex-1 flex-col gap-1">
+                      <span class="body-md text-text-secondary">{{ t('chequeBookDetail.feesDebitAccount') }}</span>
+                      <span class="body-md-s text-text-primary">{{ detail()?.accountNumber }}</span>
+                    </div>
+                    <div class="flex flex-1 flex-col gap-1">
+                      <span class="body-md text-text-secondary">{{ t('chequeBookDetail.accountNickname') }}</span>
+                      <span class="body-md-s text-text-primary">{{ detail()?.accountNickname }}</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap gap-5 md:flex-nowrap">
+                    <div class="flex flex-1 flex-col gap-1">
+                      <span class="body-md text-text-secondary">{{ t('chequeBookDetail.accountType') }}</span>
+                      <span class="body-md-s text-text-primary">{{ detail()?.accountType }}</span>
+                    </div>
+                    <div class="flex flex-1 flex-col gap-1">
+                      <span class="body-md text-text-secondary">{{ t('chequeBookDetail.currency') }}</span>
+                      <span class="body-md-s text-text-primary">{{ detail()?.accountType }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </scb-card>
+        @if (!isRequestSubmitted()) {
+          <cheque-collection-instruction />
+        }
+      </div>
+
+      <!-- Right: Smaller Card (1/3 width) -->
+      <div class="col-span-12 mt-4 2xl:col-span-4 2xl:mt-0">
+        <scb-card class="h-full">
+          <div class="gap-sm flex flex-col">
+            <div class="head-xs-s">{{ t('requestStatus.title') }}</div>
+            <div class="body-sm text-text-secondary">{{ t('requestStatus.subTitle') }}</div>
+          </div>
+          <scb-separator />
+          <div>
+            @for (statusKey of statusKeys; track $index) {
+              <div class="gap-xl flex">
+                <div class="flex w-3xl flex-col items-center">
+                  @if ($last) {
+                    <div
+                      class="h-lg my-md w-lg rounded-full"
+                      [ngClass]="getStatusDate(statusKey) ? 'bg-brand' : 'bg-strong'"></div>
+                  } @else {
+                    <div
+                      class="h-lg my-md w-lg rounded-full"
+                      [ngClass]="getStatusDate(statusKey) ? 'bg-brand' : 'bg-strong'"></div>
+                    <div
+                      class="w-[1px] flex-1 border border-dashed"
+                      [ngClass]="getStatusDate(statusKey) ? 'border-brand' : 'border-border-hard'"></div>
+                  }
+                </div>
+
+                <div class="gap-md flex flex-col pt-1">
+                  <div class="gap-md flex">
+                    <span
+                      class="body-md"
+                      [ngClass]="getStatusDate(statusKey) ? 'text-text-brand' : 'text-disabled'">
+                      {{ statusMap[lang][statusKey] }}
+                    </span>
+                  </div>
+
+                  <div class="gap-sm pb-2xl flex">
+                    @if (getStatusDate(statusKey)) {
+                      <span class="body-md text-text-secondary">
+                        @if (statusKey === 'UNDER_REVIEW') {
+                          <span class="text-text-primary ml-1">{{ t('chequeBookDetail.requested') }}</span>
+                        }
+                        <date-view
+                          [value]="getStatusDate(statusKey) ?? ''"
+                          format="d MMM yyyy, h:mm a">
+                        </date-view>
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </scb-card>
+      </div>
+    </div>
+  </div>
+}

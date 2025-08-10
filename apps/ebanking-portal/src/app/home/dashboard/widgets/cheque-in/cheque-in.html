@@ -1,0 +1,134 @@
+<dashboard-widget
+  *transloco="let t; prefix: 'dashboard'"
+  [status]="status()"
+  class="h-full"
+  (reload)="list.reload()">
+  <span
+    data-testid="DASH_CHEQUE_IN_TITLE"
+    class="title body-lg-s">
+    {{ t('chequeIn.title') }}
+  </span>
+
+  <div class="loading">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+
+  @if (showSeeAll()) {
+    <a
+      scbButton
+      data-testid="DASH_CHEQUE_IN_SEE_ALL_BTN"
+      variant="ghost"
+      class="seeAll"
+      size="xs"
+      routerLink="cheques-in">
+      <span class="mf-sm"> {{ t('chequeIn.seeAll') }} </span>
+    </a>
+  }
+
+  <scb-selectable
+    size="sm"
+    data-testid="DASH_CHEQUE_IN_TAB_GROUP"
+    [(activeIndex)]="activeIndex"
+    class="w-full">
+    @for (item of tabs; track $index) {
+      <scb-selectable-item
+        [attr.data-testid]="'DASH_CHEQUE_IN_TAB_ITEM_' + activeIndex.toLocaleUpperCase()"
+        [value]="item.id"
+        [ngClass]="{
+          'text-text-primary font-medium': activeIndex === item.id,
+          'text-text-secondary font-normal': activeIndex !== item.id,
+        }">
+        {{ t('chequeIn.tabs.' + item.id) }}
+      </scb-selectable-item>
+    }
+  </scb-selectable>
+
+  <div class="mt-lg flex flex-col gap-2">
+    @if (activeIndex === 'collected') {
+      @for (item of collectedList() | slice: 0 : 3; track $index) {
+        <app-cheque-in-card
+          [cheque]="item"
+          type="collected"
+          dateText="{{ t('chequeIn.collectionDate') }}" />
+      } @empty {
+        <div
+          data-testid="DASH_CHEQUE_IN_DEDUCTED_EMPTY"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            [name]="darkMode() ? 'done-dark' : 'done'"
+            data-testid="DASH_CHEQUE_IN_DEDUCTED_EMPTY_ICON"
+            class="text-3xl" />
+          <h4
+            data-testid="DASH_CHEQUE_IN_DEDUCTED_EMPTY_TITLE"
+            class="mt-sm mb-sm mf-md text-text-secondary font-semibold">
+            {{ t('chequeIn.emptyCollected.title') }}
+          </h4>
+          <p
+            data-testid="DASH_CHEQUE_IN_DEDUCTED_EMPTY_SUBTITLE"
+            class="text-text-tertiary mf-sm">
+            {{ t('chequeIn.emptyCollected.subtitle') }}
+          </p>
+        </div>
+      }
+    } @else if (activeIndex === 'returned') {
+      @for (item of returnedList() | slice: 0 : 3; track $index) {
+        <app-cheque-in-card
+          [cheque]="item"
+          type="returned"
+          dateText="{{ t('chequeIn.returnedDate') }}" />
+      } @empty {
+        <div
+          data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            [name]="darkMode() ? 'done-dark' : 'done'"
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_ICON"
+            class="text-3xl" />
+          <h4
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_TITLE"
+            class="mt-sm mb-sm mf-md text-text-secondary font-semibold">
+            {{ t('chequeIn.emptyReturned.title') }}
+          </h4>
+          <p
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_SUBTITLE"
+            class="text-text-tertiary mf-sm">
+            {{ t('chequeIn.emptyReturned.subtitle') }}
+          </p>
+        </div>
+      }
+    } @else if (activeIndex === 'postDated') {
+      @for (item of postDatedList() | slice: 0 : 3; track $index) {
+        <app-cheque-in-card
+          [cheque]="item"
+          type="postdated"
+          dateText="{{ t('chequeIn.postDated') }}" />
+      } @empty {
+        <div
+          data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            [name]="darkMode() ? 'done-dark' : 'done'"
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_ICON"
+            class="text-3xl" />
+          <h4
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_TITLE"
+            class="mt-sm mb-sm mf-md text-text-secondary font-semibold">
+            {{ t('chequeIn.emptyPostDated.title') }}
+          </h4>
+          <p
+            data-testid="DASH_CHEQUE_IN_RETURNED_EMPTY_SUBTITLE"
+            class="text-text-tertiary mf-sm">
+            {{ t('chequeIn.emptyPostDated.subtitle') }}
+          </p>
+        </div>
+      }
+    }
+  </div>
+</dashboard-widget>

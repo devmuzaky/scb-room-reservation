@@ -1,0 +1,330 @@
+<section class="col-span-12 flex items-center justify-between max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[{ label: t('transfer'), path: '/transfer' }, { label: t('scheduledTransfer') }]"></app-breadcrumbs>
+
+  <app-last-updated
+    [date]="lastUpdatedAt()"
+    (refresh)="scheduledTransfers.reload()" />
+</section>
+<div
+  class="col-span-12 row-span-8"
+  *transloco="let t; prefix: 'transfer.scheduledTransfers'">
+  <scb-tabs
+    class="bg-transparent"
+    (selectedTabChange)="onTabChange($event)">
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2">
+        {{ t('oneTime') }}
+      </a>
+      <section class="col-span-12">
+        <scb-card class="py-2xl sm:px-2xl px-4 max-sm:px-0">
+          @if (status() === 'loading') {
+            <div
+              class="py-3xl sm:px-3xl col-span-12 px-4"
+              data-testid="beneficiary_div_loadingState">
+              <scb-skeleton
+                width="15%"
+                height="40px" />
+              <scb-skeleton width="50%" />
+              <scb-skeleton width="50%" />
+              <scb-skeleton width="80%" />
+              <scb-skeleton width="90%" />
+              <scb-skeleton width="100%" />
+            </div>
+          } @else if (status() === 'error') {
+            <div
+              *transloco="let t; prefix: 'accounts'"
+              class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+              data-testid="ACCOUNTS_LIST_ERROR_STATE">
+              <icon
+                [name]="'api-failure'"
+                class="text-3xl"
+                data-testid="ACCOUNTS_LIST_API_FAILURE_ICON" />
+              <h4
+                class="head-2xs-s text-text-primary"
+                data-testid="ACCOUNTS_LIST_API_ERROR_TITLE">
+                {{ t('error.apiError') }}
+              </h4>
+              <p
+                class="body-sm text-text-primary"
+                data-testid="ACCOUNTS_LIST_API_ERROR_DETAIL">
+                {{ t('error.apiErrorDetail') }}
+              </p>
+              <button
+                scbButton
+                variant="ghost"
+                size="sm"
+                icon="refresh"
+                (click)="scheduledTransfers.reload()"
+                data-testid="ACCOUNTS_LIST_RELOAD_BUTTON">
+                {{ t('error.reload') }}
+              </button>
+            </div>
+          } @else if (hasNoRecords() && !hasFilters()) {
+            <div
+              data-testid="LOANS_EMPTY_STATE"
+              class="emptyState flex w-full flex-col items-center justify-center text-center">
+              <icon
+                [name]="'not-found'"
+                data-testid="LOANS_EMPTY_STATE_ICON"
+                class="" />
+              <h4
+                data-testid="LOANS_EMPTY_STATE_TITLE"
+                class="mt-sm mb-sm mf-2xl font-semibold">
+                {{ t('empty.title') }}
+              </h4>
+              <p
+                data-testid="LOANS_EMPTY_STATE_SUBTITLE"
+                class="text-text-tertiary text-sm-sm">
+                {{ t('empty.subTitle') }}
+              </p>
+            </div>
+          }
+          @if (status() !== 'loading' && (!hasNoRecords() || hasFilters())) {
+            <scheduled-transfers-filter
+              [(status)]="transactionStatus"
+              [(settlementDate)]="date"
+              [(transferType)]="transferType"
+              [(searchTerm)]="searchTerm" />
+          }
+          @if (hasFilters() && scheduledTransfersList().length === 0 && status() !== 'loading') {
+            <div
+              data-testid="LOANS_EMPTY_STATE"
+              class="emptyState flex w-full flex-col items-center justify-center text-center">
+              <icon
+                [name]="'not-found'"
+                data-testid="LOANS_EMPTY_STATE_ICON"
+                class="" />
+              <h4
+                data-testid="LOANS_EMPTY_STATE_TITLE"
+                class="mt-sm mb-sm mf-2xl font-semibold">
+                {{ t('noResults.title') }}
+              </h4>
+              <p
+                data-testid="LOANS_EMPTY_STATE_SUBTITLE"
+                class="text-text-tertiary text-sm-sm">
+                {{ t('noResults.subTitle') }}
+              </p>
+            </div>
+          } @else {
+            <section class="gap-2xl flex flex-col">
+              <div class="gap-2xl grid grid-cols-1 p-4">
+                @for (transfer of scheduledTransfersList(); track transfer) {
+                  <section class="p-2xl gap-lg border-border-secondary flex flex-col rounded-lg border">
+                    <h3 class="mf-lg text-text-primary overflow-hidden font-semibold text-ellipsis whitespace-nowrap">
+                      {{ transfer.beneficiaryName }}
+                    </h3>
+                    <div class="flex justify-between pt-2.5 max-sm:flex-wrap max-sm:gap-2">
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('transferAmount') }}</h2>
+
+                        <currency-view
+                          data-testid="FACILITY_TYPE_UTILIZED"
+                          [amount]="transfer.transferAmount"
+                          [currency]="transfer.transferCurrency"
+                          class="text-text-brand" />
+                      </div>
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('ExecutionDate') }}</h2>
+                        <date-view
+                          variant="md"
+                          [value]="transfer.executionDate"
+                          istFormat
+                          format="d MMM yyyy" />
+                      </div>
+                      <div class="flex w-full flex-col">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('transferType') }}</h2>
+                        <p class="mf-md text-text-primary font-semibold">
+                          {{ t('transferTypeOptions.' + transfer.transferType) }}
+                        </p>
+                      </div>
+
+                      <!-- <div class="ml-0 md:ml-auto"> -->
+                      <div class="ml-0 max-sm:mt-2 max-sm:w-full md:ml-auto md:w-2/4">
+                        <div class="flex flex-col">
+                          <a
+                            scbButton
+                            class="w-full sm:flex!"
+                            variant="secondary"
+                            size="md"
+                            [routerLink]="transfer.scheduleId">
+                            {{ t('viewDetails') }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                }
+              </div>
+            </section>
+          }
+        </scb-card>
+      </section>
+    </scb-tab>
+
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2">
+        {{ t('recurring') }}
+      </a>
+      <section class="col-span-12">
+        <scb-card class="py-2xl sm:px-2xl px-4 max-sm:px-0">
+          @if (status() === 'loading') {
+            <div
+              class="py-3xl sm:px-3xl col-span-12 px-4"
+              data-testid="beneficiary_div_loadingState">
+              <scb-skeleton
+                width="15%"
+                height="40px" />
+              <scb-skeleton width="50%" />
+              <scb-skeleton width="50%" />
+              <scb-skeleton width="80%" />
+              <scb-skeleton width="90%" />
+              <scb-skeleton width="100%" />
+            </div>
+          } @else if (status() === 'error') {
+            <div
+              *transloco="let t; prefix: 'accounts'"
+              class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+              data-testid="ACCOUNTS_LIST_ERROR_STATE">
+              <icon
+                [name]="'api-failure'"
+                class="text-3xl"
+                data-testid="ACCOUNTS_LIST_API_FAILURE_ICON" />
+              <h4
+                class="head-2xs-s text-text-primary"
+                data-testid="ACCOUNTS_LIST_API_ERROR_TITLE">
+                {{ t('error.apiError') }}
+              </h4>
+              <p
+                class="body-sm text-text-primary"
+                data-testid="ACCOUNTS_LIST_API_ERROR_DETAIL">
+                {{ t('error.apiErrorDetail') }}
+              </p>
+              <button
+                scbButton
+                variant="ghost"
+                size="sm"
+                icon="refresh"
+                (click)="scheduledTransfers.reload()"
+                data-testid="ACCOUNTS_LIST_RELOAD_BUTTON">
+                {{ t('error.reload') }}
+              </button>
+            </div>
+          } @else if (hasNoRecords() && !hasFilters()) {
+            <div
+              data-testid="LOANS_EMPTY_STATE"
+              class="emptyState flex w-full flex-col items-center justify-center text-center">
+              <icon
+                [name]="'not-found'"
+                data-testid="LOANS_EMPTY_STATE_ICON"
+                class="" />
+              <h4
+                data-testid="LOANS_EMPTY_STATE_TITLE"
+                class="mt-sm mb-sm mf-2xl font-semibold">
+                {{ t('empty.title') }}
+              </h4>
+              <p
+                data-testid="LOANS_EMPTY_STATE_SUBTITLE"
+                class="text-text-tertiary text-sm-sm">
+                {{ t('empty.subTitle') }}
+              </p>
+            </div>
+          }
+          @if (status() !== 'loading' && (!hasNoRecords() || hasFilters())) {
+            <scheduled-transfers-filter
+              [(status)]="transactionStatus"
+              [(settlementDate)]="date"
+              [(transferType)]="transferType"
+              [(searchTerm)]="searchTerm" />
+          }
+          @if (hasFilters() && scheduledTransfersList().length === 0 && status() !== 'loading') {
+            <div
+              data-testid="LOANS_EMPTY_STATE"
+              class="emptyState flex w-full flex-col items-center justify-center text-center">
+              <icon
+                [name]="'not-found'"
+                data-testid="LOANS_EMPTY_STATE_ICON"
+                class="" />
+              <h4
+                data-testid="LOANS_EMPTY_STATE_TITLE"
+                class="mt-sm mb-sm mf-2xl font-semibold">
+                {{ t('noResults.title') }}
+              </h4>
+              <p
+                data-testid="LOANS_EMPTY_STATE_SUBTITLE"
+                class="text-text-tertiary text-sm-sm">
+                {{ t('noResults.subTitle') }}
+              </p>
+            </div>
+          } @else {
+            <section class="gap-2xl flex flex-col">
+              <div class="gap-2xl grid grid-cols-1 p-4">
+                @for (transfer of scheduledTransfersList(); track transfer; let i = $index) {
+                  <!-- <div class="gap-2xl grid grid-cols-1 p-4"> -->
+                  <section class="p-2xl gap-lg border-border-secondary flex flex-col rounded-lg border">
+                    <h3 class="mf-lg text-text-primary overflow-hidden font-semibold text-ellipsis whitespace-nowrap">
+                      {{ transfer.beneficiaryName }}
+                    </h3>
+                    <app-transfer-progress
+                      [totalCount]="transfer.totalTransferCount"
+                      [successCount]="transfer.executedTransferCount" />
+                    <div class="flex justify-between pt-2.5 max-sm:flex-wrap max-sm:gap-2">
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('transferAmount') }}</h2>
+                        <currency-view
+                          data-testid="FACILITY_TYPE_UTILIZED"
+                          [amount]="transfer.transferAmount"
+                          class="text-text-brand"
+                          [currency]="transfer.transferCurrency" />
+                      </div>
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('nextTransferDate') }}</h2>
+
+                        <date-view
+                          variant="md"
+                          [value]="transfer?.nextExecutionDate ?? undefined"
+                          istFormat
+                          format="d MMM yyyy" />
+                      </div>
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('transferType') }}</h2>
+                        <p class="mf-md text-text-primary font-semibold">
+                          {{ t('transferTypeOptions.' + transfer.transferType) }}
+                        </p>
+                      </div>
+                      <div class="gap-sm flex w-5/12 flex-col sm:w-full">
+                        <h2 class="mf-sm text-text-secondary font-normal">{{ t('frequency') }}</h2>
+                        <p class="mf-md text-text-primary font-semibold">
+                          {{ t('frequencyTypeOptions.' + transfer.frequencyType) }}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="ml-0 md:ml-auto rtl:md:mr-auto rtl:md:ml-0">
+                      <div class="ltr-force flex flex-col">
+                        <a
+                          scbButton
+                          [routerLink]="transfer.scheduleId"
+                          class="w-full sm:flex!"
+                          variant="secondary"
+                          size="md">
+                          {{ t('viewDetails') }}
+                        </a>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- </div> -->
+                }
+              </div>
+            </section>
+          }
+        </scb-card>
+      </section>
+    </scb-tab>
+  </scb-tabs>
+</div>

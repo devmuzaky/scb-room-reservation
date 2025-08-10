@@ -1,0 +1,133 @@
+@if (status() === 'loading') {
+  <scb-table-skeleton
+    [rows]="10"
+    [columns]="5" />
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'facilities.facilitiesCcTransactions'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="cc_div_errorState">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="cc_icon_apiFailure" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="cc_h4_apiError">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="cc_p_apiErrorDetail">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="transactionsData.reload()"
+      data-testid="accounts_button_reload">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1"
+    *transloco="let t; prefix: 'facilities.facilitiesCcTransactions'">
+    <!-- Title and Download Statement Button -->
+    <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <p class="mf-lg font-semibold">{{ t('title') }}</p>
+      <app-download-btn
+        [isEmpty]="isEmpty()"
+        [options]="downloadOptions" />
+    </div>
+
+    <!-- Filter Section -->
+    <!-- <app-cc-details-filter
+      [(status)]="ccStatus"
+      [statusList]="statusList()"
+      [isEmpty]="isEmpty()" /> -->
+
+    <!-- Empty state & Table -->
+    @if (isEmpty()) {
+      <div
+        data-testid="CC_DETAIL_RETURNED_EMPTY"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="CC_DETAIL_RETURNED_EMPTY_ICON"
+          class="" />
+        <h4
+          data-testid="CC_DETAIL_RETURNED_EMPTY_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('empty.title') }}
+        </h4>
+        <p
+          data-testid="CC_DETAIL_RETURNED_EMPTY_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('empty.subTitle') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="transactionList()"
+        [paginator]="false"
+        [rows]="page.rows()"
+        [first]="page.first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('table.transactionDate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.referenceNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.description') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.debitAmount') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.creditAmount') }}</th>
+            <!-- <th class="mf-sm !font-medium">{{ t('table.status') }}</th> -->
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account>
+          <tr class="!bg-transparent">
+            <td><date-view [value]="account.transactionDate" /></td>
+            <td class="body-sm ltr-force rtl:!text-right">{{ account.referenceNumber }}</td>
+            <td class="body-sm">{{ account.description }}</td>
+            <td>
+              <currency-view
+                [amount]="account.debitAmount"
+                [currency]="account.currencyId"
+                size="sm" />
+            </td>
+
+            <td>
+              <currency-view
+                [amount]="account.creditAmount"
+                [currency]="account.currencyId"
+                size="sm" />
+            </td>
+            <!-- <td>
+              @if (account.status) {
+                <scb-badge
+                  [variant]="account.status === 'settled' ? 'success' : 'warning'"
+                  class="capitalize">
+                  {{ t(account.status) }}
+                </scb-badge>
+              }
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (!isEmpty()) {
+    <app-pagination
+      [totalPages]="totalPages()"
+      [totalRecords]="totalRecords()"
+      [page]="page" />
+  }
+}

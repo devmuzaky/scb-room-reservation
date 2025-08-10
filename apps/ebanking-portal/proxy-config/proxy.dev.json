@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://corp-dev.apps.scbocp.scb.local",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

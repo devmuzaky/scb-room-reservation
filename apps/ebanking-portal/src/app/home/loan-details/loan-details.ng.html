@@ -1,0 +1,46 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('home'), path: '/dashboard' },
+      { label: t('facilities'), path: '/dashboard/facilities' },
+      { label: t('loanDetails') },
+    ]"></app-breadcrumbs>
+</section>
+
+<!-- Basic Details -->
+<section
+  class="col-span-12"
+  *transloco="let t; prefix: 'dashboard'">
+  <scb-card class="p-xl col-span-12 flex flex-col 2xl:row-span-2">
+    @if (status() === 'loading') {
+      <scb-card-skeleton />
+    } @else if (status() === 'error') {
+      <div class="flex w-full flex-col items-center justify-center gap-3 text-center">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl" />
+        <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+        <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          (click)="loanDetailsResource.reload()"
+          icon="refresh">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <loan-basic-details [detailsResource]="loanDetailsResource" />
+    }
+  </scb-card>
+</section>
+
+<section
+  class="col-span-12 2xl:row-span-2 2xl:row-start-3"
+  *transloco="let t; prefix: 'facilities'">
+  <div class="col-span-12 row-span-8">
+    <repayment-table />
+  </div>
+</section>

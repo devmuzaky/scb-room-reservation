@@ -1,0 +1,85 @@
+<section
+  class="col-span-12"
+  *transloco="let t; prefix: 'accountsAndDeposits'">
+  <scb-tabs
+    [(selectedIndex)]="selectedTab"
+    class="bg-transparent">
+    @if (selectedTab() === 0) {
+      <div class="tab-header-content gap-sm flex items-center ltr:ml-auto rtl:mr-auto">
+        <p class="body-md text-text-tertiary">{{ t('totalAssets') }}</p>
+        <div>
+          <button
+            scbButton
+            variant="ghost"
+            size="md"
+            (click)="downloadOptionsMenu.toggle($event)"
+            [pTooltip]="t('allList.downloadTooltip')"
+            icon="download"
+            data-testid="ALL_BUTTON_DOWNLOAD_MENU"></button>
+
+          <p-menu
+            #downloadOptionsMenu
+            [model]="downloadOptionsList"
+            [popup]="true"
+            data-testid="all_pMenu_downloadOptions">
+            <ng-template
+              #item
+              let-item>
+              <div
+                tabindex="0"
+                class="flex flex-1 gap-3"
+                (click)="exportData(item.icon)"
+                role="button"
+                data-testid="all_div_downloadOption">
+                <icon
+                  class="w-2xl"
+                  [name]="item.icon"></icon>
+                <p class="mf-md text-text-primary flex-1">{{ item.label }}</p>
+
+                <icon
+                  class="text-text-brand w-2xl"
+                  name="download"></icon>
+              </div>
+            </ng-template>
+          </p-menu>
+        </div>
+      </div>
+    }
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/accounts-and-deposits/all">
+        {{ t('all') }}
+      </a>
+      <app-all-list *scbTabLazy />
+    </scb-tab>
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/accounts-and-deposits/accounts">
+        {{ t('accounts') }}
+      </a>
+      <app-account-list *scbTabLazy />
+    </scb-tab>
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/accounts-and-deposits/certificates">
+        {{ t('certificates') }}
+      </a>
+      <app-certificates-list *scbTabLazy />
+    </scb-tab>
+    <scb-tab>
+      <a
+        *scbTabHeader
+        class="-m-2 block p-2"
+        routerLink="/accounts-and-deposits/deposits">
+        {{ t('timeDeposits') }}
+      </a>
+      <app-deposits-list *scbTabLazy />
+    </scb-tab>
+  </scb-tabs>
+</section>

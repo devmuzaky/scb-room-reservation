@@ -1,0 +1,135 @@
+<app-certificate-details-widget
+  [status]="status()"
+  (reload)="certificateDetailsData()?.reload()"
+  data-testid="ACCOUNT_DETAIL_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'certificatesDetail'">
+  <div class="loading">
+    <scb-card-skeleton />
+  </div>
+
+  @if (certificateDetails()) {
+    <div class="rounded-5xl border-border-secondary bg-container border-[1px] p-4">
+      <div
+        class="border-border-secondary bg-container flex justify-between border-b pb-2.5 align-middle"
+        data-testid="DASH_CERTIFICATE_BASIC_DETAIL_CONTAINER">
+        <h2
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_CERTIFICATE_BASIC_DETAIL_HEADING">
+          {{ t('basicDetail') }}
+        </h2>
+      </div>
+      <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('cdNumber') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_ACCOUNT_NUMBER">
+            {{ certificateDetails()?.cdNumber }}
+          </p>
+        </div>
+      </div>
+      <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('issuingDate') }}
+          </h2>
+
+          @if (certificateDetails()?.issuanceDate) {
+            <date-view
+              data-testid="DASH_LGS_BASIC_DETAIL__IBAN_TITLE"
+              [value]="certificateDetails()?.issuanceDate"
+              variant="md" />
+          } @else {
+            <p class="mf-md text-text-primary font-semibold">N/A</p>
+          }
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_MATURITY_HEADING">
+            {{ t('maturityDate') }}
+          </h2>
+
+          @if (certificateDetails()?.maturityDate) {
+            <date-view
+              data-testid="DASH_LGS_BASIC_DETAIL__IBAN_TITLE"
+              [value]="certificateDetails()?.maturityDate"
+              variant="md" />
+          } @else {
+            <p class="mf-md text-text-primary font-semibold">N/A</p>
+          }
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_ACTION_MATURITY_HEADING">
+            {{ t('actionAtMaturity') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_ACTION_MATURITY_TITLE">
+            {{ certificateDetails()?.actionAtMaturity }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="rounded-5xl border-border-secondary mt-5 border p-4"
+      data-testid="DASH_CERTIFICATE_BASIC_DETAIL_BALANCE_CONTAINER">
+      <div class="border-border-secondary flex justify-between border-b pb-2.5">
+        <h2
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_CERTIFICATE_BASIC_DETAIL_LINKED_TITLE">
+          {{ t('linkedAccounts') }}
+        </h2>
+      </div>
+      <div
+        *transloco="let t; prefix: 'certificatesDetail'"
+        class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_DEBIT_ACCOUNT_HEADING">
+            {{ t('debitedAccount') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_TOTAL_DEBIT_ACCOUNT">
+            {{ certificateDetails()?.linkedAccounts?.debitedAccount }}
+          </p>
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_REDEEM_HEADING">
+            {{ t('redeemAccount') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_REDEEM">
+            {{ certificateDetails()?.linkedAccounts?.redeemAccount }}
+          </p>
+        </div>
+        <div class="gap-sm flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_INTEREST_ACCOUNT_HEADING">
+            {{ t('interestAccount') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_CERTIFICATE_BASIC_DETAIL_INTEREST_RATE">
+            {{ certificateDetails()?.linkedAccounts?.interestAccount }}
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</app-certificate-details-widget>

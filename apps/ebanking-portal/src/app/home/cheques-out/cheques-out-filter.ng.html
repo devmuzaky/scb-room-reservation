@@ -1,0 +1,99 @@
+<div
+  class="gap-md mb-4 flex flex-col px-4 py-0.5 whitespace-nowrap sm:flex-row sm:items-center"
+  data-testid="CHEQUES_OUT_FILTER_CONTAINER"
+  *transloco="let t; prefix: 'chequesOut'">
+  <div>
+    <p
+      class="mf-md flex-1"
+      data-testid="CHEQUES_OUT_FILTER_BY">
+      {{ t('filterBy') }}:
+    </p>
+  </div>
+
+  <div class="gap-md flex overflow-auto p-0.5">
+    <!-- Status -->
+    <scb-form-field
+      [variant]="_status().length ? 'primary' : 'ghost'"
+      class="[&>.input-main]:w-max"
+      data-testid="CHEQUES_OUT_FORMFIELD_STATUS">
+      <scb-select
+        #statusSelect
+        [options]="statusList()"
+        [filterFn]="statusFn"
+        [(value)]="_status"
+        multiple
+        data-testid="CHEQUES_OUT_SELECT_STATUS_VALUE"
+        [searchPlaceholder]="t('searchOptions')"
+        (closed)="statusClosed()"
+        noAutoClose>
+        <app-select-value
+          scbSelectTrigger
+          [placeholder]="t('status')"
+          [len]="_status().length" />
+        @for (item of statusSelect.optionsFilter.filteredList(); track item) {
+          <scb-option
+            [value]="item.value"
+            class="capitalize">
+            {{ t(item.name) }}
+          </scb-option>
+        }
+        <app-select-footer
+          class="select-footer"
+          (apply)="apply()"
+          (resetValue)="_status.set([])" />
+      </scb-select>
+    </scb-form-field>
+
+    <!-- Settlement Date -->
+    <scb-form-field
+      [variant]="_settlementDate() ? 'primary' : 'ghost'"
+      class="[&>.input-main]:w-max"
+      data-testid="CHEQUES_OUT_FORMFIELD_DATE">
+      <scb-select
+        [(value)]="_settlementDate"
+        data-testid="CHEQUES_OUT_SELECT_DATE_VALUE"
+        [searchPlaceholder]="t('searchOptions')"
+        (closed)="dateClosed()"
+        noAutoClose>
+        <div class="select-header body-md-s px-md">{{ t('durations') }}</div>
+        <app-select-value
+          scbSelectTrigger
+          [placeholder]="t('settlementDate')"
+          [len]="_settlementDate() ? 1 : 0" />
+
+        @for (item of settlementDateList; track item.name) {
+          <scb-option [value]="item.value">
+            <div class="gap-lg flex items-center">
+              <p-radiobutton
+                name="pizza"
+                [value]="item.value"
+                [(ngModel)]="_settlementDate"
+                inputId="ingredient{{ $index }}" />
+              <label
+                for="ingredient{{ $index }}"
+                class="body-md cursor-pointer">
+                {{ t(item.name) }}
+              </label>
+            </div>
+          </scb-option>
+        }
+        <app-select-footer
+          class="select-footer"
+          (apply)="apply()"
+          (resetValue)="_settlementDate.set('')" />
+      </scb-select>
+    </scb-form-field>
+
+    @if (showClearFilter()) {
+      <button
+        scbButton
+        size="md"
+        variant="secondary"
+        (click)="clearFilter()"
+        class="flex-none !px-2"
+        data-testid="CHEQUES_OUT_CLEAR_FILTER">
+        {{ t('clearFilter') }}
+      </button>
+    }
+  </div>
+</div>

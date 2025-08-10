@@ -1,0 +1,316 @@
+<!-- Time Deposits Card -->
+<scb-card
+  *transloco="let t; prefix: 'timeDepositsList'"
+  class="py-3xl sm:px-3xl px-4"
+  data-testid="DEPOSITS_LIST_CARD">
+  <!-- Loading/Error States (Optional - Add similar to accounts list if needed) -->
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <!-- Error state - Copy structure from accounts-list.html if desired -->
+    <div
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="DEPOSITS_LIST_ERROR_STATE">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="DEPOSITS_LIST_API_FAILURE_ICON" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="DEPOSITS_LIST_API_ERROR_TITLE">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="DEPOSITS_LIST_API_ERROR_DETAIL">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="refreshTimeDeposits()"
+        data-testid="DEPOSITS_LIST_RELOAD_BUTTON">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    @if (currenciesList().length > 1) {
+      <!-- Filter Bar Structure (Similar to accounts-list) -->
+      <div
+        *transloco="let t; prefix: 'timeDepositsList'"
+        class="gap-md mb-4 flex flex-col px-4 sm:flex-row sm:items-center"
+        data-testid="DEPOSITS_LIST_FILTER_CONTAINER">
+        <div>
+          <p
+            class="mf-md flex-1"
+            data-testid="DEPOSITS_LIST_FILTER_BY">
+            {{ t('filterBy') }}:
+          </p>
+        </div>
+        <div class="gap-md flex items-center">
+          <scb-form-field
+            [variant]="currencyValue().length > 0 ? 'primary' : 'ghost'"
+            data-testid="DEPOSITS_LIST_FORM_FIELD_CURRENCY">
+            <scb-select
+              #currencySelect
+              [options]="currenciesList()"
+              [(value)]="currencyValue"
+              multiple
+              [searchPlaceholder]="t('searchOptions')"
+              data-testid="DEPOSITS_LIST_SELECT_CURRENCY_VALUE">
+              <div
+                scbSelectTrigger
+                class="gap-md body-label-md-m flex items-center"
+                data-testid="DEPOSITS_LIST_SELECT_TRIGGER">
+                {{ t('currency') }}
+                @if (currencyValue().length) {
+                  <div
+                    class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl"
+                    data-testid="DEPOSITS_LIST_CURRENCY_VALUE_COUNT">
+                    +{{ currencyValue().length }}
+                  </div>
+                }
+              </div>
+              @for (item of currencySelect.optionsFilter.filteredList(); track item) {
+                <scb-option
+                  [value]="item"
+                  data-testid="DEPOSITS_LIST_OPTION_CURRENCY_ITEM"
+                  >{{ item }}</scb-option
+                >
+              }
+              <!-- Add Apply/Reset inside dropdown footer if needed -->
+              <div
+                class="select-footer flex gap-3 border-t-1 border-t-gray-100 px-2 py-3"
+                data-testid="DEPOSITS_LIST_SELECT_FOOTER">
+                <button
+                  scbButton
+                  variant="primary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="applyFilter()"
+                  data-testid="DEPOSITS_LIST_APPLY_FILTER_BUTTON">
+                  {{ t('apply') }}
+                </button>
+                <button
+                  scbButton
+                  variant="secondary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="resetFilter()"
+                  data-testid="DEPOSITS_LIST_RESET_FILTER_BUTTON">
+                  {{ t('reset') }}
+                </button>
+              </div>
+            </scb-select>
+          </scb-form-field>
+          <button
+            scbButton
+            variant="secondary"
+            [ngClass]="{ hidden: currencyValue().length === 0 }"
+            size="md"
+            (click)="clearFilter()"
+            class="!px-2"
+            data-testid="DEPOSITS_LIST_CLEAR_FILTER_BUTTON">
+            {{ t('clearFilters') }}
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Time Deposits Table container (Similar structure) -->
+    <div
+      class="mb-4 rounded-4xl border-1 border-gray-200 dark:border-gray-700"
+      data-testid="DEPOSITS_LIST_TABLE_CONTAINER">
+      <!-- Header: Title, Balance, Timestamp, Refresh, Export -->
+      <div
+        class="gap-sm mb-3 flex flex-col p-4 pb-0 sm:flex-row sm:justify-between"
+        data-testid="DEPOSITS_LIST_TABLE_HEADER">
+        <div class="sm:self-center">
+          <p
+            class="mf-lg font-semibold"
+            data-testid="DEPOSITS_LIST_TABLE_TITLE">
+            {{ t('title') }}
+          </p>
+        </div>
+
+        <div
+          class="gap-sm flex flex-col justify-between sm:items-end"
+          data-testid="DEPOSITS_LIST_TABLE_ACTIONS">
+          <!-- Timestamp and Refresh -->
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="timeDepositsListResource.reload()" />
+          <!-- Total Balance and Export -->
+          <div
+            class="gap-sm flex items-center"
+            data-testid="DEPOSITS_LIST_TOTAL_BALANCE">
+            <p
+              class="text-text-tertiary mf-md"
+              data-testid="DEPOSITS_LIST_EQUIVALENT_LABEL">
+              {{ t('equivalent') }}:
+            </p>
+
+            <p
+              [pTooltip]="totalBalanceTooltipDeposits"
+              tooltipPosition="top"
+              class="mf-md ltr-force font-semibold"
+              data-testid="DEPOSITS_LIST_TOTAL_BALANCE_VALUE">
+              {{ totalAmount() | shortNumber | mask: layoutFacade.showBalances() }}
+              <span
+                class="text-text-secondary font-normal"
+                data-testid="DEPOSITS_LIST_CURRENCY"
+                >EGP</span
+              >
+            </p>
+
+            <ng-template #totalBalanceTooltipDeposits>
+              <p class="mf-sm whitespace-nowrap">
+                {{ totalAmount() | numberCommaFormat }}
+                <span
+                  class="text-text-white font-normal"
+                  data-testid="DEPOSITS_LIST_CURRENCY"
+                  >EGP</span
+                >
+              </p>
+            </ng-template>
+
+            <button
+              scbButton
+              variant="ghost"
+              size="md"
+              (click)="downloadOptionsMenu.toggle($event)"
+              [pTooltip]="t('downloadTooltip')"
+              tooltipPosition="top"
+              icon="download"
+              data-testid="DEPOSITS_LIST_DOWNLOAD_BUTTON"></button>
+
+            <p-menu
+              #downloadOptionsMenu
+              [model]="downloadOptionsList"
+              [popup]="true"
+              data-testid="DEPOSITS_LIST_DOWNLOAD_MENU">
+              <ng-template
+                #item
+                let-item>
+                <div
+                  tabindex="0"
+                  class="flex flex-1 gap-3"
+                  (click)="exportData(item.icon)"
+                  role="button"
+                  data-testid="DEPOSITS_LIST_DOWNLOAD_OPTION">
+                  <icon
+                    class="w-2xl"
+                    [name]="item.icon"
+                    data-testid="DEPOSITS_LIST_DOWNLOAD_OPTION_ICON"></icon>
+                  <p
+                    class="mf-md text-text-primary flex-1"
+                    data-testid="DEPOSITS_LIST_DOWNLOAD_OPTION_LABEL">
+                    {{ item.label }}
+                  </p>
+                  <icon
+                    class="text-text-brand w-2xl"
+                    name="download"
+                    data-testid="DEPOSITS_LIST_DOWNLOAD_OPTION_DOWNLOAD_ICON"></icon>
+                </div>
+              </ng-template>
+            </p-menu>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Deposits Table -->
+      <p-table
+        [value]="timeDepositsList()"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalSize()"
+        lazy="true"
+        data-testid="DEPOSITS_LIST_TABLE">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="DEPOSITS_LIST_TABLE_HEADER_TD_NUMBER">
+              {{ t('table.tdNumber') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="DEPOSITS_LIST_TABLE_HEADER_INTEREST_RATE">
+              {{ t('table.interestRate') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="DEPOSITS_LIST_TABLE_HEADER_MATURITY_DATE">
+              {{ t('table.maturityDate') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="DEPOSITS_LIST_TABLE_HEADER_TENOR">
+              {{ t('table.tenor') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="DEPOSITS_LIST_TABLE_HEADER_AMOUNT_CURRENCY">
+              {{ t('table.tdAmount') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-deposit
+          let-i="rowIndex">
+          <tr
+            class="!bg-transparent"
+            [attr.data-testid]="'DEPOSITS_LIST_TABLE_ROW_' + i">
+            <td [attr.data-testid]="'DEPOSITS_LIST_TABLE_TD_TDNUMBER_' + i">
+              <a
+                class="text-primary dark:text-brand-300 mf-sm underline"
+                [routerLink]="deposit.tdNumber">
+                {{ deposit.tdNumber }}
+              </a>
+            </td>
+            <td [attr.data-testid]="'DEPOSITS_LIST_TABLE_TD_INTERESTRATE_' + i">
+              <p class="mf-sm text-text-secondary font-semibold">{{ deposit.interestRate | number: '1.2-2' }}%</p>
+            </td>
+            <td [attr.data-testid]="'DEPOSITS_LIST_TABLE_TD_MATURITYDATE_' + i">
+              <date-view
+                data-testid="DASH_CERTIFICATE_BASIC_DETAIL_TITLE"
+                [value]="deposit.maturityDate"
+                variant="sm" />
+            </td>
+            <td [attr.data-testid]="'DEPOSITS_LIST_TABLE_TD_TENOR_' + i">
+              <p class="mf-sm text-text-secondary">{{ deposit.tenor }}</p>
+            </td>
+            <td [attr.data-testid]="'DEPOSITS_LIST_TABLE_TD_AMOUNTCURRENCY_' + i">
+              @if (deposit.tdAmount !== 0) {
+                <p class="mf-sm ltr-force font-semibold rtl:text-right">
+                  {{ deposit.tdAmount | numberCommaFormat | mask: layoutFacade.showBalances() }}
+                  <span class="mf-xs font-normal">{{ deposit.currency }}</span>
+                </p>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <!-- End Table Container -->
+
+    <!-- Paginator outside the bordered container -->
+    <div class="flex justify-end">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first()"
+        showFirstLastIcon="false"
+        [rows]="rows()"
+        [totalRecords]="totalSize()" />
+    </div>
+  }
+
+  <!-- End else block for loaded/error state -->
+</scb-card>

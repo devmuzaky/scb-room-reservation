@@ -1,0 +1,309 @@
+<app-account-detail-widget
+  [status]="status()"
+  (reload)="accountTransactionsList.reload()"
+  data-testid="ACCOUNT_TRANSACTION_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'account-basic-detail'">
+  <div class="loading">
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="7" />
+  </div>
+
+  <div
+    class="border-border-secondary rounded-2xl border py-4"
+    data-testid="ACOUNT_DETAIL_TABLE_CONTAINER">
+    <!-- Header Section - (Title and Download Statement Button) -->
+    <div
+      class="gap-sm mb-4 flex flex-col px-4 sm:flex-row sm:justify-between"
+      data-testid="ACOUNT_DETAIL_HEADING-CONTAINER">
+      <div class="sm:self-center">
+        <p
+          class="mf-lg font-semibold"
+          data-testid="ACCOUNT_TRANSACTION_TABLE_TRANSACTION_HEADING">
+          {{ t('transactions') }}
+        </p>
+      </div>
+
+      <div class="gap-sm flex hidden flex-col justify-between">
+        <div
+          class="gap-sm flex"
+          data-testid="ACOUNT_DETAIL_DOWNLOAD_STATEMENT_CONTAINER">
+          <button
+            scbButton
+            size="lg"
+            icon="statement-download"
+            type="button"
+            class="mf-md"
+            data-testid="DOWNLOAD_STATEMENT">
+            {{ t('downloadStatement') }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="gap-md mb-4 flex flex-col px-4 sm:flex-row sm:items-center">
+      <p
+        class="mf-md"
+        data-testid="ACCOUNT_TRANSACTION_FILTER_BY">
+        {{ t('filterBy') }}
+      </p>
+
+      <div class="gap-md flex">
+        <scb-form-field
+          data-testid="ACCOUNT_TRANSACTION_DROPDOWN_TRANSACTION_TYPE"
+          [variant]="transactionTypeValue().length > 0 ? 'primary' : 'ghost'">
+          <scb-select
+            #transactionSelect
+            [options]="transactionFilterOptions()"
+            [(value)]="transactionTypeValue"
+            multiple
+            data-testid="ACCOUNTS_OVERVIEW_SELECT_VALUE"
+            [searchPlaceholder]="t('searchOptions')">
+            <div
+              scbSelectTrigger
+              class="gap-md body-label-md-m flex items-center"
+              data-testid="ACCOUNT_TRANSACTION_SELELCT_TRANSACTION_TYPE">
+              {{ t('type') }}
+              @if (transactionTypeValue().length) {
+                <div
+                  class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl"
+                  data-testid="ACCOUNT_TRANSACTION_SELECT_VALUE">
+                  +{{ transactionTypeValue().length }}
+                </div>
+              }
+            </div>
+            @for (item of transactionSelect.optionsFilter.filteredList(); track item) {
+              <scb-option
+                [value]="item"
+                data-testid="ACCOUNT_TRANSACTION_SELECT_OPTION">
+                {{ item }}
+              </scb-option>
+            }
+
+            <div class="select-footer flex gap-3 border-t-1 border-t-gray-100 px-2 py-3">
+              <button
+                scbButton
+                variant="primary"
+                size="sm"
+                class="flex-1"
+                (click)="applyFilter()"
+                data-testid="ACCOUNT_TRANSACTION_BTN_APPLY_FILTERS">
+                {{ t('apply') }}
+              </button>
+              <button
+                scbButton
+                variant="secondary"
+                size="sm"
+                class="flex-1"
+                (click)="resetFilter()"
+                data-testid="ACCOUNT_TRANSACTION_BTN_RESET_FILTERS">
+                {{ t('reset') }}
+              </button>
+            </div>
+          </scb-select>
+        </scb-form-field>
+
+        <scb-form-field
+          class="bg-white-custom"
+          data-testid="TRANSACTION_LIST_DROPDOWN_STATUS">
+          <scb-select
+            #statusSelect
+            [options]="statusFilterOptions()"
+            [(value)]="statusTypeValue"
+            (valueChange)="applyFilter()"
+            data-testid="TRANSACTION_LIST_SELECT_VALUE"
+            [searchPlaceholder]="t('searchOptions')">
+            <div
+              scbSelectTrigger
+              class="gap-md body-label-md-m flex items-center"
+              data-testid="ACCOUNT_TRANSACTION_SELECT_VALUE">
+              @if (statusTypeValue() !== '') {
+                <div class="px-md py-xs body-md text-text-secondary rounded-4xl">{{ statusTypeValue() }}</div>
+              } @else {
+                {{ t('Status') }}
+              }
+            </div>
+            @for (item of statusSelect.optionsFilter.filteredList(); track item) {
+              <scb-option
+                [value]="item"
+                data-testid="ACCOUNT_TRANSACTION_STATUS_SELECT_ITEM">
+                {{ item }}
+              </scb-option>
+            }
+          </scb-select>
+        </scb-form-field>
+      </div>
+    </div>
+
+    <!-- Empty State Section -->
+    @if (isAccountListEmpty()) {
+      <div
+        data-testid="ACOUNT_DETAIL_RETURNED_EMPTY"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_ICON"
+          class="text-3xl" />
+        <h4
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('NoTransactionFoundTitle') }}
+        </h4>
+        <p
+          data-testid="ACOUNT_DETAIL_RETURNED_EMPTY_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('NoTransactionFoundDesc') }}
+        </p>
+      </div>
+    }
+    <!-- Table Section -->
+    @else {
+      <p-table
+        [value]="accountDetailList().transactions"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [totalRecords]="totalSize()">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('date') }}</th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">
+              {{ t('transactionType') }}
+            </th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('description') }}</th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('Status') }}</th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('debitAmount') }}</th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('creditAmount') }}</th>
+            <th class="mf-sm text-text-secondary bg-gray-50 font-medium dark:bg-gray-950">{{ t('balanceAfter') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account>
+          <tr>
+            <td>
+              <date-view
+                data-testid="DASH_LGS_BASIC_DETAIL_ISSUED_DATE"
+                [value]="account.transactionDate"
+                variant="sm" />
+            </td>
+            <td class="mf-sm text-text-primary font-semibold">
+              {{ account.transactionType }} <br />
+              <span class="mf-sm text-text-primary line-clamp-1 font-normal">{{ account.description }}</span>
+            </td>
+            <td class="mf-sm text-text-primary font-semibold">
+              <span class="mf-sm text-text-primary line-clamp-1 font-normal">{{ account.detailedDescription }}</span>
+            </td>
+            <td
+              class="mf-sm text-text-primary font-medium"
+              [ngClass]="{
+                'text-text-warning': account.status === 'Pending',
+                'text-text-success': account.status === 'Settled',
+              }">
+              <span
+                class="rounded-4xl px-2.5"
+                [ngClass]="{
+                  'bg-warning-tint': account.status === 'Pending',
+                  'bg-success-tint': account.status === 'Settled',
+                }">
+                {{ account.status }}</span
+              >
+            </td>
+            <td>
+              @if (account.debitAmount !== 0) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ account.debitAmount | numberCommaFormat }}
+                  <span class="text-text-secondary ltr-force font-normal">{{ account.currencyId }}</span>
+                </p>
+              }
+            </td>
+            <td>
+              @if (account.creditAmount !== 0) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ account.creditAmount | numberCommaFormat }}
+                  <span class="text-text-secondary ltr-force font-normal">{{ account.currencyId }}</span>
+                </p>
+              }
+            </td>
+            <td>
+              @if (account.balanceAfter !== 0) {
+                <p class="mf-sm text-text-primary ltr-force font-semibold rtl:text-right">
+                  {{ account.balanceAfter | numberCommaFormat }}
+                  <span class="text-text-secondary ltr-force font-normal">{{ account.currencyId }}</span>
+                </p>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Pagination Section -->
+      <div
+        class="table-footer 2xl:px-2xl 2xl:py-2xl flex flex-col items-center justify-between max-sm:justify-center sm:flex-row">
+        <div class="page-info-container">
+          <span class="mf-sm text-text-secondary hidden font-normal sm:block">
+            {{ t('page') }} {{ currentPage() }} {{ t('pageOf') }} {{ totalPages() }}</span
+          >
+        </div>
+        <div class="pagination-container">
+          <p-paginator
+            [first]="first()"
+            [rows]="rows()"
+            [totalRecords]="totalSize()"
+            [showCurrentPageReport]="false"
+            [showFirstLastIcon]="!layoutFacade.mobileMode()"
+            (onPageChange)="onPageChange($event)">
+            <ng-template #firstpagelinkicon>
+              <icon
+                class="h-3xl w-3xl"
+                name="arrow-left-double" />
+            </ng-template>
+            <ng-template #previouspagelinkicon>
+              <icon
+                class="h-3xl w-3xl"
+                name="arrow-left" />
+            </ng-template>
+            <ng-template #lastpagelinkicon>
+              <icon
+                class="h-3xl w-3xl"
+                name="arrow-right-double" />
+            </ng-template>
+            <ng-template #nextpagelinkicon>
+              <icon
+                class="h-3xl w-3xl"
+                name="arrow-right" />
+            </ng-template>
+          </p-paginator>
+        </div>
+
+        @if (!layoutFacade.mobileMode()) {
+          <div class="mf-md text-text-secondary hidden sm:block">
+            <p-select
+              [options]="paginationSizeOptions()"
+              (onChange)="onPageSizeChange($event)"
+              optionLabel="label"
+              optionValue="value"
+              [appendTo]="lang() === 'ar' ? null : 'body'"
+              (ngModelChange)="first.set(0)"
+              [(ngModel)]="rows">
+              <ng-template pTemplate="selectedItem">
+                <div class="align-items-center flex gap-2">
+                  <div>{{ rows() }} {{ t('perPage') }}</div>
+                </div>
+              </ng-template>
+
+              <ng-template
+                let-country
+                pTemplate="item">
+                <div class="align-items-center flex gap-2">
+                  <div>{{ country.label }} {{ t('perPage') }}</div>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</app-account-detail-widget>

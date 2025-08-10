@@ -1,0 +1,300 @@
+<section class="col-span-12">
+  <scb-card class="py-2xl sm:px-2xl px-4">
+    @if (status() === 'loading') {
+      <div
+        class="py-3xl sm:px-3xl col-span-12 px-4"
+        data-testid="beneficiary_div_loadingState">
+        <scb-skeleton
+          width="15%"
+          height="40px" />
+        <scb-skeleton width="50%" />
+        <scb-skeleton width="50%" />
+        <scb-skeleton width="80%" />
+        <scb-skeleton width="90%" />
+        <scb-skeleton width="100%" />
+      </div>
+    } @else if (status() === 'error') {
+      <div
+        *transloco="let t; prefix: 'dashboard'"
+        class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+        data-testid="beneficiary_div_errorState">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl"
+          data-testid="beneficiary_icon_apiFailure" />
+        <h4
+          class="head-2xs-s text-text-primary"
+          data-testid="beneficiary_h4_apiError">
+          {{ t('error.apiError') }}
+        </h4>
+        <p
+          class="body-sm text-text-primary"
+          data-testid="beneficiary_p_apiErrorDetail">
+          {{ t('error.apiErrorDetail') }}
+        </p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          icon="refresh"
+          (click)="resource.reload()"
+          data-testid="beneficiary_button_reload">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <section
+        *transloco="let t; prefix: 'beneficiary.list'"
+        class="gap-2xl flex flex-col">
+        <!-- Title and Add Beneficiary Button -->
+
+        @if (showFilters()) {
+          <div class="gap-md flex flex-col flex-nowrap items-start justify-between sm:flex-row sm:items-center">
+            <h2 class="mf-lg font-bold">{{ t('title') }}</h2>
+            <button
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              scbButton
+              icon="profile-add"
+              (click)="newBeneficiaryMenu.toggle($event)"
+              variant="primary"
+              size="lg">
+              {{ t('add.title') }}
+            </button>
+          </div>
+          <p-menu
+            #newBeneficiaryMenu
+            [model]="beneficiaryOptions"
+            [popup]="true"
+            data-testid="cc_pMenu_downloadOptions">
+            <ng-template
+              #item
+              let-item>
+              <div
+                tabindex="0"
+                class="flex flex-1 items-center gap-3"
+                (click)="onBeneficiaryOptionClick(item.title)"
+                role="button"
+                data-testid="cc_div_downloadOption">
+                <icon
+                  class="w-4xl"
+                  [name]="item.icon"></icon>
+                <p class="mf-md text-text-primary flex-1">{{ t('add.' + item.title) }}</p>
+              </div>
+            </ng-template>
+          </p-menu>
+        }
+
+        <!-- Search and Filter Section -->
+        @if (showFilters()) {
+          <div class="gap-2xl flex flex-col py-2 2xl:flex-row 2xl:justify-between">
+            <!-- Search -->
+            <div class="2xl:order-2">
+              <scb-form-field mode="search">
+                <icon
+                  name="search-normal"
+                  class="prefix text-input-icon-enabled" />
+                <input
+                  type="text"
+                  [placeholder]="t('search')"
+                  class="focus-within:outline-none"
+                  data-testid="beneficiary_input_search"
+                  scbInput />
+              </scb-form-field>
+            </div>
+            <!-- Filter By -->
+            <div class="gap-md flex flex-nowrap items-center overflow-auto p-2 2xl:order-1">
+              <div>
+                <p
+                  class="mf-md w-full whitespace-nowrap"
+                  data-testid="beneficiary_p_filterBy">
+                  {{ t('filterBy') }}:
+                </p>
+              </div>
+              <div class="gap-xl flex items-center">
+                <!-- beneficiary Type -->
+                <scb-form-field class="[&>.input-main]:w-max">
+                  <scb-select
+                    [searchPlaceholder]="t('beneficiaryType')"
+                    [(value)]="beneficiaryType">
+                    <div
+                      scbSelectTrigger
+                      class="mf-md text-text-secondary"
+                      data-testid="accounts_div_currencyValueCount">
+                      {{ t(beneficiaryType().value || '') }}
+                    </div>
+                    <div class="select-header body-md-s px-md">{{ t('beneficiaryType') }}</div>
+                    @for (item of beneficiaryTypeList(); track item.key) {
+                      <scb-option [value]="item">
+                        {{ item.value === '' ? t('beneficiaryTypeOptions.ALL') : t(item.value) }}
+                      </scb-option>
+                    }
+                  </scb-select>
+                </scb-form-field>
+
+                <!-- Transaction Type -->
+                <scb-form-field
+                  class="[&>.input-main]:w-max"
+                  [variant]="transactionTypeValue().length ? 'primary' : 'ghost'"
+                  data-testid="beneficiary_dropdown_transaction_type">
+                  <scb-select
+                    #transactionTypeSelect
+                    [(value)]="transactionTypeValue"
+                    multiple
+                    data-testid="beneficiary_select_transaction_type_value"
+                    [searchPlaceholder]="t('transactionMethod')">
+                    <app-select-value
+                      scbSelectTrigger
+                      [placeholder]="t('transactionMethod')"
+                      data-testid="beneficiary_select_transaction_value"
+                      [len]="transactionTypeValue().length" />
+                    <scb-option
+                      (click)="chooseAllTransactionType($event)"
+                      [checked]="transactionTypeValue().length === transactionFilterOptions().length"
+                      class="capitalize">
+                      {{ t('transactionTypeOptions.ALL') }}
+                    </scb-option>
+
+                    @for (item of transactionFilterOptions(); track item.key) {
+                      <scb-option
+                        [value]="item.key"
+                        [checked]="transactionTypeValue().includes(item.key)"
+                        class="capitalize">
+                        {{ t(item.value) }}
+                      </scb-option>
+                    }
+                    <app-select-footer
+                      (apply)="applyFilter()"
+                      (resetValue)="resetFilter()" />
+                  </scb-select>
+                </scb-form-field>
+              </div>
+            </div>
+          </div>
+        }
+        @if (showDefaultEmptyState()) {
+          <div class="gap-xl col-span-full flex flex-col items-center justify-center text-center">
+            <icon
+              [name]="isDark() ? 'no-benef-dark' : 'no-benef'"
+              data-testid="beneficiary_icon_empty"
+              class="w-32" />
+            <h3 class="mf-lg text-text-secondary font-semibold">{{ t('empty.title') }}</h3>
+            <p class="mf-md text-text-tertiary font-normal">{{ t('empty.subTitle') }}</p>
+            <button
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              scbButton
+              icon="profile-add"
+              (click)="addBeneficiaryMenuWhenEmpty.toggle($event)"
+              variant="primary"
+              size="lg">
+              {{ t('add.title') }}
+            </button>
+            <p-menu
+              #addBeneficiaryMenuWhenEmpty
+              [model]="beneficiaryOptions"
+              [popup]="true"
+              data-testid="cc_pMenu_downloadOptions">
+              <ng-template
+                #item
+                let-item>
+                <div
+                  tabindex="0"
+                  class="flex flex-1 items-center gap-3"
+                  (click)="onBeneficiaryOptionClick(item.title)"
+                  role="button"
+                  data-testid="cc_div_downloadOption">
+                  <icon
+                    class="w-4xl"
+                    [name]="item.icon"></icon>
+                  <p class="mf-md text-text-primary flex-1">{{ t('add.' + item.title) }}</p>
+                </div>
+              </ng-template>
+            </p-menu>
+          </div>
+        }
+        @if (emptyState() && activeFilter()) {
+          <div class="col-span-full flex flex-col items-center justify-center text-center">
+            <icon
+              [name]="isDark() ? 'no-benef-dark' : 'no-benef'"
+              data-testid="beneficiary_icon_empty"
+              class="w-32" />
+            <h3 class="mf-lg text-text-secondary font-semibold">{{ t('noFilter.title') }}</h3>
+            <p class="mf-md text-text-tertiary font-normal">{{ t('noFilter.subTitle') }}</p>
+          </div>
+        } @else {
+          <div class="gap-2xl grid grid-cols-1">
+            @for (item of beneficiaries(); track item.beneficiaryId) {
+              <section
+                class="p-2xl gap-lg dark:bg-gray-850 flex flex-col rounded-lg border border-gray-200 bg-white dark:border-gray-700">
+                <!-- Beneficiary Card Header -->
+                <div class="gap-lg flex items-center justify-between">
+                  <!-- Beneficiary Card Header Image -->
+                  <beneficiary-icon [tMethod]="item.transactionMethod" />
+
+                  <!-- Beneficiary Card Header Details -->
+                  <div class="gap-sm flex min-w-0 flex-1 flex-col">
+                    <h3 class="mf-lg text-text-primary overflow-hidden font-semibold text-ellipsis whitespace-nowrap">
+                      {{ item.beneficiaryName }}
+                    </h3>
+                    <p class="mf-md text-text-secondary overflow-hidden font-normal text-ellipsis whitespace-nowrap">
+                      {{ item.beneficiaryNickname }}
+                    </p>
+                    <p class="mf-md text-text-tertiary overflow-hidden font-normal text-ellipsis whitespace-nowrap">
+                      {{ lang() === 'ar' ? item.bank?.bankNameAr : item.bank?.bankNameEn }}
+                    </p>
+                    <div class="gap-sm flex min-w-0">
+                      <p
+                        class="mf-xs text-text-secondary overflow-hidden rounded-full bg-gray-100 px-2 py-[2px] font-normal text-ellipsis whitespace-nowrap dark:bg-gray-900">
+                        {{ t('transactionTypeOptions.' + item.transactionMethod) }}
+                      </p>
+                      <p class="mf-sm text-text-tertiary overflow-hidden font-normal text-ellipsis whitespace-nowrap">
+                        {{ item.beneficiaryNumber }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Beneficiary Card Header Actions -->
+                  <div
+                    *rolePermission="['SUPER_USER', 'MAKER']"
+                    class="gap-5xl flex flex-shrink-0 flex-nowrap sm:flex sm:flex-col sm:justify-between">
+                    <div class="gap-xl flex self-end">
+                      <button
+                        scbButton
+                        variant="ghost"
+                        size="xs"
+                        icon="user-edit"
+                        (click)="editBeneficiary(item)"
+                        class="h-3xl w-3xl p-0!"></button>
+                      <button
+                        scbButton
+                        variant="ghost"
+                        icon="trash"
+                        (click)="deleteBeneficiary(item)"
+                        size="xs"
+                        class="h-3xl w-3xl p-0!"></button>
+                    </div>
+                    <button
+                      scbButton
+                      class="hidden! w-full sm:flex!"
+                      variant="secondary"
+                      size="md">
+                      {{ t('makeTransfer') }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="sm:hidden">
+                  <button
+                    scbButton
+                    class="w-full"
+                    variant="secondary"
+                    size="md">
+                    {{ t('makeTransfer') }}
+                  </button>
+                </div>
+              </section>
+            }
+          </div>
+        }
+      </section>
+    }
+  </scb-card>
+</section>

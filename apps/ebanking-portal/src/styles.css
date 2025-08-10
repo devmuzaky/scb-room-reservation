@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+
+@source '../../../node_modules/@scb/ui';
+
+@import '../../../node_modules/@scb/ui/theme/base-theme.css';
+
+html {
+  @apply bg-background text-text-primary;
+}
+
+body {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  @apply bg-background text-text-primary min-h-screen;
+  .gm-style .gm-style-iw-d::-webkit-scrollbar-track,
+  .gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece,
+  .gm-style .gm-style-iw-c,
+  .gm-style .gm-style-iw-t::after {
+    @apply bg-background;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-elevated rounded-full;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-elevated;
+}
+
+.p-select-overlay {
+  width: 100%;
+}
+
+.p-paginator {
+  flex-wrap: nowrap !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.p-datatable-thead > tr > th,
+.p-datatable-tbody > tr > td {
+  white-space: nowrap !important;
+}
+
+.p-datepicker-input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.p-datepicker .p-inputtext:enabled:hover {
+  background-color: transparent !important;
+}
+
+/* .p-floatlabel-in:has(input:focus) label {
+  top: 50% !important;
+} */
+
+.p-floatlabel-in:has(input:focus) label {
+  top: 0 !important;
+}
+
+.p-drawer-mask {
+  @apply !bg-black/30 dark:!bg-gray-300/30;
+}
+
+.p-datepicker-panel {
+  z-index: 999999999 !important;
+}

@@ -1,0 +1,133 @@
+<div
+  class="flex flex-col"
+  *transloco="let t; prefix: 'chequeBook.form'">
+  <main class="bg-page pb-3xl flex-grow">
+    @if (chequeBookService.step() === 'form') {
+      <form
+        [formGroup]="form"
+        class="page-grid p-0">
+        <div class="gap-2xl col-span-12 flex flex-col 2xl:col-span-10 2xl:col-start-2">
+          <scb-card class="p-xl gap-2xl flex flex-col">
+            <div class="gap-lg flex flex-col">
+              <p class="mf-lg font-semibold">{{ t('linkedAccount') }}</p>
+              <linked-account-field
+                type="linked"
+                requestType="linked"
+                currency=""
+                (accountSelected)="handleAccountSelected($event)" />
+              @if (linkedAccount.touched && linkedAccount.invalid) {
+                <p class="mf-sm text-input-text-danger gap-sm flex items-start">
+                  <icon
+                    name="info-circle"
+                    class="w-[18px] flex-none" />
+                  {{ t('sectionRequired') }}
+                </p>
+              }
+            </div>
+
+            @if (chequeBookService.isOVDAccount()) {
+              <div class="gap-lg flex flex-col">
+                <p class="mf-lg font-semibold">{{ t('feesDebitAccount') }}</p>
+                <linked-account-field
+                  type="debit"
+                  requestType="debit"
+                  (accountSelected)="handleAccountSelected($event)" />
+                @if (debitAccount.touched && debitAccount.invalid) {
+                  <p class="mf-sm text-input-text-danger gap-sm flex items-start">
+                    <icon
+                      name="info-circle"
+                      class="w-[18px] flex-none" />
+                    {{ t('sectionRequired') }}
+                  </p>
+                }
+              </div>
+            }
+            <!-- Amount -->
+            <div class="gap-lg mt-3 flex flex-col">
+              <p class="mf-lg font-semibold">{{ t('chequeBookType') }}</p>
+              <div class="gap-2xl flex justify-between max-sm:flex-col max-sm:gap-0">
+                <div class="gap-2xl block w-1/2 max-sm:w-full">
+                  <scb-form-field>
+                    <label scbLabel>{{ t('numberOfChequebooks') }}</label>
+                    <scb-select
+                      [withLabel]="true"
+                      formControlName="chequebooksIssued">
+                      <div
+                        scbSelectTrigger
+                        class="text-text-primary body-md-s">
+                        {{ form.get('chequebooksIssued')?.value }}
+                      </div>
+                      @for (cBook of numberOfChequeBooks; track cBook) {
+                        <!-- @let v = lang() === 'en' ? numberOfChequeBooks.chequeBookAr : numberOfChequeBooks.chequeBookEns; -->
+                        <scb-option [value]="cBook">{{ cBook }}</scb-option>
+                      }
+                    </scb-select>
+                    <p scbError="required">{{ t('sectionRequired') }}</p>
+                  </scb-form-field>
+                  <p
+                    scbHint
+                    class="gap-sm text-input-text-supporting body-label-sm flex items-center">
+                    <icon
+                      name="info-circle"
+                      class="w-[20px] flex-none" />
+                    {{ t('totalFeesHint') }}
+                    @if (chequeBookFeeResource.isLoading()) {
+                      <scb-skeleton class="!h-xl !mb-0 !w-[10%]" />
+                    } @else {
+                      <currency-view
+                        data-testid="FACILITY_TYPE_UTILIZED"
+                        [amount]="fees() ?? 0"
+                        [currency]="'EGP'"
+                        short
+                        size="m" />
+                    }
+
+                    <!-- <span class="mf-sm text-text-tertiary"></span> -->
+                  </p>
+                </div>
+                <div class="gap-2xl block w-1/2 max-sm:mt-5 max-sm:w-full">
+                  <scb-form-field>
+                    <label scbLabel>{{ t('numberOfLeaves') }}</label>
+                    <scb-select
+                      [withLabel]="true"
+                      formControlName="leavesCount">
+                      <div
+                        scbSelectTrigger
+                        class="text-text-primary body-md-s">
+                        {{ form.get('leavesCount')?.value }}
+                      </div>
+                      @for (leave of numberOfLeaves; track leave) {
+                        <scb-option [value]="leave">{{ leave }}</scb-option>
+                      }
+                    </scb-select>
+                    <p scbError="required">{{ t('sectionRequired') }}</p>
+                  </scb-form-field>
+                </div>
+              </div>
+            </div>
+            <!-- @if (branchDetail()) { -->
+            <scb-alert
+              [desc]="t('chequeBookStatus') + ' ' + branchDetail()"
+              [hideClose]="true"
+              class="flex flex-col"
+              type="assist" />
+
+            <!-- } -->
+            <div class="gap-xl flex flex-1">
+              <app-terms-and-conditions
+                [field]="acceptTerms"
+                [type]="chequeBookType()" />
+            </div>
+          </scb-card>
+        </div>
+      </form>
+    }
+
+    @if (chequeBookService.step() === 'success') {
+      <chequebook-detail
+        [isRequestSubmitted]="true"
+        [inputDetail]="chequeBookService.chequeBookInfo()" />
+    }
+    <submit-chequebook-buttons-footer [form]="form" />
+  </main>
+</div>

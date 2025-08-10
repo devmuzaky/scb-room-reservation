@@ -1,0 +1,145 @@
+<scb-sidenav
+  class="!h-screen"
+  [mode]="layoutFacade.mode()"
+  [(show)]="layoutFacade.show"
+  mode="partial"
+  *transloco="let t">
+  <scb-sidenav-header
+    width="264px"
+    minWidth="80px"
+    class="relative">
+    <div
+      class="h-8xl z-p border-border-tertiary py-2xl px-xl gap-lg bg-foreground sticky top-0 flex items-center border-b">
+      <app-logo small />
+      @if (!layoutFacade.iconMode()) {
+        <div class="flex flex-1">
+          <div>
+            <h4 class="body-md text-text-primary">{{ t('dashboardLayout.bankName') }}</h4>
+            <p class="body-sm text-text-tertiary">{{ t('dashboardLayout.bankType') }}</p>
+          </div>
+        </div>
+      }
+      <button
+        scbButton
+        icon="close"
+        size="xs"
+        variant="ghost"
+        data-testid="DASH_BTN_CLOSE_MENU"
+        class="border-border-secondary bg-container !text-icon-secondary h-[28px] w-[28px] rounded-lg border !p-[6px] 2xl:hidden"
+        (click)="layoutFacade.toggle()"></button>
+    </div>
+    <div
+      class="{{
+        'py-xl gap-sm flex flex-col transition-all ' + (layoutFacade.iconMode() ? 'px-md text-center' : 'px-xl')
+      }}">
+      <h4
+        class="body-label-sm-m py-sm text-text-tertiary"
+        data-testid="HOME_MAIN_SECTION_TITLE">
+        {{ t('dashboardLayout.Main') }}
+      </h4>
+      <div class="gap-md text-text-tertiary body-label-md flex flex-col">
+        <app-layout-item
+          name="dashboardLayout.Dashboard"
+          icon="home"
+          activeIcon="home-solid"
+          testId="HOME_MAIN_DASHBOARD_LINK"
+          href="/dashboard"
+          [sideMenu]="sideMenu()" />
+        <app-layout-item
+          name="dashboardLayout.AccountsAndDeposits"
+          icon="bank"
+          activeIcon="bank-solid"
+          href="/accounts-and-deposits"
+          testId="HOME_MAIN_ACCOUNTS_LINK"
+          [sideMenu]="sideMenu()" />
+        <app-layout-item
+          name="dashboardLayout.Transfer"
+          icon="transfer"
+          href="/transfer"
+          activeIcon="transfer-solid"
+          [sideMenu]="sideMenu()"
+          testId="HOME_MAIN_TRANSFER_LINK" />
+        <app-layout-item
+          *rolePermission="['SUPER_USER', 'MAKER']"
+          name="dashboardLayout.products"
+          icon="products"
+          href="/products"
+          activeIcon="products-solid"
+          [sideMenu]="sideMenu()"
+          testId="HOME_MAIN_PRODUCTS_LINK" />
+        <app-layout-item
+          name="dashboardLayout.Beneficiary"
+          icon="profile-2user"
+          href="/beneficiary"
+          activeIcon="profile-2user-solid"
+          testId="HOME_MAIN_BENEFICIARY_LINK"
+          [sideMenu]="sideMenu()" />
+        <app-layout-item
+          *rolePermission="['SUPER_USER', 'MAKER', 'CHECKER']"
+          name="dashboardLayout.pendingApprovals"
+          icon="pending-approvals"
+          href="/pending-approvals"
+          activeIcon="pending-approvals-active"
+          testId="HOME_MAIN_BENEFICIARY_LINK"
+          [sideMenu]="sideMenu()" />
+        <app-layout-item
+          *rolePermission="['SUPER_USER', 'MAKER', 'CHECKER']"
+          name="dashboardLayout.softToken"
+          icon="home"
+          activeIcon="home-solid"
+          href="/soft-token"
+          testId="HOME_MAIN_SOFT_TOKEN"
+          [sideMenu]="sideMenu()" />
+
+        <app-layout-item
+          name="dashboardLayout.chequeBook"
+          icon="chequebook"
+          activeIcon="chequebook-solid"
+          href="/chequebook"
+          testId="HOME_MAIN_CHEQUE_BOOK"
+          [sideMenu]="sideMenu()" />
+
+        <!-- <app-layout-item
+          name="dashboardLayout.delegation"
+          icon="home"
+          activeIcon="home-solid"
+          href="/delegation-matrix"
+          testId="HOME_MAIN_CHEQUE_BOOK"
+          [sideMenu]="sideMenu()" /> -->
+      </div>
+    </div>
+    <div
+      class="{{
+        'py-xl gap-sm flex flex-col transition-all ' + (layoutFacade.iconMode() ? 'px-md text-center' : 'px-xl')
+      }}">
+      <h4
+        class="body-label-sm-m py-sm text-text-tertiary"
+        data-testid="HOME_SERVICES_SECTION_TITLE">
+        {{ t('dashboardLayout.Services') }}
+      </h4>
+      <div class="gap-md text-text-tertiary body-label-md flex flex-col">
+        <app-layout-item
+          name="dashboardLayout.Locate"
+          icon="location"
+          testId="HOME_SERVICES_LOCATE_LINK" />
+        <app-layout-item
+          name="dashboardLayout.FAQs"
+          icon="faqs"
+          testId="HOME_SERVICES_FAQS_LINK" />
+        <app-layout-item
+          name="dashboardLayout.Settings"
+          icon="settings"
+          testId="HOME_SERVICES_SETTINGS_LINK" />
+      </div>
+    </div>
+  </scb-sidenav-header>
+  <main class="flex flex-1 flex-col">
+    <header-dashboard />
+    <div class="flex-1 overflow-auto">
+      <toaster-component [position]="layoutFacade.isArabic() ? 'bottom-left' : 'bottom-right'" />
+
+      <!-- APPLICATION CONTENT AFTER LOGIN -->
+      <router-outlet />
+    </div>
+  </main>
+</scb-sidenav>

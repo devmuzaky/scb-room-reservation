@@ -1,0 +1,278 @@
+<scb-card
+  class="py-3xl sm:px-3xl px-4"
+  *transloco="let t; prefix: 'certificates'"
+  data-testid="certificates_card_certificateList">
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'certificates'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="certificates_div_errorState">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="certificates_icon_apiFailure" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="certificates_h4_apiError">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="certificates_p_apiErrorDetail">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="certificatesListResource.reload()"
+        data-testid="certificates_button_reload">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    @if (currenciesList().length > 1) {
+      <div
+        class="gap-md mb-4 flex flex-col px-4 sm:flex-row sm:items-center"
+        data-testid="certificates_div_filterContainer">
+        <div>
+          <p
+            class="mf-md flex-1"
+            data-testid="certificates_p_filterBy">
+            {{ t('filterBy') }}:
+          </p>
+        </div>
+
+        <div class="gap-md flex items-center">
+          <scb-form-field
+            [variant]="currencyValue().length > 0 ? 'primary' : 'ghost'"
+            data-testid="certificates_formField_currency">
+            <scb-select
+              #currencySelect
+              [options]="currenciesList()"
+              [(value)]="currencyValue"
+              multiple
+              data-testid="certificates_select_currencyValue"
+              [searchPlaceholder]="t('searchOptions')">
+              <div
+                scbSelectTrigger
+                class="gap-md body-label-md-m flex items-center"
+                data-testid="certificates_div_currencySelectTrigger">
+                {{ t('currency') }}
+                @if (currencyValue().length) {
+                  <div
+                    class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl"
+                    data-testid="certificates_div_currencyValueCount">
+                    +{{ currencyValue().length }}
+                  </div>
+                }
+              </div>
+              @for (item of currencySelect.optionsFilter.filteredList(); track item) {
+                <scb-option
+                  [value]="item"
+                  data-testid="certificates_option_currencyItem">
+                  {{ item }}
+                </scb-option>
+              }
+
+              <div
+                class="select-footer flex gap-3 border-t-1 border-t-gray-100 px-2 py-3"
+                data-testid="certificates_div_currencySelectFooter">
+                <button
+                  scbButton
+                  variant="primary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="applyFilter()"
+                  data-testid="certificates_button_applyFilter">
+                  {{ t('apply') }}
+                </button>
+                <button
+                  scbButton
+                  variant="secondary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="resetFilter()"
+                  data-testid="certificates_button_resetFilter">
+                  {{ t('reset') }}
+                </button>
+              </div>
+            </scb-select>
+          </scb-form-field>
+
+          <button
+            scbButton
+            variant="secondary"
+            [ngClass]="{ hidden: currencyValue().length === 0 }"
+            size="md"
+            (click)="clearFilter()"
+            class="!px-2"
+            data-testid="certificates_button_clearFilter">
+            {{ t('clearFilter') }}
+          </button>
+        </div>
+      </div>
+    }
+    <div
+      class="mb-4 rounded-4xl border-1 border-gray-200 dark:border-gray-700"
+      data-testid="certificates_div_certificateListTableContainer">
+      <div
+        class="gap-sm mb-3 flex flex-col p-4 pb-0 sm:flex-row sm:justify-between"
+        data-testid="certificates_div_tableHeader">
+        <div class="sm:self-center">
+          <p
+            class="mf-lg font-semibold"
+            data-testid="certificates_p_tableTitle">
+            {{ t('title') }}
+          </p>
+        </div>
+
+        <div
+          class="gap-sm flex flex-col justify-between sm:items-end"
+          data-testid="certificates_div_tableActions">
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="certificatesListResource.reload()" />
+          <div
+            class="gap-sm flex items-center"
+            data-testid="certificates_div_totalBalance">
+            <p
+              class="text-text-tertiary mf-md"
+              data-testid="certificates_p_equivalentLabel">
+              {{ t('equivalent') }}:
+            </p>
+
+            <p
+              [pTooltip]="totalBalanceTooltip"
+              tooltipPosition="top"
+              class="mf-md ltr-force font-semibold"
+              data-testid="certificates_p_totalBalanceValue">
+              {{ totalBalance() | shortNumber | mask: layoutFacade.showBalances() }}
+              <span
+                class="text-text-secondary font-normal"
+                data-testid="certificates_span_egpCurrency"
+                >EGP</span
+              >
+            </p>
+            <button
+              scbButton
+              variant="ghost"
+              size="md"
+              (click)="downloadOptionsMenu.toggle($event)"
+              [pTooltip]="downloadTooltip"
+              tooltipPosition="top"
+              icon="download"
+              data-testid="certificates_button_downloadMenu"></button>
+
+            <ng-template #totalBalanceTooltip>
+              <p class="mf-sm whitespace-nowrap">
+                {{ totalBalance() | numberCommaFormat }}
+                <span
+                  class="text-text-white font-normal"
+                  data-testid="certificates_span_egpCurrency"
+                  >EGP</span
+                >
+              </p>
+            </ng-template>
+
+            <ng-template #downloadTooltip>
+              <p class="mf-sm whitespace-nowrap">{{ t('downloadTooltip') }}</p>
+            </ng-template>
+
+            <p-menu
+              #downloadOptionsMenu
+              [model]="downloadOptionsList"
+              [popup]="true"
+              data-testid="certificates_pMenu_downloadOptions">
+              <ng-template
+                #item
+                let-item>
+                <div
+                  tabindex="0"
+                  class="flex flex-1 gap-3"
+                  (click)="download(item.icon)"
+                  role="button"
+                  data-testid="certificates_div_downloadOption">
+                  <icon
+                    class="w-2xl"
+                    [name]="item.icon"></icon>
+                  <p class="mf-md text-text-primary flex-1">{{ item.label }}</p>
+                  <icon
+                    class="text-text-brand w-2xl"
+                    name="download"></icon>
+                </div>
+              </ng-template>
+            </p-menu>
+          </div>
+        </div>
+      </div>
+
+      <p-table
+        [value]="certificatesList()"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('table.cdNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.cdType') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.interestRate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.maturityDate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.cdAmount') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-certificate>
+          <tr class="!bg-transparent">
+            <td>
+              <a
+                class="text-primary dark:text-brand-300 mf-sm underline"
+                [routerLink]="certificate.CdNumber">
+                {{ certificate.CdNumber }}
+              </a>
+            </td>
+            <td>
+              <p class="text-text-primary mf-sm">{{ certificate.type }}</p>
+            </td>
+            <td>
+              <p class="mf-sm text-text-primary font-semibold">{{ certificate.interestRate }}%</p>
+            </td>
+            <td>
+              <date-view
+                data-testid="DASH_CERTIFICATE_BASIC_DETAIL_TITLE"
+                [value]="certificate.maturityDate"
+                variant="md" />
+            </td>
+            <td>
+              @if (certificate.amount !== 0) {
+                <p class="mf-sm ltr-force font-semibold rtl:text-right">
+                  {{ certificate.amount | numberCommaFormat | mask: layoutFacade.showBalances() }}
+                  <span class="mf-xs font-normal">{{ certificate.currency }}</span>
+                </p>
+              }
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="flex justify-end">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first()"
+        styleClass=""
+        showFirstLastIcon="false"
+        [rows]="rows()"
+        [totalRecords]="totalRecords()" />
+    </div>
+  }
+</scb-card>

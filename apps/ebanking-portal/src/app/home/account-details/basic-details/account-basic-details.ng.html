@@ -1,0 +1,225 @@
+<app-account-detail-widget
+  [status]="status()"
+  (reload)="accountBasicDetailsResource.reload()"
+  data-testid="ACCOUNT_DETAIL_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'account-basic-detail'">
+  <div class="loading">
+    <scb-card-skeleton />
+  </div>
+  @if (accountDetails()) {
+    <div
+      class="gap-sm mb-3 flex flex-col sm:flex-row sm:justify-between"
+      data-testid="accounts_div_tableHeader">
+      <div class="sm:self-center">
+        <p
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_TITLE">
+          {{ accountDetails()?.nickname || accountDetails()?.accountType }}
+        </p>
+      </div>
+
+      <div
+        class="gap-sm flex flex-col justify-between sm:items-end"
+        data-testid="accounts_div_tableActions">
+        <app-last-updated
+          [date]="lastUpdatedAt()"
+          (refresh)="accountBasicDetailsResource.reload()" />
+
+        <div class="gap-sm flex items-center">
+          <p
+            class="text-text-tertiary mf-md"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_EQUIVALENT">
+            {{ t('availableBalance') }}
+          </p>
+
+          <p
+            [pTooltip]="totalAvailableBalance"
+            tooltipPosition="top"
+            class="mf-md ltr-force font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_AVAILABLE_BALANCE">
+            {{
+              accountDetails()?.totalAvailableBalance === null
+                ? 0
+                : (accountDetails()?.totalAvailableBalance | shortNumber | mask: layoutFacade.showBalances())
+            }}
+
+            <span
+              class="text-text-secondary font-normal"
+              data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY"
+              >{{ accountDetails()?.currency }}</span
+            >
+          </p>
+
+          <ng-template #totalAvailableBalance>
+            <p class="mf-sm whitespace-nowrap">
+              {{ accountDetails()?.totalAvailableBalance | numberCommaFormat }}
+              <span
+                class="text-text-white font-normal"
+                data-testid="DASH_ACCOUNT_BASIC_DETAIL_CURRENCY_TOOLTIP"
+                >{{ accountDetails()?.currency }}</span
+              >
+            </p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-5xl border-border-secondary bg-container mt-4 border-[1px] p-4 sm:mt-5">
+      <div
+        class="border-border-secondary bg-container flex min-h-10 justify-between border-b align-middle"
+        data-testid="DASH_ACCOUNT_BASIC_DETAIL_CONTAINER">
+        <h2
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_HEADING">
+          {{ t('basicDetail') }}
+        </h2>
+        <button
+          scbButton
+          variant="ghost"
+          size="xs"
+          tooltipPosition="bottom"
+          placeholder="bottom"
+          [tooltipStyleClass]="'custom-width-tooltip'"
+          [pTooltip]="'Download accounts details'"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_ICON"
+          (click)="generateAccountDetailPDF()"
+          icon="export"></button>
+      </div>
+      <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+        <div class="flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_HEADING">
+            {{ t('accountNumber') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_ACCOUNT_NUMBER">
+            {{ accountDetails()?.accountType }} - {{ accountDetails()?.accountNumber }}
+          </p>
+        </div>
+        <div class="flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_IBAN_HEADING">
+            {{ t('iban') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary font-semibold"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL__IBAN_TITLE">
+            {{ accountDetails()?.iban }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="rounded-5xl border-border-secondary mt-4 border p-4 sm:mt-5"
+      data-testid="DASH_ACCOUNT_BASIC_DETAIL_BALANCE_CONTAINER">
+      <div class="border-border-secondary flex justify-between border-b pb-2.5">
+        <h2
+          class="mf-lg text-text-primary font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_BALANCE_TITLE">
+          {{ t('balanceDetails') }}
+        </h2>
+      </div>
+      <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+        <div class="flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_TOTAL_BALANCE_HEADING">
+            {{ t('totalBalance') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_TOTAL_BALANCE_AMOUNT">
+            {{ accountDetails()?.totalBalance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            <span class="mf-md text-text-secondary font-normal">{{ accountDetails()?.currency }}</span>
+          </p>
+        </div>
+        <div class="flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_TOUSE_HEADING">
+            {{ t('availabletoUse') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_TOUSE_AMOUNT">
+            {{ accountDetails()?.availableBalance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            <span class="mf-md text-text-secondary font-normal">{{ accountDetails()?.currency }}</span>
+          </p>
+        </div>
+        <div class="flex w-full flex-col">
+          <h2
+            class="mf-md text-text-secondary font-normal"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_PENDING_BALANCE_HEADING">
+            {{ t('pendingBalance') }}
+          </h2>
+          <p
+            class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+            data-testid="DASH_ACCOUNT_BASIC_DETAIL_PENDING_BALANCE_AMOUNT">
+            {{ accountDetails()?.pendingBalance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+            <span class="mf-md text-text-secondary ltr-force font-normal">{{ accountDetails()?.currency }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="rounded-5xl border-border-secondary mt-4 border p-4 sm:mt-5"
+      data-testid="DASH_ACCOUNT_BASIC_DETAIL_BLOCKED_CONTAINER">
+      <div class="border-border-secondary flex justify-between">
+        <h2
+          class="text-text-primary text-xl font-semibold"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_BLOCKED_HEADING">
+          {{ t('blockedBalance') }}
+        </h2>
+        <p
+          class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_BLOCKED_AMOUNT">
+          {{ accountDetails()?.blockedBalance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+          <span class="mf-md text-text-secondary font-normal">{{ accountDetails()?.currency }}</span>
+        </p>
+      </div>
+      <!-- <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+      <div class="flex w-full flex-col">
+        <h2
+          class="mf-md text-text-secondary font-normal"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_LOAN_HEADING">
+          {{ t('loan') }}
+        </h2>
+        <p
+          class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_LOAN_AMOUNT">
+          234,000 <span class="mf-md text-text-secondary] font-normal">EGP</span>
+        </p>
+      </div>
+      <div class="flex w-full flex-col">
+        <h2
+          class="mf-md text-text-secondary font-normal"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_LGS_HEADING">
+          {{ t('lgs') }}
+        </h2>
+        <p
+          class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_LGS_AMOUNT">
+          440,000 <span class="mf-md text-text-secondary font-normal">EGP</span>
+        </p>
+      </div>
+      <div class="flex w-full flex-col">
+        <h2
+          class="mf-md text-text-secondary font-normal"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_CREDIT_HEADING">
+          {{ t('creditCard') }}
+        </h2>
+        <p
+          class="mf-md text-text-primary ltr-force font-semibold rtl:text-right"
+          data-testid="DASH_ACCOUNT_BASIC_DETAIL_CREDIT_AMOUNT">
+          440,234,000 <span class="mf-md text-text-secondary font-normal">EGP</span>
+        </p>
+      </div>
+    </div> -->
+    </div>
+  }
+</app-account-detail-widget>

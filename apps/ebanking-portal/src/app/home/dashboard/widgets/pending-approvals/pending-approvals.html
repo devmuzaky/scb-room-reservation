@@ -1,0 +1,78 @@
+<dashboard-widget
+  class="gap-lg h-full"
+  [status]="myApprovalsStatus()"
+  (reload)="myApprovalsResource.reload()"
+  *transloco="let t; prefix: 'dashboard'">
+  <span
+    class="title mf-lg font-semibold"
+    data-testid="DASH_PENDING_APPROVALS_TITLE">
+    {{ t('pendingApprovals.title') }}</span
+  >
+
+  <div class="loading">
+    <div class="top-0 w-full 2xl:absolute">
+      <scb-skeleton
+        width="15%"
+        height="40px" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="80%" />
+      <scb-skeleton width="90%" />
+      <scb-skeleton width="90%" />
+    </div>
+  </div>
+
+  <scb-selectable
+    size="sm"
+    data-testid="DASH_PENDING_APPROVALS_TAB_GROUP"
+    [(activeIndex)]="activeTab"
+    class="mb-lg 2xl:mb-2xl gap-sm text-text-secondary w-full 2xl:flex-row">
+    @for (item of tabs; track $index) {
+      <scb-selectable-item
+        [value]="item.id"
+        [attr.data-testid]="'DASH_PENDING_APPROVALS_TAB_ITEM_' + activeTab"
+        [ngClass]="{
+          'text-text-primary font-medium': activeTab() === item.id,
+          'text-text-secondary font-normal': activeTab() !== item.id,
+        }">
+        {{ t('pendingApprovals.tabs.' + item.id) }}
+      </scb-selectable-item>
+    }
+  </scb-selectable>
+
+  @if (activeTab() === ApprovalTypesEnum.MAKER && approvalsDetail().length) {
+    @for (approval of approvalsDetail(); track approval.groupName) {
+      <app-pending-approvals-card
+        [approvalsDetail]="approval"
+        [approvalType]="approval.groupName" />
+    }
+
+    <div class="mf-sm gap-lg flex w-full flex-col items-center justify-center">
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        data-testid="DASH_PENDING_APPROVALS_SEE_ALL_BTN"
+        class="mf-sm">
+        {{ t('pendingApprovals.seeAll') }}
+      </button>
+    </div>
+  }
+  @if (activeTab() === ApprovalTypesEnum.CHECKER && approvalsDetail().length) {
+    @for (approval of approvalsDetail(); track approval.groupName) {
+      <app-pending-approvals-card
+        [approvalsDetail]="approval"
+        [approvalType]="approval.groupName" />
+    }
+    <div class="mf-sm gap-lg mt-auto flex w-full items-center justify-center">
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        data-testid="DASH_PENDING_APPROVALS_SEE_ALL_BTN"
+        class="mf-sm">
+        {{ t('pendingApprovals.seeAll') }}
+      </button>
+    </div>
+  }
+</dashboard-widget>

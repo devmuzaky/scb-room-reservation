@@ -1,0 +1,221 @@
+<div
+  class="page-grid p-0"
+  *transloco="let t; prefix: 'transfer.summary'">
+  @let d = displayData();
+  <!-- Main section -->
+  @if (d) {
+    <div class="gap-2xl col-span-12 flex flex-col 2xl:col-span-10 2xl:col-start-2">
+      <!-- ACH information -->
+      @if ((formData().transferNetwork === 'ACH' || formData().transferNetwork === 'IPN') && !isError()) {
+        <scb-alert
+          size="sm"
+          type="info"
+          hideClose
+          [desc]="t(isWorkingHours ? 'achSuccessWithinWorkingHours' : 'achSuccessAfterWorkingHours')" />
+      }
+      <scb-card class="py-3xl px-xl">
+        <div class="flex w-full flex-col gap-4 overflow-hidden">
+          <div class="flex flex-col items-center justify-start gap-5">
+            <icon
+              [name]="isError() ? 'web-error' : 'web-success'"
+              class="text-3xl" />
+            <div
+              data-decimal-="false"
+              data-only-number="Off"
+              data-size="md"
+              class="inline-flex items-center justify-end">
+              <div class="gap-sm ltr-force flex items-center justify-center">
+                <p class="mf-3xl text-text-brand font-semibold">
+                  {{ d.transferAmount | numberCommaFormat }}
+                </p>
+                <p class="text-text-secondary mf-md">{{ d.transferCurrency }}</p>
+              </div>
+            </div>
+
+            @if (isError()) {
+              <!-- In case of error -->
+              <p class="text-text-primary mf-xl sm:mf-2xl justify-center font-semibold">
+                {{ transfer.errorMessage() }}
+              </p>
+            } @else if (isMakerRole()) {
+              <!-- For Maker User  -->
+              <div class="text-center">
+                <p class="text-text-primary mf-xl sm:mf-2xl justify-center font-semibold">
+                  {{ t('approvalSubmittedTitle') }}
+                </p>
+                <p class="text-text-secondary mf-md mt-2">
+                  {{ t('approvalSubmittedMessage') }}
+                </p>
+              </div>
+            } @else {
+              <!-- For Super User ONLY-->
+              <!-- In case of instant & recurring -->
+              @if (instantAndRecurring() && !isError() && d.referenceId) {
+                <p class="text-text-primary mf-xl sm:mf-2xl justify-center font-semibold">
+                  {{ t('instantAndRecurring') }}
+                </p>
+              } @else if (formData().isSchedule && !isError() && !d.referenceId) {
+                <!-- In case of schedule & recurring or not recurring -->
+                <p class="text-text-primary mf-xl sm:mf-2xl justify-center font-semibold">
+                  {{ t('scheduledCompleted') }}
+                </p>
+              } @else {
+                <!-- In case of success - no schedule no recurring -->
+                <p class="text-text-primary mf-xl sm:mf-2xl justify-center font-semibold">
+                  {{ t('transferCompleted') }}
+                </p>
+              }
+            }
+          </div>
+
+          <!-- Account Section -->
+          <div class="gap-2xl flex flex-col 2xl:flex-row">
+            <div class="gap-sm flex flex-1 flex-col">
+              <p class="mf-sm text-text-tertiary font-medium">{{ t('from') }}</p>
+              <app-account-selected-view
+                [nickname]="d.fromAccount.accountNickname"
+                [accountNumber]="d.fromAccount.accountNumber" />
+            </div>
+
+            @if (d.transferType === 'OWN') {
+              <div class="gap-sm flex flex-1 flex-col">
+                <p class="mf-md text-text-secondary font-medium">{{ t('to') }}</p>
+                <app-account-selected-view
+                  [nickname]="d.toAccount?.accountNickname ?? ''"
+                  [accountNumber]="d.toAccount?.accountNumber ?? ''" />
+              </div>
+            } @else if (d.transferType === 'CHARITY') {
+              <div class="gap-sm flex flex-1 flex-col">
+                <p class="mf-md text-text-secondary font-medium">{{ t('to') }}</p>
+                @if (d?.charityTransferDto || this.formData().charityTransferDto; as charity) {
+                  <app-charity-selected-view
+                    [charity]="charity"
+                    [customerId]="charity.customerId" />
+                }
+              </div>
+            } @else {
+              <!-- Beneficiary -->
+              <div class="gap-sm flex flex-1 flex-col">
+                <p class="mf-md text-text-secondary font-medium">{{ t('to') }}</p>
+                <app-beneficiary-selected-view [beneficiary]="beneficiary()!" />
+              </div>
+            }
+          </div>
+
+          <!-- Charges Section -->
+          @if (d.transferType === 'OUTSIDE' && !isError()) {
+            <app-transaction-summary-outside [value]="formData()" />
+          }
+
+          <!-- Transfer information -->
+          <div class="p-xl gap-2xl border-border-secondary grid grid-cols-1 rounded-2xl border md:grid-cols-2">
+            @if (isFc()) {
+              <div class="gap-xs flex flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('convertedAmount') }}</p>
+                <currency-view
+                  data-testid="FACILITIES_BASIC_UTILIZED_VALUE_MOBILE"
+                  [amount]="data()?.convertedAmount"
+                  [short]="false"
+                  [decimalPlaces]="2" />
+              </div>
+              <div class="gap-xs flex flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('exchangeRate') }}</p>
+                <p class="mf-md text-text-primary ltr-force font-semibold rtl:text-right">{{ exchangeRate() }}</p>
+              </div>
+            }
+            @if (!isError() && d?.referenceId) {
+              <div class="gap-xs flex flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('referenceId') }}</p>
+                <p class="mf-md text-text-primary font-semibold">{{ d?.referenceId ?? '' }}</p>
+              </div>
+            }
+            <div class="gap-xs flex flex-col">
+              <p class="mf-sm text-text-tertiary font-medium">{{ t('transferType') }}</p>
+              <p class="mf-md text-text-primary font-semibold">{{ transfer.transferType() }}</p>
+            </div>
+            @if (!isError()) {
+              @if (d.transferType === 'OUTSIDE') {
+                <div class="gap-xs flex flex-col">
+                  <p class="mf-sm text-text-tertiary font-medium">{{ t('transactionDate') }}</p>
+                  <date-view
+                    variant="md"
+                    [value]="d.transactionDate"
+                    format="d MMM yyyy, h:mm a" />
+                </div>
+              }
+              @if (['OWN', 'INSIDE', 'CHARITY'].includes(d.transferType) && d.valueDate) {
+                <div class="gap-xs flex flex-col">
+                  <p class="mf-sm text-text-tertiary font-medium">{{ t('valueDate') }}</p>
+                  <date-view
+                    variant="md"
+                    [value]="d.valueDate"
+                    format="d MMM yyyy, h:mm a" />
+                </div>
+              }
+            }
+            @if (formData().transferReason && ['OUTSIDE', 'INSIDE'].includes(d.transferType)) {
+              <div class="gap-xs flex flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('reasonOfTransfer') }}</p>
+                <p class="mf-md text-text-primary font-semibold">{{ formData().transferReason }}</p>
+              </div>
+            }
+            @if (d.description) {
+              <div class="gap-xs flex flex-col">
+                <p class="mf-sm text-text-tertiary font-medium">{{ t('description') }}</p>
+                <p class="break-words-force mf-md text-text-primary font-semibold break-all">
+                  {{ formData().description }}
+                </p>
+              </div>
+            }
+          </div>
+
+          <!-- Schedule information -->
+          @if (formData().scheduleDto?.submitDate) {
+            @let isOnce = formData().scheduleDto?.frequencyType === 'ONCE';
+            <div class="p-xl gap-2xl border-border-secondary flex flex-col rounded-2xl border">
+              <div class="gap-xs flex flex-1 flex-col">
+                <p class="mf-md text-text-primary font-semibold">{{ t('scheduledDetails') }}</p>
+              </div>
+
+              <div class="gap-2xl grid grid-cols-1 rounded-2xl md:grid-cols-2 2xl:grid-cols-4">
+                <div class="gap-xs flex flex-1 flex-col">
+                  <p class="mf-sm text-text-tertiary font-medium">{{ t('scheduleDate') }}</p>
+
+                  <date-view
+                    variant="md"
+                    [value]="formData().scheduleDto?.submitDate"
+                    istFormat
+                    format="d MMM yyyy" />
+                </div>
+
+                @if (!isOnce) {
+                  <div class="gap-xs flex flex-1 flex-col">
+                    <p class="mf-sm text-text-tertiary font-medium">{{ t('endDate') }}</p>
+                    <date-view
+                      variant="md"
+                      [value]="formData().scheduleDto?.endDate"
+                      istFormat
+                      format="d MMM yyyy" />
+                  </div>
+                }
+
+                <div class="gap-xs flex flex-1 flex-col">
+                  <p class="mf-sm text-text-tertiary font-medium">{{ t('frequencyType') }}</p>
+                  <p class="mf-md text-text-primary font-semibold">
+                    {{ t('frequencyTypeOptions.' + formData().scheduleDto?.frequencyType) }}
+                  </p>
+                </div>
+                @if (!isOnce) {
+                  <div class="gap-xs flex flex-1 flex-col">
+                    <p class="mf-sm text-text-tertiary font-medium">{{ t('numberOfTransfers') }}</p>
+                    <p class="mf-md text-text-primary font-semibold">{{ formData().scheduleDto?.numberOfTransfers }}</p>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </scb-card>
+    </div>
+  }
+</div>

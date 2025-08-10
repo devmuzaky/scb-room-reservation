@@ -1,0 +1,123 @@
+{
+  "name": "ebanking-portal",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/ebanking-portal/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/ebanking-portal",
+        "index": "apps/ebanking-portal/src/index.html",
+        "browser": "apps/ebanking-portal/src/main.ts",
+        "polyfills": [],
+        "allowedCommonJsDependencies": ["qrcode"],
+        "tsConfig": "apps/ebanking-portal/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/ebanking-portal/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/ngx-extended-pdf-viewer/assets",
+            "output": "/assets"
+          }
+        ],
+        "styles": ["apps/ebanking-portal/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "ebanking-portal:build:production"
+        },
+        "development": {
+          "buildTarget": "ebanking-portal:build:development"
+        },
+        "mock": {
+          "buildTarget": "ebanking-portal:build:development",
+          "proxyConfig": "apps/ebanking-portal/proxy-config/proxy.mock.json"
+        },
+        "dev": {
+          "buildTarget": "ebanking-portal:build:development",
+          "proxyConfig": "apps/ebanking-portal/proxy-config/proxy.dev.json"
+        },
+        "sit": {
+          "buildTarget": "ebanking-portal:build:development",
+          "proxyConfig": "apps/ebanking-portal/proxy-config/proxy.sit.json"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "ebanking-portal:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ebanking-portal/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ebanking-portal:build",
+        "staticFilePath": "dist/apps/ebanking-portal/browser",
+        "spa": true
+      }
+    },
+    "release": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpx semantic-release --debug --dryRun --extends=./apps/ebanking-portal/release.dev.js",
+        "parallel": false
+      }
+    },
+    "release:sit": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpx semantic-release --debug --ci --extends=./apps/ebanking-portal/release.sit.js",
+        "parallel": false
+      }
+    }
+  }
+}

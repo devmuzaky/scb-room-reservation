@@ -1,0 +1,186 @@
+@if (status() === 'loading') {
+  <scb-table-skeleton
+    [rows]="5"
+    [columns]="4" />
+} @else if (status() === 'error') {
+  <div
+    *transloco="let t; prefix: 'facilities.facilitiesCreditCard'"
+    class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+    data-testid="CREDIT_CARD_ERROR_STATE">
+    <icon
+      [name]="'api-failure'"
+      class="text-3xl"
+      data-testid="CREDIT_CARD_API_FAILURE_ICON" />
+    <h4
+      class="head-2xs-s text-text-primary"
+      data-testid="CREDIT_CARD_API_ERROR_TITLE">
+      {{ t('error.apiError') }}
+    </h4>
+    <p
+      class="body-sm text-text-primary"
+      data-testid="CREDIT_CARD_API_ERROR_DETAIL">
+      {{ t('error.apiErrorDetail') }}
+    </p>
+    <button
+      scbButton
+      variant="ghost"
+      size="sm"
+      icon="refresh"
+      (click)="ccData.reload()"
+      data-testid="CREDIT_CARD_RELOAD_BUTTON">
+      {{ t('error.reload') }}
+    </button>
+  </div>
+} @else {
+  <div
+    class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1"
+    *transloco="let t; prefix: 'facilities.facilitiesCreditCard'">
+    <!-- Title and Download Statement Button -->
+    <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <p
+        class="mf-lg font-semibold"
+        data-testid="CREDIT_CARD_TITLE">
+        {{ t('title') }}
+      </p>
+      <app-download-btn
+        [isEmpty]="isEmpty()"
+        [options]="downloadOptions"
+        data-testid="CREDIT_CARD_DOWNLOAD_BUTTON" />
+    </div>
+
+    <!-- Empty state & Table -->
+    @if (isEmpty()) {
+      <div
+        data-testid="CREDIT_CARD_EMPTY_STATE"
+        class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'not-found'"
+          data-testid="CREDIT_CARD_EMPTY_STATE_ICON"
+          class="" />
+        <h4
+          data-testid="CREDIT_CARD_EMPTY_STATE_TITLE"
+          class="mt-sm mb-sm mf-2xl font-semibold">
+          {{ t('empty.title') }}
+        </h4>
+        <p
+          data-testid="CREDIT_CARD_EMPTY_STATE_SUBTITLE"
+          class="text-text-tertiary text-sm-sm">
+          {{ t('empty.subTitle') }}
+        </p>
+      </div>
+    } @else {
+      <p-table
+        [value]="ccList()"
+        [paginator]="false"
+        [rows]="page.rows()"
+        [first]="page.first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true"
+        data-testid="CREDIT_CARD_TABLE">
+        <ng-template #header>
+          <tr>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_CARD_NUMBER">
+              {{ t('table.cardNumber') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_HOLDER_NAME">
+              {{ t('table.holderName') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_AVAILABLE">
+              {{ t('table.availableToUse') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_UTILIZED">
+              {{ t('table.utilizedAmount') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_DUE_AMOUNT">
+              {{ t('table.dueAmount') }}
+            </th>
+            <th
+              class="mf-sm !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_DUE_DATE">
+              {{ t('table.dueDate') }}
+            </th>
+            <!--            Todo: temp hidden-->
+            <th
+              *rolePermission="['SUPER_USER', 'MAKER']"
+              class="mf-sm hidden !font-medium"
+              data-testid="CREDIT_CARD_TABLE_HEADER_ACTION">
+              {{ t('table.action') }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account>
+          <tr
+            (click)="navigateToDetails(account.creditCardNumber)"
+            (keydown.enter)="navigateToDetails(account.creditCardNumber)"
+            class="focus:ring-primary cursor-pointer !bg-transparent transition-colors duration-200 hover:bg-gray-50 focus:ring-2 focus:outline-none focus:ring-inset dark:hover:bg-gray-800"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'View details for credit card ' + account.ccNumber"
+            [attr.data-testid]="'credit_card_row_' + account.creditCardNumber"
+            [attr.data-credit-card-number]="account.creditCardNumber">
+            <td class="body-sm">
+              {{ account.ccNumber }}
+            </td>
+            <td class="body-sm">{{ account.holderName }}</td>
+            <td>
+              <currency-view
+                [amount]="account.availableToUse"
+                [currency]="account.currency"
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td>
+              <currency-view
+                [amount]="account.utilizedAmount"
+                [currency]="account.currency"
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td>
+              <currency-view
+                [amount]="account.dueAmount"
+                [currency]="account.currency"
+                size="sm"
+                emptyValue="–" />
+            </td>
+            <td><date-view [value]="account.dueDate" /></td>
+            <!--            Todo: temp hidden-->
+            <td
+              class="hidden"
+              *rolePermission="['SUPER_USER', 'MAKER']">
+              <button
+                scbButton
+                variant="secondary"
+                size="xs"
+                class="inline-flex"
+                (click)="$event.stopPropagation()">
+                {{ t('payNow') }}
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (!isEmpty()) {
+    <app-pagination
+      [totalPages]="totalPages()"
+      [totalRecords]="totalRecords()"
+      [page]="page" />
+  }
+}

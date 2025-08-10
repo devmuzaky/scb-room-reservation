@@ -1,0 +1,152 @@
+<scb-card>
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'dashboard'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl" />
+      <h4 class="head-2xs-s text-text-primary">
+        {{ t('error.apiError') }}
+      </h4>
+      <p class="body-sm text-text-primary">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="allListResource.reload()">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <div
+      class="border-border-secondary py-xl gap-lg flex flex-col rounded-4xl border-1"
+      *transloco="let t; prefix: 'pendingApprovals'">
+      <!-- Title and Download Statement Button -->
+      <div class="gap-sm px-xl flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <p class="mf-lg font-semibold">{{ t('transactions') }}</p>
+      </div>
+
+      <!-- Filter Section -->
+      <app-pending-approval-filter
+        [(transferType)]="transferType"
+        [isEmpty]="isEmpty()" />
+
+      <!-- Empty state & Table -->
+      @if (isEmpty()) {
+        <div class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            [name]="'not-found'"
+            class="" />
+          <h4 class="mt-sm mb-sm mf-2xl font-semibold">
+            {{ t('empty.title') }}
+          </h4>
+          <p class="text-text-tertiary text-sm-sm">
+            {{ t('empty.subTitle') }}
+          </p>
+        </div>
+      } @else {
+        <p-table
+          [value]="allDelegationsList()"
+          [paginator]="false"
+          [rows]="page.rows()"
+          [first]="page.first()"
+          [showFirstLastIcon]="false"
+          [totalRecords]="totalRecords()"
+          lazy="true">
+          <ng-template #header>
+            <tr>
+              <th class="mf-sm !font-medium">
+                {{ t('table.requestDate') }}
+              </th>
+              <th class="mf-sm !font-medium">
+                {{ t('table.requestNumber') }}
+              </th>
+              <th class="mf-sm !font-medium">
+                {{ t('table.requestType') }}
+              </th>
+              <th class="mf-sm !font-medium">
+                {{ t('table.amount') }}
+              </th>
+              <th class="mf-sm !font-medium">
+                {{ t('table.status') }}
+              </th>
+              <th class="mf-sm !font-medium">
+                {{ t('table.actions') }}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template
+            #body
+            let-account>
+            <tr
+              class="focus:ring-primary cursor-pointer !bg-transparent transition-colors duration-200 hover:bg-gray-50 focus:ring-2 focus:outline-none focus:ring-inset dark:hover:bg-gray-800"
+              tabindex="0">
+              <td class="body-sm">
+                <date-view
+                  [value]="account.requestDate"
+                  istFormat
+                  format="d MMM yyyy">
+                </date-view>
+              </td>
+              <td>
+                {{ account.requestNumber }}
+              </td>
+
+              <td>
+                {{ account.requestType }}
+              </td>
+
+              <td>
+                <currency-view
+                  [amount]="account.amount"
+                  [currency]="account.currency"
+                  size="sm" />
+              </td>
+              <td class="body-sm">
+                <div class="gap-xs flex">
+                  <approval-progress status="success" />
+                  <approval-progress status="reject" />
+                  <approval-progress />
+                </div>
+              </td>
+              <td class="space-x-md">
+                <button
+                  scbButton
+                  size="xs">
+                  Approve
+                </button>
+                <button
+                  scbButton
+                  size="xs"
+                  variant="secondary">
+                  Reject
+                </button>
+                <button
+                  scbButton
+                  size="xs">
+                  Withdraw
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (!isEmpty()) {
+      <app-pagination
+        [totalPages]="totalPages()"
+        [totalRecords]="totalRecords()"
+        [page]="page" />
+    }
+  }
+</scb-card>

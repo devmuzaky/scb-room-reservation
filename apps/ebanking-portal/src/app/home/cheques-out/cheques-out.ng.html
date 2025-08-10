@@ -1,0 +1,152 @@
+<section class="col-span-12 max-sm:hidden">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[{ label: t('home'), path: '/dashboard' }, { label: t('chequesOut') }]"></app-breadcrumbs>
+</section>
+
+<scb-card
+  class="py-3xl sm:px-3xl col-span-12 px-4"
+  data-testid="CHEQUE_OUT_LIST_WIDGET_CONTAINER"
+  *transloco="let t; prefix: 'chequesOut'">
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'accounts'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl" />
+      <h4 class="head-2xs-s text-text-primary">{{ t('error.apiError') }}</h4>
+      <p class="body-sm text-text-primary">{{ t('error.apiErrorDetail') }}</p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        data-testid="CHEQUE_OUT_LIST_REFRESH"
+        (click)="chequesOutData.reload()">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <div class="pb-xl mb-xl border-border-secondary rounded-4xl border-1">
+      <div class="gap-sm px-xl pt-xl mb-3 flex flex-col sm:flex-row sm:justify-between">
+        <div class="sm:self-center">
+          <p class="mf-lg font-semibold">{{ t('title') }}</p>
+        </div>
+
+        <div class="gap-sm flex flex-col justify-between sm:items-end">
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="chequesOutData.reload()" />
+          <div class="gap-sm flex hidden items-center">
+            <button
+              scbButton
+              size="md"
+              data-testid="CHEQUE_OUT_LIST_DOWNLOAD"
+              icon="download">
+              {{ t('downloadCheques') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <app-cheques-out-filter
+        [(status)]="chequeStatus"
+        [(settlementDate)]="date" />
+
+      <p-table
+        [value]="cheques()"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('table.settlementDate') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.serialNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.beneficiaryName') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.amount') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.accountNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.status') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account>
+          <tr class="!bg-transparent">
+            <td class="mf-sm">
+              <date-view
+                data-testid="DASH_CERTIFICATE_BASIC_DETAIL_TITLE"
+                [value]="account.settlementDate"
+                variant="sm" />
+            </td>
+            <td class="mf-sm">{{ account.serialNumber }}</td>
+            <td class="mf-sm">{{ account.beneficiaryName }}</td>
+            <td class="mf-sm ltr-force rtl:!text-right">
+              {{ account.amount | shortNumber: false }} {{ account.currency }}
+            </td>
+            <td class="mf-sm">{{ account.accountNumber }}</td>
+            <td class="mf-sm capitalize">
+              <scb-badge
+                size="xs"
+                [variant]="
+                  `${account.status === 'Returned' ? 'red' : account.status === 'Unknown' ? 'grey' : 'success'}`
+                ">
+                {{ t(account.status) }}
+              </scb-badge>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div
+      class="table-footer flex items-center justify-between max-sm:justify-center"
+      data-testid="CHEQUE_OUT_LIST_PAGINATION_CONTAINER">
+      <div class="page-info-container">
+        <span class="mf-sm text-text-secondary hidden font-normal sm:block">
+          {{ t('page') }} {{ pageNumber() }} {{ t('pageOf') }} {{ totalPages() }}
+        </span>
+      </div>
+      <div class="pagination-container">
+        <p-paginator
+          [first]="first()"
+          [rows]="rows()"
+          [totalRecords]="totalRecords()"
+          [showCurrentPageReport]="false"
+          [showFirstLastIcon]="!layoutFacade.mobileMode()"
+          (onPageChange)="onPageChange($event)">
+        </p-paginator>
+      </div>
+      @if (!layoutFacade.mobileMode()) {
+        <div class="mf-md text-text-secondary hidden sm:block">
+          <p-select
+            [options]="dropdownOptions"
+            optionLabel="label"
+            optionValue="value"
+            [(ngModel)]="rows">
+            <ng-template pTemplate="selectedItem">
+              <div class="align-items-center flex gap-2">
+                <div>{{ rows() }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template
+              let-country
+              pTemplate="item">
+              <div class="align-items-center flex gap-2">
+                <div>{{ country.label }} {{ t('perPage') }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+        </div>
+      }
+    </div>
+  }
+</scb-card>

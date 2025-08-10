@@ -1,0 +1,303 @@
+<scb-card
+  class="py-3xl sm:px-3xl px-4"
+  *transloco="let t; prefix: 'accounts'"
+  data-testid="ACCOUNTS_LIST_CARD">
+  @if (status() === 'loading') {
+    <scb-table-skeleton
+      [rows]="5"
+      [columns]="4" />
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'accounts'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="ACCOUNTS_LIST_ERROR_STATE">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="ACCOUNTS_LIST_API_FAILURE_ICON" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="ACCOUNTS_LIST_API_ERROR_TITLE">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="ACCOUNTS_LIST_API_ERROR_DETAIL">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="accountListResource.reload()"
+        data-testid="ACCOUNTS_LIST_RELOAD_BUTTON">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    @if (currenciesList().length > 1) {
+      <div
+        class="gap-md mb-4 flex flex-col px-4 sm:flex-row sm:items-center"
+        data-testid="accounts_div_filterContainer">
+        <div>
+          <p
+            class="mf-md flex-1"
+            data-testid="accounts_p_filterBy">
+            {{ t('filterBy') }}:
+          </p>
+        </div>
+
+        <div class="gap-md flex items-center">
+          <scb-form-field
+            [variant]="currencyValue().length > 0 ? 'primary' : 'ghost'"
+            data-testid="accounts_formField_currency">
+            <scb-select
+              #currencySelect
+              [options]="currenciesList()"
+              [(value)]="currencyValue"
+              multiple
+              data-testid="accounts_select_currencyValue"
+              [searchPlaceholder]="t('searchOptions')">
+              <div
+                scbSelectTrigger
+                class="gap-md body-label-md-m flex items-center"
+                data-testid="accounts_div_currencySelectTrigger">
+                {{ t('currency') }}
+                @if (currencyValue().length) {
+                  <div
+                    class="bg-info-tint px-md py-xs text-text-info body-md rounded-4xl"
+                    data-testid="accounts_div_currencyValueCount">
+                    +{{ currencyValue().length }}
+                  </div>
+                }
+              </div>
+              @for (item of currencySelect.optionsFilter.filteredList(); track item) {
+                <scb-option
+                  [value]="item"
+                  data-testid="accounts_option_currencyItem">
+                  {{ item }}
+                </scb-option>
+              }
+
+              <div
+                class="select-footer flex gap-3 border-t-1 border-t-gray-100 px-2 py-3"
+                data-testid="accounts_div_currencySelectFooter">
+                <button
+                  scbButton
+                  variant="primary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="applyFilter()"
+                  data-testid="accounts_button_applyFilter">
+                  {{ t('apply') }}
+                </button>
+                <button
+                  scbButton
+                  variant="secondary"
+                  size="sm"
+                  class="flex-1"
+                  (click)="resetFilter()"
+                  data-testid="accounts_button_resetFilter">
+                  {{ t('reset') }}
+                </button>
+              </div>
+            </scb-select>
+          </scb-form-field>
+
+          <button
+            scbButton
+            variant="secondary"
+            [ngClass]="{ hidden: currencyValue().length === 0 }"
+            size="md"
+            (click)="clearFilter()"
+            class="!px-2"
+            data-testid="accounts_button_clearFilter">
+            {{ t('clearFilter') }}
+          </button>
+        </div>
+      </div>
+    }
+    <div
+      class="mb-4 rounded-4xl border-1 border-gray-200 dark:border-gray-700"
+      data-testid="accounts_div_accountListTableContainer">
+      <div
+        class="gap-sm mb-3 flex flex-col p-4 pb-0 sm:flex-row sm:justify-between"
+        data-testid="accounts_div_tableHeader">
+        <div class="sm:self-center">
+          <p
+            class="mf-lg font-semibold"
+            data-testid="accounts_p_tableTitle">
+            {{ t('title') }}
+          </p>
+        </div>
+
+        <div
+          class="gap-sm flex flex-col justify-between sm:items-end"
+          data-testid="accounts_div_tableActions">
+          <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="accountListResource.reload()" />
+          <!-- Total Balance and Export -->
+          <div
+            class="gap-sm flex items-center"
+            data-testid="ACCOUNTS_LIST_TOTAL_BALANCE_CONTAINER">
+            <p
+              class="text-text-tertiary mf-md"
+              data-testid="ACCOUNTS_LIST_EQUIVALENT_LABEL">
+              {{ t('equivalent') }}:
+            </p>
+            <p
+              [pTooltip]="AccountsTotalBalanceTooltip"
+              tooltipPosition="top"
+              class="mf-md ltr-force font-semibold"
+              data-testid="ACCOUNTS_LIST_TOTAL_BALANCE_VALUE">
+              {{ totalBalance() | shortNumber | mask: layoutFacade.showBalances() }}
+              <span
+                class="text-text-secondary font-normal"
+                data-testid="ACCOUNTS_LIST_CURRENCY"
+                >EGP</span
+              >
+            </p>
+            <ng-template #AccountsTotalBalanceTooltip>
+              <p class="mf-sm whitespace-nowrap">
+                {{ totalBalance() | numberCommaFormat }}
+                <span
+                  class="text-text-white font-normal"
+                  data-testid="ACCOUNTS_LIST_CURRENCY_TOOLTIP"
+                  >EGP</span
+                >
+              </p>
+            </ng-template>
+            <button
+              scbButton
+              variant="ghost"
+              size="md"
+              (click)="downloadOptionsMenu.toggle($event)"
+              [pTooltip]="downloadTooltip"
+              tooltipPosition="top"
+              icon="download"
+              data-testid="ACCOUNTS_LIST_DOWNLOAD_BUTTON"></button>
+
+            <ng-template #downloadTooltip>
+              <p
+                class="mf-sm whitespace-nowrap"
+                data-testid="ACCOUNTS_LIST_DOWNLOAD_TOOLTIP">
+                {{ t('downloadTooltip') }}
+              </p>
+            </ng-template>
+            <p-menu
+              #downloadOptionsMenu
+              [model]="downloadOptionsList"
+              [popup]="true"
+              data-testid="ACCOUNTS_LIST_DOWNLOAD_MENU">
+              <ng-template
+                #item
+                let-item>
+                <div
+                  tabindex="0"
+                  class="flex flex-1 gap-3"
+                  (click)="exportData(item.icon)"
+                  role="button"
+                  data-testid="ACCOUNTS_LIST_DOWNLOAD_OPTION">
+                  <icon
+                    class="w-2xl"
+                    [name]="item.icon"
+                    data-testid="ACCOUNTS_LIST_DOWNLOAD_OPTION_ICON"></icon>
+                  <p
+                    class="mf-md text-text-primary flex-1"
+                    data-testid="ACCOUNTS_LIST_DOWNLOAD_OPTION_LABEL">
+                    {{ item.label }}
+                  </p>
+                  <icon
+                    class="text-text-brand w-2xl"
+                    name="download"
+                    data-testid="ACCOUNTS_LIST_DOWNLOAD_OPTION_DOWNLOAD_ICON"></icon>
+                </div>
+              </ng-template>
+            </p-menu>
+          </div>
+        </div>
+      </div>
+
+      <p-table
+        [value]="accountList()"
+        [paginator]="false"
+        [rows]="rows()"
+        [first]="first()"
+        [showFirstLastIcon]="false"
+        [totalRecords]="totalRecords()"
+        lazy="true">
+        <ng-template #header>
+          <tr>
+            <th class="mf-sm !font-medium">{{ t('table.accountNumber') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.accountType') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.accountBalance') }}</th>
+            <th class="mf-sm !font-medium">{{ t('table.actions') }}</th>
+          </tr>
+        </ng-template>
+        <ng-template
+          #body
+          let-account
+          let-i="rowIndex">
+          <tr class="!bg-transparent">
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACCOUNTNUMBER_' + i">
+              <a
+                class="text-primary dark:text-brand-300 mf-sm underline"
+                [routerLink]="account.accountNumber">
+                {{ account.accountNumber }}
+              </a>
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACCOUNTTYPE_' + i">
+              <p class="mf-sm text-text-secondary font-semibold">{{ account.accountType }}</p>
+              <p class="mf-sm text-text-primary">{{ account.accountNickName }}</p>
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACCOUNTBALANCE_' + i">
+              @if (account.availableBalance !== 0) {
+                <p class="mf-sm ltr-force font-semibold rtl:text-right">
+                  {{ account.availableBalance | numberCommaFormat | mask: layoutFacade.showBalances() }}
+                  <span class="mf-xs font-normal">{{ account.currency }}</span>
+                </p>
+              }
+            </td>
+            <td [attr.data-testid]="'ACCOUNTS_TD_ACTIONS_' + i">
+              <div class="ltr-force flex gap-1 rtl:justify-end">
+                <button
+                  scbButton
+                  variant="ghost"
+                  size="md"
+                  icon="export"
+                  (click)="showAccountDetailPDF(account.accountNumber)"></button>
+                <button
+                  scbButton
+                  variant="ghost"
+                  size="md"
+                  icon="download"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="flex justify-end">
+      <p-paginator
+        (onPageChange)="onPageChange($event)"
+        [first]="first()"
+        showFirstLastIcon="false"
+        [rows]="rows()"
+        [totalRecords]="totalRecords()">
+        <ng-template #previouspagelinkicon>
+          <icon
+            class="h-3xl w-3xl"
+            name="arrow-left" />
+        </ng-template>
+        <ng-template #nextpagelinkicon>
+          <icon
+            class="h-3xl w-3xl"
+            name="arrow-right" />
+        </ng-template>
+      </p-paginator>
+    </div>
+  }
+</scb-card>

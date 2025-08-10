@@ -1,0 +1,36 @@
+@if (selectedBeneficiary(); as sb) {
+  <div
+    *transloco="let t; prefix: 'transfer.beneficiaryAccountsDrawer'"
+    class="border-border-secondary mt-3 mb-6 flex rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between">
+    <app-beneficiary-selected-view
+      [beneficiary]="sb"
+      class="border-none !p-0" />
+
+    <div class="flex items-center gap-4 text-right sm:mt-0">
+      <button
+        scbButton
+        variant="ghost"
+        size="md"
+        (click)="openDrawer()">
+        {{ t('change') }}
+      </button>
+    </div>
+  </div>
+} @else {
+  <div
+    (click)="openDrawer()"
+    *transloco="let t; prefix: 'transfer.form'"
+    class="border-border-primary min-h-8xl p-xl flex cursor-pointer items-center justify-center rounded-lg border border-dashed text-center transition hover:border-gray-400">
+    <span class="text-text-tertiary inline-flex items-center space-x-1">
+      <icon
+        name="plus"
+        class="h-3xl w-3xl" />
+      <span class="mf-md font-normal">{{ t('selectAccount') }}</span>
+    </span>
+  </div>
+}
+
+<beneficiary-accounts-drawer
+  [(open)]="open"
+  [type]="type()"
+  [(selectedBeneficiary)]="selectedBeneficiary" />

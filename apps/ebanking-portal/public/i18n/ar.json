@@ -1,0 +1,2113 @@
+{
+  "helloWorld": "مرحباً بالعالم.. أنا سعيد بمقابلتك",
+  "retry": "المحاولة مرة اخرى",
+  "cancel": "الغاء ",
+  "continue": "متابعة",
+  "changePassword": "تغيير كلمة المرور",
+  "Login": "تسجيل الدخول",
+  "backToLogin": "العودة لتسجيل الدخول",
+  "verify": "تحقق",
+  "usernameRequired": "اسم المستخدم مطلوب",
+  "otpRequired": "رمز التحقق مطلوب",
+  "hours": "ساعة",
+  "minutes": "دقيقة",
+  "seeAll": "عرض الكل",
+  "filterBy": "التصفية حسب",
+  "date": "التاريخ",
+  "reset": "إعادة ضبط",
+  "apply": "تطبيق",
+  "page": "صفحة",
+  "pageOf": "من",
+  "perPage": "/ الصفحة",
+  "clearFilter": "مسح الكل",
+  "searchOptions": "بحث",
+  "download": "تحميل",
+  "repeat": "تكرار المعاملة",
+  "lastUpdatedAt": "آخر تحديث",
+  "credentialsLockedTitle": "حظر مؤقت",
+  "credentialsLockedDesc": "تم حظر المستخدم مؤقتاً، يرجى التواصل مع خدمة العملاء على 19093 لطلب الدعم والمحاولة مرة أخرى فيما بعد. <div class='body-lg-s mt-lg'>لمدة {{timeLeft}} {{state}} </div>",
+  "credentialsACLockedDesc": "تم حظر المستخدم مؤقتا ، يرجى المحاولة مرة اخرى بعد  <br><strong> {{timeLeft}} {{state}}</strong>",
+  "login": {
+    "welcomeText": "مرحباً بك, بمنصة بنك قناة السويس",
+    "welcomePortalText": "الخدمات المصرفية عبر إنترنت للشركات",
+    "userNameFieldText": "اسم المستخدم",
+    "passwordFieldText": "كلمة المرور",
+    "forgotPasswordText": "نسيت كلمة المرور؟",
+    "logInButtonText": "تسجيل الدخول",
+    "contactNumber": "19093",
+    "contactEmail": "Support@SCB.com.eg",
+    "locateUs": "أماكن تواجدنا",
+    "faqsText": "الأسئلة الشائعة",
+    "tncText": "الشروط والأحكام",
+    "privacyPolicyText": "سياسيه الخصوصية",
+    "sncText": "المقترحات والشكاوى",
+    "userNameRequired": "اسم المستخدم مطلوب",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "incorrectCredentialsTitle": "بيانات غير صحيحة",
+    "invalidCredentialsDesc": "اسم المستخدم او كلمة المرور غير صحيح",
+    "credentialsLockedTitle": "حظر المستخدم",
+    "credentialsLockedDesc": "تم حظر المستخدم لتعدد المحاولات الخاطئة, يرجى التواصل مع خدمة العملاء على 19093 لطلب الدعم",
+    "alreadyLoggedInTitle": "تم تسجيل الدخول بالفعل",
+    "alreadyLoggedInDesc": "أنت مسجل الدخول حاليًا على جهاز آخر. للاستمرار هنا، سنقوم بتسجيل خروجك من الجهاز الآخر",
+    "serverUnavailable": "الخدمة غير متاحة حاليا",
+    "serverUnavailableDesc": "نواجه صعوبات تقنية حاليا ، يرجى المحاولة مرة اخرى لاحقا",
+    "systemMaintenanceTitle": "اصلاحات بالنظام",
+    "systemMaintenanceDesc": "لا يمكنك الدخول الى حسابك حاليا ، النظام قيد الصيانة لتوفير خدمات افضل لك ، يرجى المحاولة مرة اخرى فى وقت لاحق",
+    "invalidRecaptchaTitle": "كابتشا غير صالحة",
+    "invalidRecaptchaDesc": "رمز غير صالحة.",
+    "inactiveUserTitle": "مستخدم غير مفعل",
+    "inactiveUserDesc": "هذه المرة الاولى لتسجيل الدخول ، يرجى تفعيل حساباتك"
+  },
+  "locateUs": {
+    "branches": "الفروع",
+    "atm": "ماكينات الصرف الآلي",
+    "searchPlaceholder": "بحث حسب...",
+    "governorate": "المحافظة",
+    "area": "المنطقة",
+    "applyFilter": "عرض النتائج",
+    "results": "{{count}} نتيجة",
+    "direction": "الاتجاهات",
+    "searchOptions": "بحث الاختيارات",
+    "clearFilter": "مسح الكل",
+    "Km": "كم .",
+    "noResults": {
+      "title": "لم يتم العثور على نتائج",
+      "subTitle": "لم نتمكن من العثور على أي فروع أو أجهزة صراف آلي قريبة."
+    }
+  },
+  "header": {
+    "backToLogin": "العودة لتسجيل الدخول"
+  },
+  "otp": {
+    "title": "أدخل رمز التحقق",
+    "desc": "تم إرسال الرمز إلى هاتفك المنتهي بـ **{{phone}} وإلى بريدك الإلكتروني {{email}}",
+    "nearestBranch": "زيارة أقرب فرع",
+    "notYourDate": "ليست بياناتك؟",
+    "resendCode": "إعادة إرسال الرمز",
+    "expiredOtp": "رمز التحقق منتهي الصلاحية",
+    "invalidOtp": "رمز التحقق غير صالح",
+    "incompleteOtp": "رمز التحقق غير مكتمل",
+    "maxAttempts": "تم الوصول للحد الأقصى لمحاولات إدخال OTP. يرجى طلب رمز جديد.",
+    "attempts": "{{attempts}} محاولة متبقية",
+    "invalidToken": "رمز غير صالح. يرجى المحاولة مرة أخرى"
+  },
+  "fp": {
+    "forgetPassword": "نسيت كلمة المرور؟",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "newPasswordRequired": ".كلمة المرور مطلوبة",
+    "confirmPasswordRequired": "تأكيد كلمة المرور مطلوبة.",
+    "notMatch": "كلمة المرور غير متطابقة",
+    "companyIdRequired": "الرقم التعريفي للشركة مطلوب",
+    "ruleTitle": "يجب أن تحتوي كلمة المرور على ما يلي:",
+    "successTitle": "تم تغيير كلمة المرور بنجاح"
+  },
+  "fpRules": {
+    "rule1": "يجب أن تكون بين 8 إلى 20 حرفاً",
+    "rule2": "يجب أن تحتوي على حرف كبير واحد على الأقل (A-Z)",
+    "rule3": "يجب أن تحتوي على حرف صغير واحد على الأقل (a-z)",
+    "rule4": "يجب أن تحتوي على رقم واحد على الأقل (9-0)",
+    "rule5": "يجب أن تحتوي على رمز واحد مميز على الأقل @,#,$,%,&,^,-",
+    "rule6": "لا يجب أن تتضمن اسم المستخدم الخاص بك",
+    "rule7": "تجنب تكرار التسلسلات مثل \"111\" أو \"aaa\"",
+    "rule8": "تجنب تكرار التسلسلات مثل \"abc\" أو \"123\""
+  },
+  "incorrectCredentials": {
+    "title": "بيانات غير صحيحة",
+    "desc": "رقم الشركة أو اسم المستخدم غير صحيح"
+  },
+  "securityProtection": {
+    "title": "تأمين حساباتك",
+    "desc": "لضمان حماية خصوصيتك، يجب أن لا تكون كلمة المرور واحدة من آخر 5 كلمات مرور استخدمتها"
+  },
+  "activateUser": {
+    "title": "تفعيل المستخدم",
+    "activateInfo": "هذه المرة الاولى لتسجيل الدخول ، يرجى تفعيل حساباتك",
+    "otpTitle": "ادخل رمز التنشيط",
+    "otpDesc": "تم إرسال الرمز إلى هاتفك المنتهي بـ {{phone}}**",
+    "auDesc": "تم إرسال اسم المستخدم إلى بريدك الإلكتروني {{email}}",
+    "createPassword": "إعادة تعيين كلمة المرور",
+    "successTitle": "تم إنشاء كلمة المرور بنجاح",
+    "codeRequired": "كود التنشيط مطلوب",
+    "expiredCode": "كود التنشيط منتهي الصلاحية",
+    "invalidCode": "رمز التحقق غير صالح",
+    "invalidCredentials": "بيانات غير صحيحة",
+    "invalidUsername": "اسم المستخدم غير صحيح",
+    "incompleteCode": "كود التنشيط غير مكتمل",
+    "maxAttempts": "لقد تجاوزت الحد الاقصى لعدد المحاولات لهذه كلمه المرور لمرة واحدة. يرجى اعادة طلب كلمة مرور جديدة للمتابعه"
+  },
+  "seconds": "ثانية",
+  "username": "اسم المستخدم",
+  "companyID": "الرقم التعريفي للشركة",
+  "registration": {
+    "register": "التسجيل",
+    "bankFeaturesTitle": "اكتشف قوة الخدمات المصرفية الرقمية لتطوير أعمالك.",
+    "chequeTitle": "إدارة الشيكات والحسابات",
+    "chequeDesc": "إدارة الشيكات، فتح الحسابات، والتقدم للحصول على شهادات الإيداع الجديدة والودائع الزمنية.",
+    "creditCardTitle": "إدارة بطاقات الائتمان والمدفوعات",
+    "creditCardDesc": "التعامل مع تفاصيل بطاقات الائتمان، المعاملات، القفل/الفتح، والمدفوعات بالجملة.",
+    "needHelp": "تحتاج مساعدة؟",
+    "nearestBranch": "قم بزيارة أقرب فرع",
+    "regAccountTitle": "الحسابات والتحويلات",
+    "regAccountDesc": "الوصول إلى لوحات معلومات الحساب وإجراء تحويلات متنوعة.",
+    "phoneNumber": "رقم الهاتف",
+    "companyCIF": "الرقم التعريفي للشركة CIF",
+    "phoneRequired": "رقم الهاتف مطلوب",
+    "companyCIFRequired": "رقم CIF الخاص بالشركة مطلوب",
+    "incorrectCredentialsTitle": "بيانات غير صحيحة",
+    "incorrectCredentialsDesc": "تأكد من صحة الرقم التعريفي للعميل (CIF) ورقم الهاتف وأنهما مسجلان لدى البنك",
+    "newToCorporate": "جديد على الإنترنت البنكي للشركات؟",
+    "registration-title": "سجل في خدمات الإنترنت المصرفية للشركات من SCB",
+    "registrationStepDesc": "أكمل تسجيلك في 4 خطوات سهلة",
+    "userApprovalTitle": "إدارة المستخدمين والموافقات",
+    "userApprovalDesc": "إدارة المستخدمين وتحديد سير العمل للموافقات على الطلبات.",
+    "accountStatementTitle": "الكشوف والتقارير",
+    "accountStatementDesc": "تحميل كشوف الحساب الإلكترونية وتقارير المعاملات.",
+    "accountAccessTitle": "الوصول إلى حساباتك على مدار 24 ساعة",
+    "accountAccessDesc": "الوصول إلى حساباتك في أي وقت ومن أي مكان.",
+    "printForm": "اطبع نموذج التسجيل",
+    "fillForm": "املأ البيانات في النموذج",
+    "signature": "وقع في أسفل كل صفحة",
+    "sendForm": "أرسل النموذج إلى الفرع",
+    "download": "تحميل",
+    "branchMessageTitle": "تأكد من تسليم النموذج الموقع إلى الفرع.",
+    "branchMessageDesc": "ستحصل على رسالة نصية تحتوي على اسم المستخدم وكلمة المرور بعد 24 ساعة من تسليم النموذج.",
+    "signDoc": "يرجى التوقيع في المنطقة المظللة على كل صفحة",
+    "otpMessage": "الرمز لم يتم إدخاله أو فارغ.",
+    "companyCIFHint": "يمكنك العثور على رقم CIF الخاص بك في كشوف حسابك أو عن طريق الاتصال بخدمة العملاء 19093.",
+    "otpTitle": "أدخل رمز التحقق",
+    "getStartedNow": "ابدأ الآن"
+  },
+  "datepicker": {
+    "Last 7 days": "آخر 7 أيام",
+    "Last 30 days": "آخر 30 يومًا",
+    "Last 90 days": "آخر 90 يومًا",
+    "durations": "فترات",
+    "Next 3 Months": "الثلاثة أشهر القادمة",
+    "Next 7 days": "السبعة أيام القادمة",
+    "Next Month": "الشهر القادم"
+  },
+  "dashboardLayout": {
+    "Main": "رئيسي",
+    "Dashboard": "لوحة التحكم",
+    "Accounts": "الحسابات",
+    "AccountsAndDeposits": "الحسابات والودائع",
+    "Transfer": "التحويلات",
+    "Name": "Name",
+    "Services": "الخدمات",
+    "Locate": "أماكن تواجدنا",
+    "FAQs": "الأسئلة الشائعة",
+    "Settings": "الإعدادات",
+    "searchPlaceholder": "بحث بحسب...",
+    "username": "حاتم أحمد",
+    "bankName": "بنك قناة السويس",
+    "bankType": "منصة الشركات",
+    "showBalances": "إظهار الأرصدة",
+    "hideBalances": "إخفاء الأرصدة",
+    "Beneficiary": "ادارة المستفيدين",
+    "softToken": "إدارة الرموز الامنة",
+    "products": "المنتجات",
+    "lightMode": "الوضع النهاري",
+    "darkMode": "الوضع الليلي",
+    "logout": "تسجيل الخروج",
+    "chequeBook": "إدارة دفاتر الشيكات",
+    "pendingApprovals": "Pending Approvals"
+  },
+  "quickAction": {
+    "quickAction": "إجراءات سريعة",
+    "instantTransfer": "إجراء تحويل",
+    "timeDeposits": "إنشاء وديعة لأجل",
+    "chequeRequest": "طلب دفاتر شيكات",
+    "logout": "تسجيل الخروج",
+    "chequeBook": "إدارة دفاتر الشيكات"
+  },
+  "dashboard": {
+    "dashboardText": "لوحة البيانات",
+    "inputSearchForPlaceholder": "بحث بحسب...",
+    "lastUpdatedAt": "آخر تحديث:",
+    "viewAll": "عرض الكل",
+    "seeAll": "عرض الكل",
+    "accountOverview": {
+      "title": "نظرة عامة علي الحسابات",
+      "accountsTab": "الحسابات",
+      "depositsTab": "الودائع",
+      "certificatesTab": "الشهادات",
+      "equivalent": "معادل",
+      "EGPShort": "ج،م"
+    },
+    "accounts": {
+      "accounts": "حسابات",
+      "openNewAccount": "فتح حساب جديد"
+    },
+    "certificates": {
+      "certificates": "شهادات",
+      "openNewCD": "فتح شهادة جديد"
+    },
+    "timeDeposits": {
+      "timeDeposits": "ودائع",
+      "openNewTD": "فتح شهادة جديد"
+    },
+    "lendingOverview": {
+      "title": "نظرة علي التمويلات",
+      "loansTab": "القروض",
+      "progress": {
+        "utilizedLabel": "المسدد",
+        "remainingLabel": "المتبقي"
+      }
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "banner": {
+      "bannerTitle": "عزز مدخرات عملك!",
+      "bannerDesc": "نمو مستقر مع شهادات وودائع بنك قناه السويس",
+      "applyNow": "قدّم الآن"
+    },
+    "chequeOut": {
+      "title": "شيكات صادرة",
+      "seeAll": "عرض الكل",
+      "accountNumber": "حساب رقم",
+      "deductionDate": "تاريخ التحصيل",
+      "returnDate": "تاريخ رد الشيك",
+      "tabs": {
+        "deducted": "مخصومة",
+        "returned": "مرتدة"
+      },
+      "emptyDeducted": {
+        "title": "لا يوجد شيكات مخصومة!",
+        "subtitle": "لا يوجد شيكات مخصومة في الوقت الحالي."
+      },
+      "emptyReturned": {
+        "title": "لا يوجد شيكات مرتدة!",
+        "subtitle": "لا توجد شيكات مرتدة في الوقت الحالي."
+      }
+    },
+    "pendingApprovals": {
+      "title": "في انتظار الموافقات",
+      "transfers": "التحويل",
+      "transferDetail": "إلى الحسابات الشخصية، مستفيدي SCB، والبنوك الأخرى",
+      "payments": "المدفوعات",
+      "paymentDetail": "المدفوعات الحكومية والفواتير",
+      "requests": "الطلبات",
+      "requestDetail": "فتح حسابات جديدة، طلبات البطاقات، والقروض",
+      "investments": "الاستثمار والأوراق المالية",
+      "investmentDetail": "صناديق الاستثمار، أذون وسندات الخزانة، والسندات الأوروبية",
+      "seeAll": "عرض الكل",
+      "tabs": {
+        "maker": "منك",
+        "checker": "من المراجعين"
+      }
+    },
+    "chequeIn": {
+      "title": "شيكات واردة",
+      "seeAll": "عرض الكل",
+      "accountNumber": "حساب رقم",
+      "returnedDate": "تاريخ رد الشيك",
+      "collectionDate": "تاريخ التحصيل",
+      "postDated": "تاريخ التحصيل المتوقع",
+      "tabs": {
+        "collected": "محصلة",
+        "returned": "مرتدة",
+        "postDated": "أجلة"
+      },
+      "emptyCollected": {
+        "title": "لا يوجد أي شيكات محصلة!",
+        "subtitle": "لم تقم بتحصيل أي شيكات بعد."
+      },
+      "emptyReturned": {
+        "title": "لا يوجد شيكات مرتدة!",
+        "subtitle": "لا يوجد شيكات مرتدة فى الوقت الحالي."
+      },
+      "emptyPostDated": {
+        "title": "لا توجد شيكات اجلة",
+        "subtitle": "بمجرد إرسال الشيكات إلي الفرع يمكن تتبع حالتها من هنا."
+      }
+    }
+  },
+  "exchangeRate": {
+    "title": "أسعار الصرف",
+    "realTime": "السعر الحالي",
+    "currencyConverter": "محول العملات",
+    "trendTooltip": "يُقارن بسعر إغلاق اليوم السابق",
+    "currency": {
+      "USD": "الدولار الأمريكي",
+      "EUR": "اليورو",
+      "AED": "الدرهم الإماراتي",
+      "SAR": "الريال السعودي",
+      "GBP": "الجنيه الإسترليني",
+      "CHF": "فرنك سويسري",
+      "CAD": "الدولار الكندي",
+      "DKK": "كرونة دنماركية",
+      "JPY": "ين ياباني",
+      "KWD": "الدينار الكويتي",
+      "NOK": "كرونة النرويجية",
+      "SEK": "كرونة سويدية"
+    }
+  },
+  "accounts": {
+    "Accounts": "الحسابات",
+    "currency": "العملة",
+    "searchOptions": "بحث",
+    "filterBy": "التصفية حسب",
+    "clearFilter": "مسح الكل",
+    "lastUpdatedAt": "آخر تحديث",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "title": "الحسابات",
+    "total": "إجمالي الأرصدة",
+    "equivalent": "المعادل",
+    "downloadTooltip": "طباعة مركز الحسابات",
+    "download": "تحميل",
+    "table": {
+      "accountNumber": "رقم الحساب",
+      "accountType": "نوع الحساب",
+      "accountBalance": "الرصيد المتاح",
+      "actions": "الإجراء"
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "titles": {
+    "dashboard": "لوحة التحكم",
+    "accountsOverview": "الحسابات",
+    "account-details": "تفاصيل الحساب",
+    "certificates": "الشهادات",
+    "certificate-details": "تفاصيل الشهادة",
+    "deposits": "الودائع",
+    "deposit-details": "تفاصيل الوديعة",
+    "cheques-in": "الشيكات الواردة",
+    "cheques-out": "الشيكات الصادرة",
+    "facilities": "ملخص التسهيلات",
+    "overdraftDetails": "حد جاري مدين",
+    "loanDetails": "تفاصيل القرض",
+    "accountsAndDeposits": "الحسابات والودائع",
+    "lcsDetails": "تفاصيل الاعتماد المستندي",
+    "lgsDetails": "تفاصيل خطاب الضمان",
+    "beneficiary": "إدارة المستفيدين",
+    "creditCardDetails": "تفاصيل بطاقة الإئتمان",
+    "idcDetails": "تفاصيل مستند التحصيل",
+    "transfer": "التحويلات",
+    "transferDetails": "تفاصيل التحويلات",
+    "transferHistory": "سجل التحويلات",
+    "transferBetweenOwnAccounts": "تحويل بين حساباتك",
+    "transferInside": "تحويل داخل بنك قناة السويس",
+    "transferOutside": "تحويل محلي خارج بنك قناة السويس",
+    "scheduledTransfers": "التحويلات المجدولة",
+    "softToken": "إدارة الرموز الآمنة",
+    "products": "المنتجات",
+    "certificateOfDeposits": "الشهادات",
+    "timeDeposits": "الودائع",
+    "accounts": "الحسابات",
+    "currentAccount": "الحساب الجاري",
+    "chequeBook": "دفتر الشيكات",
+    "pendingApprovals": "Pending Approvals"
+  },
+  "breadcrumbs": {
+    "home": "لوحة التحكم",
+    "accountDetail": "تفاصيل الحساب",
+    "chequesIn": "الشيكات الواردة",
+    "timeDepositOverview": "الودائع",
+    "timeDepositDetails": "تفاصيل الوديعة",
+    "certificateOverview": "الشهادات",
+    "certificateDetail": "تفاصيل الشهادة",
+    "chequesOut": "الشيكات الصادرة",
+    "facilities": "ملخص التسهيلات",
+    "overdraftDetails": "تفاصيل الحد الجاري المدين",
+    "loanDetails": "تفاصيل القرض",
+    "lcsDetails": "تفاصيل الاعتماد المستندي",
+    "lgsDetails": "تفاصيل خطاب الضمان",
+    "beneficiary": "إدارة المستفيدين",
+    "beneficiaryAdd": "إضافة مستفيد جديد",
+    "addBeneficiaryInside": "إضافة مستفيد داخل بنك قناة السويس",
+    "addBeneficiaryOutside": "إضافة مستفيد خارج بنك قناة السويس",
+    "creditCardDetails": "تفاصيل بطاقة الإئتمان",
+    "idcDetails": "تفاصيل مستند التحصيل",
+    "transfer": "التحويلات",
+    "transferHistory": "تاريخ التحويلات",
+    "transferDetails": "تفاصيل التحويل",
+    "transferBetweenOwnAccounts": "تحويل بين حساباتك",
+    "transferInside": "تحويل داخل بنك قناة السويس",
+    "transferOutside": "تحويل محلي خارج بنك قناة السويس",
+    "scheduledTransfer": "التحويلات المجدولة",
+    "scheduledTransferDetails": "تفاصيل التحويل",
+    "charityTransfer": "التبرعات الخيرية",
+    "products": "المنتجات",
+    "certificateOfDeposits": "الشهادات",
+    "accountsOverview": "الحسابات",
+    "accounts": "الحسابات",
+    "timeDeposits": "الودائع",
+    "currentAccount": "الحساب الجاري",
+    "fixedTimeDeposit": "الوديعة لأجل ذات العائد الثابت",
+    "chequeBook": "إدارة دفاتر الشيكات",
+    "requestNewChecquebook": "طلب دفتر شيكات جديد",
+    "chequeBookDetails": "تفاصيل طلب دفتر الشيكات",
+    "pendingApprovals": "Pending Approvals"
+  },
+  "facilitiesOverview": {
+    "title": "ملخص التسهيلات",
+    "utilized": "الرصيد المستخدم :",
+    "Overdraft": "حد جاري مدين",
+    "Cards": "البطاقات الائتمانية",
+    "LCs": "خطابات الضمان",
+    "Loans": "القروض",
+    "LGs": "الإعتمادات المستندية",
+    "IDCs": "مستندات تحصيل",
+    "Remaining": "الرصيد المتاح"
+  },
+  "account-basic-detail": {
+    "pageTitle": "تفاصيل الحساب",
+    "equivalent": "الرصيد المتاح",
+    "availableBalance": "الرصيد المتاح:",
+    "lastUpdatedAt": "آخر تحديث:",
+    "basicDetail": "بيانات الحساب",
+    "accountNumber": "رقم الحساب",
+    "iban": "IBAN",
+    "balanceDetails": "بيانات الرصيد",
+    "totalBalance": "إجمالي الرصيد المتاح",
+    "availabletoUse": "الرصيد المتاح للإستخدام",
+    "pendingBalance": "الرصيد المعلق",
+    "blockedBalance": "الرصيد المحجوز",
+    "loan": "القروض",
+    "lgs": "البطاقة الإئتمانية",
+    "creditCard": "البطاقة الإئتمانية",
+    "transactions": "المعاملات",
+    "downloadStatement": "تحميل كشف الحساب",
+    "filterBy": "تصفية حسب:",
+    "type": "النوع",
+    "Status": "الحالة",
+    "date": "تاريخ المعاملة",
+    "transactionType": "نوع المعاملة",
+    "debitAmount": "مدين",
+    "creditAmount": "دائن",
+    "balanceAfter": "الرصيد بعد المعاملة",
+    "settled": "المنفذة",
+    "pending": "المعلقة",
+    "searchOptions": "بحث الاختيارات",
+    "NoTransactionFoundTitle": "لا يوجد معاملات مالية",
+    "NoTransactionFoundDesc": "لا يوجد اى معاملات مالية لعرضها!",
+    "page": "الصفحة",
+    "pageOf": "من",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "perPage": "/ الصفحة",
+    "description": "وصف المعاملة"
+  },
+  "timeDepositsList": {
+    "title": "الودائع",
+    "filterBy": "التصفية حسب",
+    "clearFilters": "مسح الكل",
+    "lastUpdate": "آخر تحديث",
+    "searchOptions": "بحث الاختيارات",
+    "lastUpdatedAt": "آخر تحديث",
+    "downloadTooltip": "تحميل مركز الودائع",
+    "total": "إجمالي الأرصدة",
+    "equivalent": "المعادل",
+    "export": "الطباعة",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "currency": "العملة",
+    "table": {
+      "tdNumber": "رقم الوديعة",
+      "interestRate": "نسبة الفائدة",
+      "maturityDate": "تاريخ الاستحقاق",
+      "tenor": "مدة الوديعة",
+      "tdAmount": "قيمة الوديعة"
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "timeDepositDetails": {
+    "title": "تفاصيل الوديعة",
+    "totalTenor": "اجمالي المدة",
+    "equivalent": "معادل:",
+    "months": "شهر",
+    "days": "أيام",
+    "maturityType": "شهري",
+    "maturityLeft": "متبقي على الإستحقاق",
+    "tdAmount": "قيمة الوديعة",
+    "appliedRate": "نسبة الفائدة",
+    "interestDate": "تاريخ إضافة الفائدة",
+    "interestAmount": "قيمة الفائدة",
+    "basicDetail": "بيانات الوديعة",
+    "tdNumber": "رقم الوديعة",
+    "tdType": "نوع الوديعة",
+    "tenor": "مدة الوديعة",
+    "issuingDate": "تاريخ إنشاء الوديعة",
+    "maturityDate": "تاريخ الاستحقاق",
+    "actionAtMaturity": "الإجراء عند الاستحقاق",
+    "linkedAccounts": "الحسابات المرتبطة",
+    "debitedAccount": "تم انشاء الوديعة من",
+    "creditedAccount": "يضاف قيمة الوديعة إلى",
+    "interestAccount": "يضاف العائد إلى",
+    "matured": "مستحقة",
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "certificates": {
+    "currency": "العملة",
+    "searchOptions": "بحث",
+    "filterBy": "التصفية حسب",
+    "clearFilter": "مسح الكل",
+    "lastUpdatedAt": "آخر تحديث",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "title": "الشهادات",
+    "total": "إجمالي الأرصدة",
+    "equivalent": "المعادل",
+    "downloadTooltip": "طباعة مركز الشهادات.",
+    "table": {
+      "cdNumber": "رقم الشهادة",
+      "cdType": "نوع الشهادة",
+      "interestRate": "نسبة الفائدة",
+      "maturityDate": "تاريخ الإستحقاق",
+      "cdAmount": "قيمة الشهادة"
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "certificatesDetail": {
+    "basicDetail": "بيانات الشهادة",
+    "issuingDate": "تاريخ إنشاء الشهادة",
+    "maturityDate": "تاريخ الإستحقاق",
+    "actionAtMaturity": "الإجراء عند الإستحاق",
+    "linkedAccounts": "الحسابات المرتبطة",
+    "debitedAccount": "تم انشاء الشهادة من",
+    "redeemAccount": "يضاف قيمة الشهادة الي",
+    "interestAccount": "يضاف العائد الي",
+    "totalTenor": "اجمالي المدة",
+    "equivalent": "معادل:",
+    "interestFrequency": "متبقي على الإستحقاق",
+    "maturityLeft": "دورية الفائدة",
+    "months": "شهر",
+    "maturityType": "شهري",
+    "cdBalance": "قيمة الشهادة",
+    "interestRate": "نسبة الفائدة",
+    "interestCreditDate": "تاريخ إضافة الفائدة",
+    "interestAmount": "قيمة الفائدة",
+    "cdNumber": "رقم الشهادة",
+    "matured": "مستحقة",
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "empty": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "chequesIn": {
+    "status": "الحالة",
+    "settlementDate": "تاريخ التحصيل",
+    "draweeBank": "البنك المسحوب عليه",
+    "searchOptions": "بحث",
+    "filterBy": "التصفية حسب",
+    "clearFilter": "مسح الكل",
+    "lastUpdatedAt": "آخر تحديث",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "title": "الشيكات الواردة",
+    "downloadCheques": "تحميل الشيكات",
+    "page": "الصفحة",
+    "pageOf": "من",
+    "perPage": "/ الصفحة",
+    "collected": "محصلة",
+    "returned": "مرتدة",
+    "postdated": "آجلة",
+    "others": "اخري",
+    "Last 7 days": "آخر 7 أيام",
+    "Last 30 days": "آخر 30 يومًا",
+    "Last 90 days": "آخر 90 يومًا",
+    "durations": "فترات",
+    "table": {
+      "settlementDate": "تاريخ التحصيل",
+      "serialNumber": "الرقم التسلسلي",
+      "payerName": "اسم المسحوب عليه",
+      "draweeBank": "البنك المسحوب عليه",
+      "amount": "المبلغ",
+      "accountNumber": "الحساب المضاف إليه",
+      "status": "الحالة"
+    }
+  },
+  "chequesOut": {
+    "status": "الحالة",
+    "settlementDate": "تاريخ التحصيل",
+    "searchOptions": "بحث",
+    "filterBy": "التصفية حسب",
+    "clearFilter": "مسح الكل",
+    "lastUpdatedAt": "آخر تحديث",
+    "apply": "تطبيق",
+    "reset": "إعادة ضبط",
+    "title": "الشيكات الواردة",
+    "downloadCheques": "تحميل الشيكات",
+    "page": "الصفحة",
+    "pageOf": "من",
+    "perPage": "/ الصفحة",
+    "Collected": "محصلة",
+    "Returned": "مرتدة",
+    "Deducted": "محصلة",
+    "others": "اخري",
+    "Unknown": "اخري",
+    "Last 7 days": "آخر 7 أيام",
+    "Last 30 days": "آخر 30 يومًا",
+    "Last 90 days": "آخر 90 يومًا",
+    "durations": "فترات",
+    "table": {
+      "settlementDate": "تاريخ التحصيل",
+      "serialNumber": "الرقم التسلسلي",
+      "beneficiaryName": "اسم المستفيد",
+      "amount": "المبلغ",
+      "accountNumber": "الحساب المضاف إليه",
+      "status": "الحالة"
+    }
+  },
+  "facilities": {
+    "tabs": {
+      "overdraft": "جارى مدين",
+      "loans": "القروض",
+      "cards": "البطاقات الائتمانية",
+      "lcs": "الاعتمادات المستندية",
+      "lgs": "خطابات الضمان",
+      "idcs": "مستندات التحصيل"
+    },
+    "basicDetails": {
+      "title": "ملخص التسهيلات",
+      "facilityNumber": "رقم التسهيل",
+      "facilityType": "نوع التسهيل",
+      "utilizedLimit": "الرصيد المستخدم",
+      "lastUpdatedAt": "آخر تحديث اليوم",
+      "totalLiabilities": "إجمالي الإلتزامات",
+      "downloadTooltip": "طباعة إجمالي الإلتزامات",
+      "facilityMaturityDate": "تاريخ انتهاء التسهيلات الائتمانية"
+    },
+    "facilitiesLoans": {
+      "title": "القروض",
+      "searchOptions": "بحث",
+      "filterBy": "التصفية حسب",
+      "clearFilter": "مسح الكل",
+      "lastUpdatedAt": "آخر تحديث",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "download": "تحميل",
+      "page": "صفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "table": {
+        "loanId": "الرقم التسلسلي",
+        "accountNumber": "رقم الحساب",
+        "accountName": "اسم الحساب ",
+        "loanBalance": "رصيد القرض",
+        "instalmentAmount": "قيمة القسط",
+        "instalmentDate": "تاريخ القسط",
+        "action": "إجراء",
+        "payNowAction": "ادفع الآن"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا يوجد قروض",
+        "subTitle": "لا يوجد قروض لعرضها",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesLcs": {
+      "lcType": "نوع الإعتماد المستندي",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "title": "الإعتمادات المستندية",
+      "download": "تحميل",
+      "page": "صفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "table": {
+        "lcNumber": "رقم الاعتماد",
+        "lcType": "نوع الاعتماد",
+        "lcAmount": "مبلغ الاعتماد",
+        "dueDate": "تاريخ الاستحقاق",
+        "cashCover": "الغطاء النقدي",
+        "coverPercentage": "نسبة الغطاء النقدي",
+        "remaining": "طريقة التغطيه"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا يوجد اعتماد مستندي",
+        "subTitle": " لا يوجد اعتماد مستندي لعرضه",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesCreditCard": {
+      "title": "البطاقات الائتمانية",
+      "download": "تحميل",
+      "page": "صفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "payNow": "ادفع الآن",
+      "table": {
+        "cardNumber": "رقم البطاقة",
+        "holderName": "اسم حامل البطاقة",
+        "availableToUse": "المتاح للإستخدام",
+        "utilizedAmount": "المبلغ المستخدم",
+        "dueAmount": "المبلغ المستحق",
+        "dueDate": "موعد الاستحقاق",
+        "action": "إجراء"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لم يتم العثور على بطاقات الائتمان",
+        "subTitle": "ليس لديك أي بطاقات ائتمان لإظهارها.",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesCcDetails": {
+      "title": "تفاصيل بطاقة الإئتمان",
+      "cardLimit": "الحد الائتماني",
+      "utilizedAmount": "المبلغ المستخدم",
+      "heldAmount": "المبلغ المعلق",
+      "minDueAmount": "الحد الأدني المستحق",
+      "dueDate": "تاريخ الاستحقاق",
+      "remaining": "المبلغ المتاح",
+      "payNow": "ادفع الآن",
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesCcTransactions": {
+      "title": "المعاملات",
+      "status": "الحالة",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "download": "تحميل",
+      "page": "صفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "settled": "المنفذة",
+      "pending": "المعلقة",
+      "table": {
+        "transactionDate": "تاريخ المعاملة",
+        "referenceNumber": "الرقم المرجعي",
+        "description": "وصف المعاملة",
+        "debitAmount": "مدين",
+        "creditAmount": "دائن",
+        "status": "الحالة"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا يوجد معاملات مالية",
+        "subTitle": "لا يوجد اى معاملات مالية لعرضها!",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesLgs": {
+      "title": "خطابات الضمان",
+      "filterBy": "تصفية حسب: ",
+      "filterPlaceholder": "نوع خطاب الضمان",
+      "clearFilter": "مسح الكل",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "currency": "العملة",
+      "searchOptions": "بحث الاختيارات",
+      "downloadStatement": "تحميل",
+      "page": "الصفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "table": {
+        "lgNumber": "رقم خطاب الضمان",
+        "lgType": "نوع خطاب الضمان",
+        "lgAmount": "مبلغ خطاب الضمان",
+        "cashCover": "الغطاء النقدي",
+        "coverPercentage": "الغطاء النقدي %",
+        "maturityDate": "تاريخ الانتهاء",
+        "issuanceDate": "تاريخ الإصدار",
+        "action": "إجراء"
+      },
+      "lgsTypes": {
+        "Advance payment": "دفعة مقدمة",
+        "Performance": "نهائي",
+        "Bid": "ابتدائي"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا يوجد خطاب ضمان ",
+        "subTitle": "لا يوجد خطاب ضمان لعرضه",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesOverdraft": {
+      "title": "جاري مدين",
+      "searchOptions": "بحث",
+      "filterBy": "التصفية حسب",
+      "clearFilter": "مسح الكل",
+      "lastUpdatedAt": "آخر تحديث",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "download": "تحميل",
+      "page": "صفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة",
+      "table": {
+        "accountNumber": "رقم الحساب",
+        "accountName": "اسم الحساب",
+        "utilizedAmount": "المبلغ المستخدم",
+        "currency": "العملة",
+        "dueAmount": "المبلغ المستحق",
+        "dueDate": "موعد الاستحقاق",
+        "action": "إجراء",
+        "payNowAction": "ادفع الآن"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا يوجد جاري مدين",
+        "subTitle": " لا يوجد جاري مدين لعرضه",
+        "reload": "إعادة التحميل"
+      }
+    },
+    "facilitiesIdc": {
+      "title": "مستندات التحصيل",
+      "filterBy": "تصفية حسب: ",
+      "filterPlaceholder": "نوع مستند التحصيل",
+      "filterStatus": "الحالة",
+      "clearFilter": "مسح الكل",
+      "apply": "تطبيق",
+      "reset": "إعادة ضبط",
+      "currency": "العملة",
+      "searchOptions": "بحث الاختيارات",
+      "downloadStatement": "تحميل",
+      "table": {
+        "idcNumber": "رقم المستند",
+        "idcType": "نوع مستند التحصيل",
+        "idcAmount": "قيمة المستند",
+        "idcDrawer": "المستفيد",
+        "dueDate": "تاريخ الاستحقاق",
+        "status": "الحالة"
+      },
+      "idcTypes": {
+        "DIS": "مستند تحصيل استيراد اطلاع",
+        "DOST": "مستندات رسم التحصيل وتصدير بالاطلاع",
+        "LIDC": "اعتماد استيراد آجل - مؤكد مرزون",
+        "DIAW": "مستند تحصيل استيراد آجل - مرزون السداد"
+      },
+      "idcStatus": {
+        "Settled": "المنفذة",
+        "Pending": "المعلقة"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "title": "لا اعتماد مستندي ",
+        "subTitle": "لا يوجد أي اعتماد مستندي معلق لعرضه",
+        "reload": "إعادة التحميل"
+      },
+      "page": "الصفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة"
+    },
+    "facilitiesLcsDetails": {
+      "lastUpdatedAt": "آخر تحديث: ",
+      "lcSwiftNumber": "رقم السويفت: ",
+      "lcDetails": "تفاصيل الاعتماد المستندي",
+      "lcAmount": "مبلغ الاعتماد",
+      "lcType": "نوع الاعتماد",
+      "dueDate": "تاريخ الاستحقاق",
+      "expiryDate": "تاريخ الإصدار",
+      "beneficiaryName": "اسم المستفيد",
+      "lcCountry": "بلد تداول الاعتماد",
+      "outstandingLimit": "الحد القائم",
+      "remainingLimit": "الحد المتبقي",
+      "cashCoverDetails": "تفاصيل الغطاء النقدي",
+      "cashCoverAmount": "مبلغ الغطاء النقدي",
+      "cashCoverPercentage": "نسبة الغطاء النقدي",
+      "downloadLC": "تحميل الاعتماد"
+    },
+    "facilitiesLgsDetails": {
+      "lgNumber": "رقم خطاب الضمان: ",
+      "lastUpdatedAt": "آخر تحديث: ",
+      "lgDetails": "تفاصيل خطاب الضمان",
+      "lgReferenceNumber": "الرقم الآلي",
+      "lgAmount": "مبلغ خطاب الضمان",
+      "lgType": "نوع خطاب الضمان",
+      "issuanceDate": "تاريخ الإصدار",
+      "expiryDate": "تاريخ الاستحقاق",
+      "beneficiaryName": "اسم المستفيد",
+      "commissionsDebitedAccount": "حساب الخصم الخاص بالعمولات",
+      "noOfExtensions": "عدد مد آجال خطاب الضمان",
+      "lgPurpose": "غرض خطاب الضمان",
+      "cashCoverDetails": "تفاصيل الغطاء النقدي",
+      "cashCoverAmount": "مبلغ الغطاء النقدي",
+      "cashCoverPercentage": "نسبة الغطاء النقدي",
+      "linkedCashCoverAccount": "حساب الغطاءات النقدية",
+      "cashCoverAccount": "حساب الغطاءات النقدية"
+    },
+    "facilitiesIDCDetails": {
+      "idcSwiftNumber": "رقم السويفت: ",
+      "lastUpdatedAt": "آخر تحديث: ",
+      "IdcDetails": "تفاصيل مستند التحصيل",
+      "idcAmount": "مبلغ مستند التحصيل",
+      "idcType": "نوع مستند التحصيل",
+      "exporterName": "اسم المصدر",
+      "dueDate": "تاريخ الاستحقاق",
+      "idcCountry": "بلد تداول المستند",
+      "cashCoverDetails": "تفاصيل الغطاء النقدي",
+      "cashCoverAmount": "مبلغ الغطاء النقدي",
+      "cashCoverPercentage": "نسبة الغطاء النقدي"
+    }
+  },
+  "overdraftDetailsPage": {
+    "upcomingDues": "أجندة الاستحقاقات",
+    "transactionsHistory": "تاريخ المعاملات",
+    "basicDetails": {
+      "title": "جاري مدين بضمان ـ منشآت صغيره",
+      "lastUpdatedAt": "آخر تحديث",
+      "overdraftSummary": "تفاصيل الحد الجاري المدين",
+      "Accountnumber": "رقم الحساب",
+      "IBAN": "IBAN",
+      "linkedaccount": "الحساب المرتبط",
+      "availableToUse": "المتاح للإستخدام",
+      "utilizedAmount": "المبلغ المستخدم",
+      "pledgedAmount": "القيمة المرهونة",
+      "interestRate": "الفائدة المطبقة",
+      "clearFilter": "مسح الكل",
+      "shareAccountDetail": "تحميل تفاصيل الحساب"
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    },
+    "upcoming": {
+      "title": "اجندة الإستحقاق",
+      "filterBy": "تصفية حسب:",
+      "filterPlaceholder": "تاريخ الاستحقاق",
+      "7days": "خلال 7 أيام",
+      "30days": "خلال 30 يوم",
+      "90days": "خلال 90 يوم",
+      "clearFilters": "مسح الكل",
+      "reset": "إعادة ضبط",
+      "apply": "تطبيق",
+      "searchOptions": "بحث الاختيارات",
+      "downloadStatement": "تحميل الإستحقاقات",
+      "NoUpcomingFoundTitle": "لا يوجد معاملات مالية",
+      "NoUpcomingFoundDesc": "لا يوجد أي معاملات مالية لعرضها",
+      "table": {
+        "referenceNumber": "الرقم المرجعي",
+        "IssueDate": "تاريخ المعاملة",
+        "dueAmount": "المبلغ المستحق",
+        "dueDate": "تاريخ الاستحقاق",
+        "remainingAmount": "المبلغ المتبقي",
+        "action": "إجراء",
+        "payNowAction": "ادفع الآن"
+      },
+      "empty": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "page": "الصفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة"
+    },
+    "transactions": {
+      "title": "المعاملات",
+      "filterBy": "تصفية حسب:",
+      "filterPlaceholder": "نوع المعاملة",
+      "transactionTypes": {
+        "Debit": "مدين",
+        "Credit": "دائن"
+      },
+      "clearFilters": "مسح الكل",
+      "reset": "إعادة ضبط",
+      "apply": "تطبيق",
+      "searchOptions": "بحث الاختيارات",
+      "downloadStatement": "تحميل المعاملات",
+      "NoTransactionsFoundTitle": "لا يوجد معاملات مالية",
+      "NoTransactionsFoundDesc": "لا يوجد أي معاملات مالية لعرضها",
+      "table": {
+        "transactionDate": "تاريخ المعاملة",
+        "referenceNumber": "الرقم المرجعي",
+        "description": "وصف المعاملة",
+        "debitAmount": "مدين",
+        "creditAmount": "دائن",
+        "balanceAfter": "الرصيد النهائي"
+      },
+      "empty": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "page": "الصفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة"
+    }
+  },
+  "loanDetailsPage": {
+    "basicDetails": {
+      "totalLoanAmount": "اجمالى قيمة القرض",
+      "tenor": "المدة",
+      "paidAmount": "اجمالى المدفوع",
+      "remainingAmount": "المتبقى",
+      "totalInstallments": "اجمالى الاقساط",
+      "totalPaidInstallments": "اجمالى الاقساط المدفوعه",
+      "remainingInstallments": "الاقساط المتبقية",
+      "installmentFrequency": "دورية الاقساط",
+      "maturityDate": "تاريخ الاستحقاق",
+      "appliedInterestRate": "نسبة الفائدة",
+      "installmentsDue": "القسط المستحق",
+      "instalmentAmount": "قيمة القسط",
+      "instalmentDate": "تاريخ القسط",
+      "PayNowAction": "ادفع الان"
+    },
+    "repayments": {
+      "title": "جدول الأقساط",
+      "filterBy": "تصفية حسب:",
+      "clearFilter": "مسح الكل",
+      "filterPlaceholder": "الحالة",
+      "reset": "إعادة ضبط",
+      "apply": "تطبيق",
+      "searchOptions": "بحث الاختيارات",
+      "downloadStatement": "تحميل ",
+      "paymentTypes": {
+        "Paid": "مدفوع",
+        "Pending": "لم يستحق",
+        "Others": "أخري"
+      },
+      "table": {
+        "installmentDate": "تاريخ القسط",
+        "utilizedAmount": "قيمة القسط",
+        "status": "الحالة"
+      },
+      "empty": {
+        "title": "لم يتم العثور على مدفوعات قرض",
+        "subTitle": "ليس لديك أي مدفوعات تحميل لعرضها",
+        "filterStateTitle": "لم يتم العثور على نتائج.",
+        "filterStateSubTitle": "قم بتغيير عوامل التصفية.",
+        "reload": "إعادة التحميل"
+      },
+      "page": "الصفحة",
+      "pageOf": "من",
+      "perPage": "/ الصفحة"
+    }
+  },
+  "accountsAndDeposits": {
+    "all": "الكل",
+    "accounts": "الحسابات",
+    "certificates": "الشهادات",
+    "timeDeposits": "الودائع",
+    "totalAssets": "إجمالي الأصول",
+    "allList": {
+      "title": "الحسابات والودائع",
+      "lastUpdate": "آخر تحديث",
+      "equivalent": "معادل",
+      "export": "الطباعة",
+      "downloadTooltip": "تنزيل موقف الحسابات والودائع",
+      "table": {
+        "accountNumber": "رقم الحساب",
+        "productType": "نوع الحساب",
+        "availableBalance": "الرصيد المتاح",
+        "action": "إجراء"
+      },
+      "error": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      },
+      "empty": {
+        "apiError": "حدث خطأ ما!",
+        "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+        "reload": "إعادة التحميل"
+      }
+    }
+  },
+  "beneficiary": {
+    "list": {
+      "title": "قائمة المستفيدين",
+      "search": "ابحث عن مستفيد",
+      "filterBy": "التصفية حسب",
+      "clearFilter": "مسح الكل",
+      "reset": "إعادة ضبط",
+      "apply": "تطبيق",
+      "select": "اختر المستفيد",
+      "beneficiaryType": "نوع المستفيد",
+      "transactionMethod": "طريقة المعاملة",
+      "makeTransfer": "إجراء تحويل",
+      "transactionTypeOptions": {
+        "ALL": "الكل ",
+        "PAYMENT_ADDRESS": "عنوان الدفع",
+        "BANK_ACCOUNT": "حساب بنكي",
+        "CARD": "بطاقة بنكية",
+        "WALLET": "محفظة الكترونية",
+        "MOBILE_NUMBER": "رقم الموبايل",
+        "IBAN": "IBAN"
+      },
+      "beneficiaryTypeOptions": {
+        "INSIDE_SCB": "داخل بنك قناة السويس",
+        "LOCAL_OUTSIDE_SCB": "خارج بنك قناة السويس",
+        "ALL": "كل المستفيدين"
+      },
+      "empty": {
+        "title": "لم يتم إضافة أي مستفيد بعد",
+        "subTitle": "يرجى إضافة المستفيدين لتتمكن من إجراء الدفعات بأمان في أي وقت"
+      },
+      "noFilter": {
+        "title": "لا توجد نتائج",
+        "subTitle": "لم نعثر على أي نتائج حسب اختيارك. حاول تعديل الفلتر أو معايير"
+      },
+      "add": {
+        "title": "إضافة مستفيد جديد",
+        "inside": "داخل بنك قناة السويس",
+        "outside": "محلي خارج بنك قناة السويس"
+      }
+    },
+    "addForm": {
+      "titleInside": "داخل بنك قناة السويس",
+      "titleOutside": "محلي خارج بنك قناة السويس",
+      "confirmTitle": "تأكيد بيانات المستفيد",
+      "beneficiaryDetails": "تفاصيل المستفيد",
+      "bankDetails": "تفاصيل البنك",
+      "confirm": "تأكيد",
+      "edit": "تعديل",
+      "transactionTitle": "طريقة المعاملة",
+      "transactionTypeOptions": {
+        "PAYMENT_ADDRESS": "عنوان الدفع",
+        "BANK_ACCOUNT": "حساب بنكي",
+        "CARD": "بطاقة بنكية",
+        "WALLET": "محفظة الكترونية",
+        "MOBILE_NUMBER": "رقم الموبايل",
+        "IBAN": "IBAN"
+      },
+      "saveBeneficiary": "احفظ هذا المستفيد إلي قائمة المستفيدين",
+      "confirmCloseBeneficiaryForm": "هل أنت متأكد أنك تريد إغلاق النافذة؟ سيتم إلغاء جميع التغييرات الغير محفوظة.",
+      "success": {
+        "title": "تمت إضافة المستفيد بنجاح",
+        "subTitle": "يمكنك الآن البدء في إجراء  تحويل"
+      },
+      "quickModeSuccess": {
+        "title": "تمت إضافة المستفيد بنجاح.",
+        "subTitle": "يمكنك الآن البدء في إجراء تحويل لمرة واحدة."
+      },
+      "error": {
+        "title": "لم يتم إضافة المستفيد",
+        "subTitle": "يرجي المحاولة مرة أخرى"
+      },
+      "nameField": {
+        "label": "اسم المستفيد",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات"
+      },
+      "nicknameField": {
+        "label": "الاسم المستعار للمستفيد",
+        "hint": "يجب أن يكون الاسم المختصر فريداً ضمن قائمة مستفيدي الشركة",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات"
+      },
+      "bankField": {
+        "label": "البنك المستفيد",
+        "placeholder": "اختر بنك",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "searchPlaceholder": "بحث"
+      },
+      "accountNumberField": {
+        "label": "الحساب البنكي",
+        "hint": "رقم الحساب يجب أن يحتوي علي 16 رقماً فقط",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "رقم الحساب يجب أن يحتوي علي 16 رقماً فقط",
+        "dynamic": "رقم الحساب يجب أن يحتوي علي {{length}} رقماً فقط"
+      },
+      "confirmAccountNumberField": {
+        "label": "تأكيد الحساب البنكي",
+        "hint": "يرجي تأكيد الحساب البنكي",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "mismatch": "البيانات المدخلة غير متطابقة. يرجي التحقق والمحاولة مرة أخرى"
+      },
+      "cardNumberField": {
+        "label": "رقم البطاقة",
+        "hint": "رقم البطاقة يجب أن يحتوي علي 16 رقماً فقط",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "رقم البطاقة يجب أن يحتوي علي 16 رقماً فقط"
+      },
+      "confirmCardNumberField": {
+        "label": "تأكيد رقم البطاقة",
+        "hint": "يرجي تأكيد رقم البطاقة",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "mismatch": "البيانات المدخلة غير متطابقة. يرجي التحقق والمحاولة مرة أخرى"
+      },
+      "walletNumberField": {
+        "label": "رقم المحفظة",
+        "hint": "رقم المحفظة يجب أن يحتوي علي 11 رقماً فقط",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "رقم المحفظة يجب أن يحتوي علي 11 رقماً فقط"
+      },
+      "confirmWalletNumberField": {
+        "label": "تأكيد رقم المحفظة",
+        "hint": "يرجي تأكيد رقم المحفظة",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "mismatch": "البيانات المدخلة غير متطابقة. يرجي التحقق والمحاولة مرة أخرى"
+      },
+      "mobileNumberField": {
+        "label": "رقم الموبايل",
+        "hint": "رقم الموبايل يجب أن يحتوي علي 11 رقماً فقط",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "رقم الموبايل يجب أن يحتوي علي 11 رقماً فقط"
+      },
+      "confirmMobileNumberField": {
+        "label": "تأكيد رقم الموبايل",
+        "hint": "يرجي تأكيد رقم الموبايل",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "mismatch": "البيانات المدخلة غير متطابقة. يرجي التحقق والمحاولة مرة أخرى"
+      },
+      "paymentAddressField": {
+        "label": "عنوان الدفع",
+        "hint": "يرجي إدخال عنوان الدفع",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "عنوان الدفع غير صحيح"
+      },
+      "ibanField": {
+        "label": "IBAN",
+        "hint": "IBAN يجب أن يبدأ ب EG ويجب أن يكون 29 رقماً",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "invalid": "IBAN غير صحيح"
+      },
+      "confirmIbanField": {
+        "label": "تأكيد IBAN",
+        "hint": "يرجي تأكيد IBAN",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات",
+        "mismatch": "البيانات المدخلة غير متطابقة. يرجي التحقق والمحاولة مرة أخرى"
+      }
+    },
+    "editForm": {
+      "title": "تعديل تفاصيل المستفيد",
+      "confirmTitle": "تأكيد تفاصيل المستفيد",
+      "beneficiaryDetails": "تفاصيل المستفيد",
+      "bankDetails": "تفاصيل البنك",
+      "update": "تعديل",
+      "cancel": "إلغاء",
+      "transactionTitle": "طريقة المعاملة",
+      "transactionTypeOptions": {
+        "PAYMENT_ADDRESS": "عنوان الدفع",
+        "BANK_ACCOUNT": "حساب بنكي",
+        "CARD": "بطاقة بنكية",
+        "WALLET": "محفظة الكترونية",
+        "MOBILE_NUMBER": "رقم الموبايل",
+        "IBAN": "IBAN"
+      },
+      "nameField": {
+        "label": "اسم المستفيد",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات"
+      },
+      "nicknameField": {
+        "label": "اسم المستفيد المستعار",
+        "hint": "يجب أن يكون الاسم المختصر فريداً ضمن قائمة مستفيدي الشركة",
+        "required": "هذا الحقل مطلوب يرجي تعبئة البيانات"
+      },
+      "bankField": {
+        "label": "بنك المستفيد"
+      },
+      "success": "تم تعديل قائمة المستفيدين بنجاح"
+    },
+    "delete": {
+      "title": "هل انت متاكد؟",
+      "subTitle": "ستفقد بيانات المستفيد بشكل دائم",
+      "confirm": "نعم, احذف",
+      "cancel": "لا, لا تحذف",
+      "message": "تم حذف المستفيد بنجاح"
+    }
+  },
+  "accountsDrawer": {
+    "title": "اختر الحساب",
+    "subTitle": "اختر الحساب الذي تريد تحويله منه",
+    "searchPlaceholder": "ابحث عن حساب",
+    "availableBalance": "الرصيد المتاح",
+    "fromAccount": "اختر الحساب",
+    "toAccount": "إلي حساب",
+    "change": "تغيير",
+    "selectAccount": "اختر الحساب",
+    "searchFromAccount": "البحث عن حساب",
+    "all": "الكل",
+    "hasNoUsdAccount": {
+      "title": "ليس لديك حساب بالدولار الامريكى.",
+      "subTitle": "يرجى فتح حساب بالدولار الامريكى للمتابعة."
+    },
+    "hasOnlyOneForeignAccount": {
+      "title": "ليس لديك حساب بالجنيه المصري لاستلام هذا التحويل.",
+      "subTitle": "يرجى فتح حساب بالجنيه المصري للمتابعة."
+    },
+    "hasNotReceiveEGPAccount": {
+      "title": "ليس لديك حساب بالجنيه المصري لإرسال هذا التحويل.",
+      "subTitle": "يرجى فتح حساب بالجنيه المصري للمتابعة."
+    },
+    "empty": {
+      "title": "لا يوجد حسابات",
+      "subTitle": "يرجى إضافة حسابات"
+    }
+  },
+  "transfer": {
+    "add": {
+      "between": "تحويل بين حساباتك",
+      "inside": "تحويل داخل بنك قناة السويس",
+      "outside": "تحويل محلي خارج بنك قناة السويس",
+      "charity": "التبرعات الخيرية",
+      "scheduledTransfers": "التحويلات المجدولة",
+      "transferHistory": "تاريخ التحويلات"
+    },
+    "charity": {
+      "form": {
+        "title": "تحويل خيري"
+      },
+      "charity": "إلى",
+      "categories": "الفئات",
+      "categoriesError": "فشل في تحميل الفئات",
+      "retry": "إعادة المحاولة",
+      "noCategories": "لا توجد فئات متاحة لهذه الجهة الخيرية"
+    },
+    "charityDrawer": {
+      "title": "قائمة الجمعيات الخيرية",
+      "subTitle": "اختر الجهة الخيرية التي تريد التحويل إليها",
+      "searchPlaceholder": "البحث عن الجهات الخيرية",
+      "selectCharity": "اختر الجهة الخيرية",
+      "change": "تغيير",
+      "empty": {
+        "title": "لا توجد جهات خيرية متاحة",
+        "subTitle": "يرجى المحاولة لاحقاً أو التواصل مع الدعم."
+      },
+      "noResults": {
+        "title": "لم يتم العثور على نتائج",
+        "subTitle": "لم نتمكن من العثور على أي جهات خيرية تطابق بحثك."
+      }
+    },
+    "beneficiaryAccountsDrawer": {
+      "title": "اختر الحساب",
+      "subTitle": "اختر الحساب الذي تريد تحويله منه",
+      "searchPlaceholder": "ابحث عن حساب",
+      "availableBalance": "الرصيد المتاح",
+      "fromAccount": "من حساب",
+      "toAccount": "إلي حساب",
+      "selectBeneficiary": "اختر الحساب",
+      "change": "تغيير",
+      "selectAccount": "اختر الحساب",
+      "all": "الكل",
+      "transactionTypeOptions": {
+        "ALL": "الكل",
+        "PAYMENT_ADDRESS": "عنوان الدفع",
+        "BANK_ACCOUNT": "حساب بنكي",
+        "CARD": "بطاقة بنكية",
+        "WALLET": "محفظة الكترونية",
+        "MOBILE_NUMBER": "رقم الموبايل",
+        "IBAN": "IBAN"
+      },
+      "empty": {
+        "title": "لا يوجد حسابات",
+        "subTitle": "يرجى إضافة حسابات"
+      },
+      "noBeneficiaries": {
+        "title": "لم يتم إضافة أي مستفيد بعد",
+        "subTitle": "يرجى إضافة المستفيدين لتتمكن من إجراء الدفعات بأمان في أي وقت"
+      },
+      "transferNewBeneficiary": "إضافة مستفيد جديد",
+      "addBeneficiary": "إضافة مستفيد جديد"
+    },
+    "currencyField": {
+      "amount": "مبلغ التحويل",
+      "equivalent": "المعادل",
+      "amountToTransfer": "مبلغ التحويل",
+      "transferAmount": "مبلغ التحويل",
+      "transferredAmount": "المبلغ المحول",
+      "hint": "سعر الصرف الحالي:",
+      "required": "يرجى إدخال البيانات هنا",
+      "insufficientBalance": "الرصيد غير كاف لإتمام التحويل",
+      "minAmount": "يجب أن يكون المبلغ أكبر من 0",
+      "minAmountError": "أقل مبلغ يمكن تحويله هو 1 جنيه",
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل."
+    },
+    "summary": {
+      "title": "ملخص التحويل",
+      "from": "من",
+      "to": "إلي",
+      "amount": "المبلغ",
+      "convertedAmount": "مبلغ التحويل بالعملة",
+      "transferType": "نوع التحويل",
+      "exchangeRate": " سعر الصرف",
+      "continue": "متابعة",
+      "transferTypeOptions": {
+        "OWN": "تحويل بين حساباتك",
+        "INSIDE": "داخل بنك قناة السويس",
+        "OUTSIDE": "محلي خارج بنك قناة السويس"
+      },
+      "scheduledDetails": "تفاصيل التحويل المجدول",
+      "scheduleDate": "تاريخ التحويل",
+      "transferDate": "تاريخ التحويل",
+      "frequencyType": "نوع التكرار",
+      "numberOfTransfers": "عدد التحويلات",
+      "endDate": "تاريخ الانتهاء",
+      "frequencyTypeOptions": {
+        "ONCE": "مرة واحدة",
+        "DAILY": "يومي",
+        "WEEKLY": "أسبوعي",
+        "MONTHLY": "شهري",
+        "QUARTERLY": "ربع سنوي",
+        "SEMI_ANNUALLY": "نصف سنوي",
+        "YEARLY": "سنوي"
+      },
+      "chargesPaidBy": "المصاريف المدفوعة بواسطة",
+      "description": "الوصف",
+      "reasonOfTransfer": "سبب التحويل",
+      "fees": "العمولات",
+      "totalAmount": "إجمالي المبلغ",
+      "transferCompleted": "تم التحويل بنجاح!",
+      "referenceId": "الرقم المرجعي",
+      "transactionDate": "تاريخ المعاملة",
+      "returnToDashboard": "العودة الي لوحة التحكم ",
+      "makeAnotherTransfer": "إجراء تحويل آخر",
+      "valueDate": "تاريخ الحق",
+      "achInfo": "يتم تنفيذ التحويل  خلال ساعات العمل (من الساعة ٨:٣٠ صباحًا حتى ٣:٣٠ مساءً).",
+      "achSuccessWithinWorkingHours": "تم إرسال التحويل بنجاح، وسيتم تنفيذه  خلال ساعات العمل (من الساعة ٨:٣٠ صباحًا حتى ٣:٣٠ مساءً).",
+      "achSuccessAfterWorkingHours": "تم إرسال التحويل بنجاح، وسيتم تنفيذه في يوم العمل التالي. خلال ساعات العمل (من الساعة ٨:٣٠ صباحًا حتى ٣:٣٠ مساءً).",
+      "scheduledCompleted": "تمت جدولة التحويل بنجاح",
+      "instantAndRecurring": "تم تنفيذ التحويل بنجاح وقد تم جدولة التحويلات المتبقية",
+      "approvalSubmittedTitle": "تم إرسال طلبك للموافقة.",
+      "approvalSubmittedMessage": "يمكنك متابعة الحالة في قسم الطلبات المعلقة."
+    },
+    "betweenOwnAccounts": {
+      "form": {
+        "title": "تحويل بين حساباتك",
+        "from": "من",
+        "to": "إلي",
+        "amount": "مبلغ التحويل",
+        "reason": "سبب التحويل",
+        "description": "الوصف",
+        "addDescription": "إضافة ملاحظة أو وصف",
+        "optional": "اختياري",
+        "transferNetwork": "شبكة التحويل",
+        "availableBalance": "الرصيد المتاح",
+        "scheduleTransfer": "جدولة التحويل"
+      }
+    },
+    "insideScb": {
+      "form": {
+        "title": "تحويل داخل بنك قناة السويس",
+        "from": "من",
+        "to": "إلي",
+        "amount": "المبلغ",
+        "reason": "سبب التحويل",
+        "description": "الوصف",
+        "addDescription": "إضافة ملاحظة أو وصف",
+        "optional": "اختياري",
+        "scheduleTransfer": "جدولة التحويل",
+        "continue": "متابعة"
+      },
+      "searchBeneficiary": "ابحث عن الحساب",
+      "addBeneficiary": "تحويل إلى مستفيد جديد"
+    },
+    "form": {
+      "outsideTitle": "تحويل محلي خارج بنك قناة السويس",
+      "from": "من",
+      "to": "إلي",
+      "amount": "المبلغ",
+      "reason": "سبب التحويل",
+      "description": "الوصف",
+      "addDescription": "إضافة ملاحظة أو وصف",
+      "optional": "اختياري",
+      "exchangeAlert": "سعر الصرف المعروض ارشادي و قابل للتغيير حتي تأكيد العملية.",
+      "transferNetwork": "شبكة التحويل",
+      "scheduleTransfer": "جدولة التحويل",
+      "continue": "متابعة",
+      "back": "العودة",
+      "searchBeneficiary": "ابحث عن الحساب",
+      "addBeneficiary": "تحويل إلى مستفيد جديد",
+      "transferChargesBy": "خصم المصاريف",
+      "fees": "العمولات:",
+      "selectAccount": "اختر الحساب",
+      "confirm": "متابعة",
+      "change": "تغيير ",
+      "sectionRequired": "يرجى إدخال البيانات هنا"
+    },
+    "otp": {
+      "otpTitle": "برجاء إدخال رمز الأمان",
+      "otpDesc": "تستطيع الحصول علي هذا الرمز من تطبيق SCB Token",
+      "otpRequired": "برجاء إدخال رمز الأمان",
+      "incompleteOtp": "رمز الأمان غير صحيح",
+      "invalidToken": "رمز غير صالح. يرجى المحاولة مرة أخرى",
+      "verify": "تأكيد"
+    },
+    "error": {
+      "default": "فشل التحويل. يرجى المحاولة مرة أخرى لاحقاً."
+    },
+    "schedule": {
+      "scheduleTransfer": "جدولة التحويل",
+      "transferDate": "تاريخ التحويل",
+      "transferDateRequired": "تاريخ التحويل مطلوب",
+      "frequencyType": "نوع التكرار",
+      "numberOfTransfers": "عدد التحويلات",
+      "endDate": "تاريخ الانتهاء",
+      "endDateHint": "تاريخ الانتهاء سيكون ",
+      "numberOfTransfersHint": "عدد التحويلات سيكون ",
+      "numberOfTransfersRequired": "يرجى إدخال البيانات هنا",
+      "endDateRequired": "يرجى إدخال البيانات هنا",
+      "recurringDetail": "عرض تفاصيل التكرار",
+      "scheduledInfo": "التواريخ المحددة تقع في عطلات نهاية الأسبوع وسيتم تنفيذها في يوم العمل التالي.",
+      "maxTransferExceed": "لقد تجاوزت الحد الأقصى لعدد التحويلات المسموح بها",
+      "frequencyTypeOptions": {
+        "ONCE": "مرة واحدة",
+        "DAILY": "يومي",
+        "WEEKLY": "أسبوعي",
+        "MONTHLY": "شهري",
+        "QUARTERLY": "ربع سنوي",
+        "YEARLY": "سنوي",
+        "SEMI_ANNUALLY": "نصف سنوي"
+      }
+    },
+    "recurring": {
+      "scheduledInfo": "التواريخ المحددة تقع في عطلات نهاية الأسبوع وسيتم تنفيذها في يوم العمل التالي.",
+      "weekendSchedule": "سيتم تنفيذ التحويلات المجدولة خلال عطلات نهاية الأسبوع أو العطلات الرسمية في يوم العمل التالي.",
+      "title": "تفاصيل التكرار",
+      "transferDate": "تواريخ التحويل",
+      "numberOfTransfers": "عدد التحويلات",
+      "date": "تاريخ"
+    },
+    "scheduledTransfers": {
+      "filterBy": "تصفية :",
+      "oneTime": "التحويلات لمرة واحدة",
+      "recurring": "التحويلات المتكررة",
+      "transferDate": "Transfer Date",
+      "date": "التاريخ ",
+      "transferType": "نوع التحويل",
+      "search": "بحث عن...",
+      "transferAmount": "مبلغ التحويل",
+      "ExecutionDate": "تاريخ التنفيذ",
+      "executedTransfers": "التحويلات المنفذة",
+      "nextTransferDate": "تاريخ التحويل القادم",
+      "frequency": "التكرار",
+      "viewDetails": "إظهار التفاصيل ",
+      "of": "من",
+      "Next 7 days": "السبعة أيام القادمة",
+      "Next Month": "الشهر القادم",
+      "Next 3 Months": "الثلاثة أشهر القادمة",
+      "searchOptions": "بحث",
+      "clearFilter": "مسح الكل",
+      "scheduledTransferDetails": "تفاصيل التحويل",
+      "cancelTransfer": "إلغاء التحويل",
+      "cancelAllTransfer": "إلغاء جميع التحويلات",
+      "from": "من",
+      "to": "الي",
+      "approvalTimeline": "الجدول الزمني للموافقات",
+      "approvalTimelineDesc": "اطلع خطوات الموافقة وأدوار المستخدمين",
+      "approved": "تمت الموافقة",
+      "authorizer": "المستخدم ذو الصلاحيات العليا",
+      "failedWarning": "فشل تنفيذ {{count}} من التحويلات من التحويلات",
+      "apiErrorDetail": "حدث خطأ غير متوقع. يُرجى المحاولة مرة أخرى لاحقًا.",
+      "startDate": "تاريخ بداية التحويل",
+      "endDate": "تاريخ نهاية التحويل",
+      "confirmation": {
+        "title": "إلغاء النقل",
+        "desc": "هل أنت متأكد أنك تريد إلغاء هذا التحويل المجدول؟",
+        "descAll": "هل أنت متأكد أنك تريد إلغاء هذا التحويل المجدول؟",
+        "yes": "نعم، إلغاء",
+        "no": "لا، الاحتفاظ به",
+        "noAll": "لا، الاحتفاظ بهم"
+      },
+      "empty": {
+        "title": "لا توجد معاملات بعد.",
+        "subTitle": "ابدأ بإجراء أول معاملة لك."
+      },
+      "noResults": {
+        "title": "لا توجد نتائج",
+        "subTitle": "لم نعثر على أي نتائج حسب اختيارك. حاول تعديل الفلتر أو معايير"
+      },
+      "frequencyTypeOptions": {
+        "ONCE": "مرة واحدة",
+        "DAILY": "يومي",
+        "WEEKLY": "أسبوعي",
+        "MONTHLY": "شهري",
+        "QUARTERLY": "ربع سنوي",
+        "YEARLY": "سنوي",
+        "SEMI_ANNUALLY": "نصف سنوي"
+      },
+      "transferTypeOptions": {
+        "OWN": "تحويل بين حساباتك",
+        "INSIDE": "داخل بنك قناة السويس",
+        "OUTSIDE": "محلي خارج بنك قناة السويس"
+      }
+    },
+    "upcomingTransfer": {
+      "title": "المعاملات",
+      "filterBy": "التصفية حسب",
+      "empty": {
+        "title": "لا توجد معاملات بعد.",
+        "subTitle": "ابدأ بإجراء أول معاملة لك."
+      },
+      "noResults": {
+        "title": "م يتم العثور على نتائج.",
+        "subTitle": "قم بتغيير عوامل التصفية."
+      },
+      "table": {
+        "noOfTransfers": "عدد مرات التحويل",
+        "transferDate": "تاريخ التحويل",
+        "amount": "المبلغ",
+        "action": "الإجراء"
+      }
+    },
+    "OWN": "تحويل بين حساباتك",
+    "INSIDE": "داخل بنك قناة السويس",
+    "OUTSIDE": "محلي خارج بنك قناة السويس",
+    "CARD": "البطاقة",
+    "PAYMENT_ADDRESS": "عنوان الدفع",
+    "BANK_ACCOUNT": "الحساب",
+    "WALLET": "المحفظة",
+    "MOBILE_NUMBER": "رقم الموبايل",
+    "IBAN": "IBAN",
+    "CHARITY": "التبرعات الخيرية"
+  },
+  "transactions": {
+    "title": "تاريخ التحويلات",
+    "filterBy": "تصفية",
+    "status": "الحالة",
+    "date": "التاريخ",
+    "transferType": "نوع التحويل",
+    "download": "تحميل",
+    "searchOptions": "بحث",
+    "search": "بحث عن...",
+    "apply": "تطبيق",
+    "Last 7 Days": "آخر 7 أيام",
+    "Last Month": "الشهر الماضي",
+    "Last 3 Months": "آخر 3 أشهر",
+    "completed": "تم التنفيذ",
+    "pending": "جاري التنفيذ",
+    "failed": "فشل في التنفيذ",
+    "OWN": "تحويل بين حساباتك",
+    "INSIDE": "تحويل داخل بنك قناة السويس",
+    "OUTSIDE": "تحويل محلي خارج بنك قناة السويس",
+    "page": "الصفحة",
+    "pageOf": "من",
+    "perPage": "/ الصفحة",
+    "clearFilter": "مسح الكل",
+    "Custom Range": "تحديد فترة",
+    "fromDate": "من",
+    "toDate": "إلى",
+    "reset": "إعادة تعيين",
+    "empty": {
+      "title": "لا توجد معاملات بعد.",
+      "subTitle": "ابدأ بإجراء أول معاملة لك."
+    },
+    "noResults": {
+      "title": "لم يتم العثور على نتائج.",
+      "subTitle": "قم بتغيير عوامل التصفية."
+    },
+    "table": {
+      "transactionDate": "تاريخ العملية",
+      "referenceNumber": "الرقم المرجعي",
+      "debitedAccount": "الحساب المدين",
+      "beneficiaryName": "اسم المستفيد",
+      "transferType": "نوع التحويل",
+      "amount": "المبلغ",
+      "status": "الحالة"
+    }
+  },
+  "transferDetails": {
+    "download": "تحميل المعاملة",
+    "repeat": "تكرار المعاملة",
+    "referenceNumber": "الرقم المرجعي:",
+    "own": "تحويل بين حساباتك",
+    "inside": "تحويل داخل بنك قناة السويس",
+    "outside": "تحويل محلي خارج بنك قناة السويس",
+    "instant": "تحويل لحظي",
+    "ach": "ACH تحويل",
+    "from": "من",
+    "to": "الي",
+    "account": "حساب:",
+    "applied": "العمولات المطبقة",
+    "charges": "الرسوم مدفوعة من قبل",
+    "transaction": "تاريخ المعاملة",
+    "valueDate": "تاريخ الحق",
+    "reason": "الغرض",
+    "description": "الوصف",
+    "recurringDetails": "تفاصيل التحويل المجدول",
+    "transferProcess": "التحويلات المنفذة",
+    "viewDetails": "عرض التفاصيل",
+    "approvalTimeline": "الجدول الزمني للموافقات",
+    "approvalDetails": "تتبع عملية الموافقة ودور المستخدم",
+    "approved": " تمت الموافقة",
+    "failureReason": "سبب عدم تنفيذ العملية",
+    "of": "من",
+    "achTransferID": "معرّف معاملة غرفة المقاصة الآلية,",
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل.",
+      "reload": "إعادة التحميل"
+    }
+  },
+  "softToken": {
+    "howToActivate": {
+      "title": "لم يتم تفعيل الرمز الآمن",
+      "subtitle": "يجب تفعيل الرمز الآمن الخاص ببنك SCB لإتمام أي خدمة أو عملية.",
+      "button": "تفعيل رمز أمان"
+    },
+    "viewDemo": {
+      "demoTitle": "تحتاج إلى مساعدة في تفعيل الرمز الآمن؟",
+      "demoLink": "عرض توضيحي للرمز الآمن"
+    },
+    "stepper": {
+      "step1Title": "تحميل التطبيق",
+      "step2Title": "ادخل الرموز",
+      "step3Title": "رمز التسجيل",
+      "step4Title": "اكتمل التفعيل"
+    },
+    "steps": {
+      "howToActivate": "كيفية تفعيل  رمز الأمان",
+      "step1Title": "تحميل التطبيق",
+      "step1Description": "قم بتحميل تطبيق الأمان الخاص ببنك SCB على هاتفك.",
+      "step2Title": "ادخل الرموز",
+      "step2Description": "ادخل الرقم التسلسلي ورمز التفعيل يدويًا لربط جهازك بالحساب.",
+      "step3Title": "رمز التسجيل",
+      "step3Description": "أدخل رمز التسجيل لتفعيل المصادقة الآمنة.",
+      "step4Title": "اكتمل التفعيل",
+      "step4Description": "اقتربت من الانتهاء! تابع الخطوات التالية على تطبيق رمز الأمان الخاص بك"
+    },
+    "stepOne": {
+      "title": "تحميل التطبيق",
+      "description": "قم بتحميل تطبيق الأمان الخاص ببنك SCB على هاتفك.",
+      "forIphone": "لأجهزة الآيفون والآيباد",
+      "forAndroid": "لأجهزة الأندرويد",
+      "cannotScan": "تعذر المسح؟",
+      "downloadIOS": "تحميل لنظام iOS",
+      "downloadAndroid": "تحميل لأجهزة أندرويد",
+      "continueButton": "متابعة"
+    },
+    "stepTwo": {
+      "title": "ادخل الرموز",
+      "description": "ادخل الرقم التسلسلي ورمز التفعيل يدويًا لربط جهازك بالحساب.",
+      "cannotScan": "لا يمكنك المسح؟ أدخل هذا الرمز يدويًا في تطبيقك.",
+      "activationCode": "رمز التفعيل:",
+      "serialNumber": "رقم التسلسل:",
+      "copySuccess": "تم النسخ!",
+      "backButton": "الرجوع",
+      "continueButton": "متابعة"
+    },
+    "stepThree": {
+      "title": "رمز التسجيل",
+      "description": "أدخل رمز التسجيل لتفعيل المصادقة الآمنة.",
+      "enterRegistrationCode": "أدخل رمز التسجيل",
+      "codeFromApp": "رمز التسجيل من تطبيق الرمز الآمن الخاص بك",
+      "backButton": "الرجوع",
+      "verifyButton": "تأكيد",
+      "registrationCodeValidation": {
+        "required": "رمز التسجيل مطلوب",
+        "invalid": "رمز التسجيل غير صالح"
+      }
+    },
+    "stepFour": {
+      "completeActivation": "اكتمل التفعيل",
+      "description": "اقتربت من الانتهاء! تابع الخطوات التالية على تطبيق رمز الأمان الخاص بك",
+      "completeActivation1": "1 - ادخل الرقم السرى",
+      "completeActivation2": "2 - اعادة ادخال الرقم السرى",
+      "doneButton": "تم"
+    },
+    "list": {
+      "softTokenTitle": "الرمز الآمن",
+      "activated": "تم التفعيل",
+      "pending": "قيد الانتظار",
+      "reactivateButton": "إعادة تفعيل الرمز الآمن",
+      "resendCode": "إعادة ارسال رمز التفعيل"
+    },
+    "error": {
+      "apiError": "حدث خطأ ما!",
+      "apiErrorDetail": "لا يمكننا تحميل بياناتك في الوقت الحالي. يرجى محاولة إعادة التحميل."
+    },
+    "reactivateAlert": {
+      "title": "اعادة تنشيط رموز الامان؟",
+      "description": "بإعادة تفعيل برنامج رمز الأمان الخاص بك ، سيتم إزالة الرمز الحالي، وستتمكن من إعداد رمز جديد.",
+      "confirm": "تأكيد",
+      "cancel": "إلغاء"
+    }
+  },
+  "products": {
+    "viewAll": "عرض التفاصيل",
+    "applyNow": "قدم الأن",
+    "minimumDeposit": "الحد الأدني للإيداع",
+    "frequency": "تكرار صرف العائد",
+    "chequebook": "دفتر الشيكات",
+    "minForInterest": "الحد الادني لاحتساب العائد",
+    "all": "الكل",
+    "threeYears": "3 سنوات",
+    "fiveYears": "5 سنوات",
+    "interestRate": "الفائدة",
+    "interestType": "نوع الفائدة",
+    "currentAccount": "الحساب الجاري",
+    "noProductFoundTitle": "لم يتم العثور على منتجات",
+    "noProductFoundDesc": "لا توجد منتجات متوفرة حالياً",
+    "available": "متاح",
+    "nonInterest": "بدون فائدة",
+    "interest": "بفائدة",
+    "change": "تغيير",
+    "FIXED": "ثابت",
+    "Annual": "سنوي",
+    "Monthly": "شهري",
+    "Quarterly": "ربع سنوي",
+    "Semi Annual": "نصف سنوي",
+    "new": "جديد",
+    "DAILY": "يومي",
+    "actionMaturity": "الإجراء عند الاستحقاق",
+    "Redeem": "استرداد",
+    "depositForm": {
+      "creditedPrincipleAccount": "الحساب المُحوَّل إليه أصل المبلغ",
+      "sameDebitedAccount": "الحساب المخصوم منه",
+      "chooseAnotherAccount": "اختر حسابًا آخر",
+      "certificateAmount": "مبلغ الشهادة",
+      "deductAccount": "الحساب المطلوب الخصم منه",
+      "submitRequest": "إرسال الطلب",
+      "sectionRequired": "هذا الحقل مطلوب",
+      "done": "تم",
+      "viewProducts": "عرض المنتجات",
+      "successMessage": "تم تقديم الطلب بنجاح",
+      "makerSuccess": "تم تقديم الطلب للموافقة. يرجى التحقق من قسم الطلبات المعلّقة لمتابعة حالة الطلب.",
+      "from": "من",
+      "to": "الي",
+      "continue": "متابعة",
+      "back": "العودة",
+      "amount": "المبلغ",
+      "invalidToken": "رمز التحقق غير صالح أو منتهي. يُرجى المحاولة مرة أخرى.",
+      "apiFails": "حدث خطأ ما. يرجى المحاولة لاحقًا.",
+      "minAmountError": "الحد الأدني للإيداع {{value}}",
+      "insufficientBalance": "الرصيد غير كافي"
+    },
+    "list": {
+      "accountsTitle": "الحسابات",
+      "accountsDesc": "سهولة في المعاملات اليومية — اختر الحساب اللي يناسب أسلوب حياتك، مع خيارات مرنة وإمكانية الحصول على دفاتر شيكات.",
+      "tdTitle": "الودائع",
+      "tdDesc": "ادّخر على طريقتك — اختر بين العائد الثابت أو المتغيّر، وحدد المدة اللي تناسبك، وخلي أموالك تكبر بأمان.",
+      "cdTitle": "الشهادات",
+      "cdDesc": "بتدور على طريقة آمنة لزيادة مدخراتك؟ ثبّت سعر الفائدة لفترة محددة وشوف أموالك تكبر مع الوقت."
+    },
+    "subAccount": {
+      "transferAmount": "مبلغ الشهادة",
+      "debitedAccount": "الحساب المخصوم منه",
+      "amount": "المبلغ",
+      "certificateAmount": "مبلغ الشهادة",
+      "termsAndConditions": "الشروط والأحكام",
+      "chequebook": "دفتر الشيكات",
+      "minimumDeposit": "الحد الأدني للإيداع",
+      "submitRequest": "إرسال الطلب",
+      "amountHint": "الفائدة الشهرية: {{percentage}}%",
+      "nonInterest": "بدون فائدة",
+      "interest": "بفائدة",
+      "from": "من",
+      "continue": "متابعة",
+      "back": "العودة",
+      "successMessage": "تم تقديم الطلب بنجاح",
+      "makerSuccess": "تم تقديم الطلب للموافقة. يرجى التحقق من قسم الطلبات المعلّقة لمتابعة حالة الطلب.",
+      "minAmountError": "الحد الأدني للإيداع {{value}}",
+      "insufficientBalance": "الرصيد غير كافي",
+      "apiFails": "حدث خطأ ما. يرجى المحاولة لاحقًا.",
+      "done": "تم",
+      "viewProducts": "عرض المنتجات"
+    },
+    "timeDepositForm": {
+      "fixedTimeDeposit": "الوديعة لأجل ذات العائد الثابت",
+      "tenor": "مدة الوديعة",
+      "interestRate": "أسعار الفائدة",
+      "currency": "العملة",
+      "actionMaturity": "الإجراء عند الاستحقاق",
+      "debitedAccount": "تم انشاء الوديعة من",
+      "creditedAccount": "الحساب المُودَع فيه",
+      "sameDebitedAccount": "الحساب المخصوم منه",
+      "chooseAnotherAccount": "اختر حسابًا آخر",
+      "chooseDuration": "اختر المدة",
+      "deductAmount": "المبلغ المخصوم",
+      "amountHint": "الفائدة الشهرية: %{{percentage}}",
+      "submitRequest": "إرسال الطلب",
+      "change": "تغيير ",
+      "sectionRequired": "هذا الحقل مطلوب",
+      "minAmountError": "الحد الأدني للإيداع {{value}}",
+      "done": "تم",
+      "viewProducts": "عرض المنتجات",
+      "successMessage": "تم تقديم الطلب بنجاح",
+      "makerSuccess": "تم تقديم الطلب للموافقة. يرجى التحقق من قسم الطلبات المعلّقة لمتابعة حالة الطلب.",
+      "from": "من",
+      "to": "الي",
+      "continue": "متابعة",
+      "back": "العودة",
+      "amount": "المبلغ",
+      "invalidToken": "رمز التحقق غير صالح أو منتهي. يُرجى المحاولة مرة أخرى.",
+      "apiFails": "حدث خطأ ما. يرجى المحاولة لاحقًا."
+    }
+  },
+  "termsAndConditions": {
+    "acceptButton": "قبول الشروط والأحكام",
+    "title": "الشروط والأحكام",
+    "Iagree": "أوافق على",
+    "termsAndConditions": "الشروط والأحكام",
+    "interestType": "نوع الفائدة"
+  },
+  "chequeBook": {
+    "requestChequebookTitle": "طلبات دفاتر الشيكات",
+    "requestChequebook": "طلب دفتر شيكات",
+    "availableBalance": "الرصيد المتاح",
+    "searchFromAccount": "البحث عن حساب...",
+    "linkedAccount": "اختر الحساب",
+    "filterBy": "تصفية حسب: ",
+    "searchBar": "البحث عن",
+    "status": "الحالة",
+    "searchOptions": "Search",
+    "clearFilter": "مسح الكل",
+    "search": "ابحث عن اسم الحساب، الرقم..",
+    "title": "تعليمات التحصيل",
+    "successMessage": "تم تقديم الطلب بنجاح",
+    "makerSuccess": "تم تقديم الطلب للموافقة. يرجى التحقق من قسم الطلبات المعلّقة لمتابعة حالة الطلب.",
+    "chequeBookDetails": {
+      "infoTitle": "تعليمات التحصيل",
+      "collectionPeriodTitle": "يرجى العلم",
+      "collectionPeriodText": "يجب على الشخص المفوض (أو ممثل الشركة) التوجه إلى الفرع المحدد لاستلام دفتر الشيكات <span class='font-semibold'>خلال شهرين</span>من تاريخ الطلب.<br>في حال عدم استلام دفتر الشيكات خلال هذه المدة، سيتم  <span class='font-semibold'>إلغاؤه تلقائيًا.</span>",
+      "requiredDocsTitle": "يجب على الممثل تقديم ما يلي عند الاستلام",
+      "requiredDocs": ["بطاقة رقم قومي سارية", "تفويض رسمي يثبت أحقيته في استلام دفتر الشيكات نيابة عن الشركة"]
+    },
+    "table": {
+      "requestDate": "تاريخ الطلب",
+      "numberofChequebooks": "عدد دفاتر الشيكات",
+      "leavesPerChequebook": "عدد ورق الدفتر",
+      "status": "الحالة",
+      "viewDetails": "عرض التفاصيل"
+    },
+    "form": {
+      "selectAccount": "اختر الحساب",
+      "feesDebitAccount": "رقم الحساب المخصوم منه الرسوم",
+      "linkedAccount": "الحساب المرتبط بدفتر الشيكات",
+      "chequeBookType": "تفاصيل دفتر الشيكات",
+      "numberOfLeaves": "عدد ورق الدفتر",
+      "numberOfChequebooks": "عدد دفاتر الشيكات",
+      "termConditions": "أوافق على الشروط والأحكام",
+      "chequeBookStatus": "دفتر الشيكات الخاص بك سيكون متاحًا للاستلام من فرعك في التجمع الخامس، شارع التسعين.",
+      "submit": "إرسال الطلب",
+      "totalFeesHint": "إجمالي الرسوم: ",
+      "returnToDashboard": "العودة الي لوحة التحكم ",
+      "requestNewChequeBook": "طلب دفتر شيكات",
+      "sectionRequired": "هذا الحقل مطلوب",
+      "tandcrequired": "يرجى إدخال البيانات هنا",
+      "notEligible": "يوجد طلب دفتر شيكات قيد المعالجة حاليًا. يمكنك تقديم طلب جديد بمجرد استلام الدفتر الحالي.",
+      "invalidToken": "رمز التحقق غير صالح أو منتهي. يُرجى المحاولة مرة أخرى.",
+      "apiFails": "حدث خطأ ما. يرجى المحاولة لاحقًا."
+    },
+    "requestStatus": {
+      "title": "حالة طلب دفتر الشيكات",
+      "subTitle": "تتبع حالة طلب دفتر الشيكات",
+      "requestReceived": "تم استلام الطلب",
+      "printing": "جارٍ الطباعة",
+      "issued": "تم إصداره"
+    },
+    "empty": {
+      "title": "لا يوجد طلبات دفاتر شيكات",
+      "subTitle": "تقدم بطلب دفتر شيكات الان"
+    },
+    "filteredState": {
+      "title": "لم يتم العثور على نتائج",
+      "subTitle": "قم بتغيير عوامل التصفية"
+    },
+    "chequeBookDetail": {
+      "requested": "تم الطلب ",
+      "requestDate": "تاريخ الطلب",
+      "chequesBooks": "Request Date",
+      "leaves": "إجازات",
+      "fees": "العمولات",
+      "branch": "فرع الاستلام",
+      "linkedAccount": "الحساب المرتبط بدفتر الشيكات",
+      "accountNickname": "اسم الحساب المستعار",
+      "accountType": "نوع الحساب",
+      "currency": "العملة",
+      "feesDebitAccount": "رقم الحساب المخصوم منه الرسوم"
+    }
+  },
+  "pendingApprovals": {
+    "pendingApprovalsTitle": "Pending Approvals",
+    "pendingRequestsTitle": "Pending Requests",
+    "transactions": "Transactions",
+    "date": "Date",
+    "transferType": "Transfer Type",
+    "table": {
+      "requestDate": "تاريخ الطلب",
+      "requestNumber": "رقم الطلب",
+      "requestType": "نوع الطلب",
+      "amount": "Amount",
+      "status": "الحالة",
+      "actions": "إجراء",
+      "transferType": "Transfer Type"
+    },
+    "empty": {
+      "title": "No transactions yet.",
+      "subTitle": " Start by making your first transaction."
+    },
+    "noResults": {
+      "title": "No results found.",
+      "subTitle": "Try adjusting your filters."
+    }
+  },
+  "idle": {
+    "title": "على وشك تسجيل الخروج",
+    "description": "لقد كنت غير نشط لمدة 3 دقائق. لأمانك، سيتم تسجيل خروجك خلال",
+    "extend": "أكمل الجلسة",
+    "logout": "تسجيل الخروج",
+    "cancel": "إلغاء"
+  }
+}

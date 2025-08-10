@@ -1,0 +1,226 @@
+<section class="col-span-12 max-sm:hidden 2xl:row-span-1">
+  <app-breadcrumbs
+    *transloco="let t; prefix: 'breadcrumbs'"
+    [routes]="[
+      { label: t('home'), path: '/dashboard' },
+      { label: t('facilities'), path: '/dashboard/facilities' },
+      { label: t('lcsDetails') },
+    ]"></app-breadcrumbs>
+</section>
+
+<!-- Basic Details -->
+<section
+  class="col-span-12"
+  *transloco="let t; prefix: 'facilities.facilitiesLcsDetails'">
+  <scb-card class="p-xl col-span-12 flex flex-col 2xl:row-span-2">
+    @if (status() === 'loading') {
+      <scb-card-skeleton />
+    } @else if (status() === 'error') {
+      <div
+        *transloco="let t; prefix: 'accounts'"
+        class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+        data-testid="accounts_div_errorState">
+        <icon
+          [name]="'api-failure'"
+          class="text-3xl"
+          data-testid="accounts_icon_apiFailure" />
+        <h4
+          class="head-2xs-s text-text-primary"
+          data-testid="accounts_h4_apiError">
+          {{ t('error.apiError') }}
+        </h4>
+        <p
+          class="body-sm text-text-primary"
+          data-testid="accounts_p_apiErrorDetail">
+          {{ t('error.apiErrorDetail') }}
+        </p>
+        <button
+          scbButton
+          variant="ghost"
+          size="sm"
+          icon="refresh"
+          (click)="lcsDetailsResource.reload()"
+          data-testid="accounts_button_reload">
+          {{ t('error.reload') }}
+        </button>
+      </div>
+    } @else {
+      <div class="pb-3xl relative h-full overflow-hidden">
+        <div
+          data-testid="accounts_div_tableHeader"
+          class="gap-sm ng-star-inserted xs:pb-2.5 relative flex flex-col sm:flex-row sm:justify-between sm:pb-0">
+          <div class="sm:self-center">
+            <p
+              data-testid="DASH_LCS_DETAIL_TITLE"
+              class="mf-lg text-text-primary font-semibold">
+              {{ t('lcSwiftNumber') }} <span class="ltr-force max-2xl:block">{{ lcDetails()?.lcSwiftNumber }}</span>
+            </p>
+          </div>
+          <!-- <app-last-updated
+            [date]="lastUpdatedAt()"
+            (refresh)="lcsDetailsResource.reload()" /> -->
+        </div>
+        <div class="rounded-5xl border-border-secondary bg-container ng-star-inserted border-[1px] p-4 sm:mt-5">
+          <div
+            data-testid="DASH_LCS_DETAIL_CONTAINER"
+            class="border-border-secondary bg-container flex min-h-10 justify-between border-b align-middle">
+            <h2
+              data-testid="DASH_LCS_DETAIL_HEADING"
+              class="mf-lg text-text-primary font-semibold">
+              {{ t('lcDetails') }}
+            </h2>
+          </div>
+          <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+            <div class="flex w-full flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('lcAmount') }}
+              </h2>
+              <currency-view
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_NUMBER"
+                [amount]="lcDetails()?.lcAmount"
+                [currency]="lcDetails()?.currency" />
+            </div>
+            <div class="flex w-full flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_IBAN_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('lcType') }}
+              </h2>
+              <p
+                data-testid="DASH_LCS_DETAIL_TYPE"
+                class="mf-md text-text-primary font-semibold">
+                {{ lcDetails()?.lcTypeDescription }}
+              </p>
+            </div>
+            <div class="flex w-full flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_IBAN_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('beneficiaryName') }}
+              </h2>
+              <p
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_NUMBER"
+                class="mf-md text-text-primary font-semibold">
+                {{ beneficiaryName() }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+            <div class="flex flex-1/3 flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('expiryDate') }}
+              </h2>
+              <date-view
+                data-testid="DASH_LCS_DETAIL_EXPIRY_DATE"
+                [value]="lcDetails()?.expiryDate"
+                variant="md" />
+            </div>
+            @if (lcDetails()?.isDeferred) {
+              <div class="flex flex-1/3 flex-col gap-1">
+                <h2
+                  data-testid="DASH_LCS_DETAIL_DUE_DATE_HEADING"
+                  class="mf-md text-text-secondary font-normal">
+                  {{ t('dueDate') }}
+                </h2>
+                @if (lcDetails()?.dueDate) {
+                  <date-view
+                    data-testid="DASH_LGS_BASIC_DETAIL_DUE_DATE"
+                    [value]="lcDetails()?.dueDate ?? undefined"
+                    variant="md" />
+                } @else {
+                  –
+                }
+              </div>
+            }
+            <div class="flex flex-1/3 flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_IBAN_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('lcCountry') }}
+              </h2>
+              <p
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_NUMBER"
+                class="mf-md text-text-primary font-semibold">
+                {{ lcDetails()?.lcCountry }}
+              </p>
+            </div>
+
+            <div class="flex flex-1/3 flex-col pt-2.5">
+              <h2
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('outstandingLimit') }}
+              </h2>
+              <currency-view
+                data-testid="DASH_LGS_BASIC_DETAIL_OUTSTANDING_LIMIT_TITLE"
+                [amount]="lcDetails()?.outstandingLimit"
+                [currency]="lcDetails()?.currency" />
+            </div>
+            <div class="flex flex-1/3 flex-col pt-2.5">
+              <h2
+                data-testid="DASH_LCS_DETAIL_IBAN_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('remainingLimit') }}
+              </h2>
+              <currency-view
+                data-testid="DASH_LGS_BASIC_DETAIL_REMAINING_LIMIT_TITLE"
+                [amount]="lcDetails()?.remainingLimit"
+                [currency]="lcDetails()?.currency" />
+            </div>
+            <div class="flex flex-1/3 flex-col pt-2.5">
+              <!-- <button
+                scbButton
+                size="lg"
+                data-testid="CHEQUE_IN_LIST_DOWNLOAD"
+                icon="download">
+                {{ t('downloadLC') }}
+              </button> -->
+            </div>
+          </div>
+
+          <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2"></div>
+
+          <span
+            class="border-border-secondary bg-container flex justify-between border-b pt-0 pb-3 align-middle"></span>
+          <h2 class="mf-lg text-text-primary pt-5 pb-2 font-semibold">{{ t('cashCoverDetails') }}</h2>
+          <div class="flex justify-between pt-2.5 max-sm:flex-col max-sm:gap-2">
+            <div class="flex w-full flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('cashCoverAmount') }}
+              </h2>
+              <p
+                data-testid="DASH_LCS_DETAIL__IBAN_TITLE"
+                class="mf-md ltr-force rtl:text-right">
+                <span class="text-text-primary font-semibold">
+                  {{ (lcDetails()?.cashCover | numberCommaFormat) || 'N/A' }}</span
+                >
+                <span class="text-text-secondary">
+                  {{ lcDetails()?.cashCover ? lcDetails()?.cashCoverCurrency : '' }}</span
+                >
+              </p>
+            </div>
+            <div class="flex w-full flex-col gap-1">
+              <h2
+                data-testid="DASH_LCS_DETAIL_CASHOVER_HEADING"
+                class="mf-md text-text-secondary font-normal">
+                {{ t('cashCoverPercentage') }}
+              </h2>
+              <p
+                data-testid="DASH_LCS_DETAIL_ACCOUNT_NUMBER"
+                class="mf-md text-text-primary font-semibold">
+                {{ lcDetails()?.cashCoverPercentage !== null ? lcDetails()?.cashCoverPercentage + '%' : 'N/A' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </scb-card>
+</section>

@@ -1,0 +1,2168 @@
+{
+  "helloWorld": "Hello World, nice to meet you!",
+  "retry": "Retry",
+  "cancel": "Cancel",
+  "continue": "Continue",
+  "changePassword": "Change password",
+  "Login": "Log In",
+  "backToLogin": "Back to login",
+  "verify": "Verify",
+  "usernameRequired": "Username is required",
+  "otpRequired": "OTP is required",
+  "hours": "hours",
+  "minutes": "minutes",
+  "seeAll": "See All",
+  "filterBy": "Filter by",
+  "date": "Date",
+  "reset": "Reset",
+  "apply": "Apply",
+  "page": "Page",
+  "pageOf": "of",
+  "perPage": " / Page",
+  "clearFilter": "Clear Filter",
+  "searchOptions": "Search",
+  "download": "Download",
+  "repeat": "Repeat",
+  "lastUpdatedAt": "Last update",
+  "credentialsLockedTitle": "Locked temporarily",
+  "credentialsLockedDesc": "To unblock your user, please contact 19093 to support or retry again after <div class='body-lg-s mt-lg'>{{timeLeft}} {{state}}.</div>",
+  "credentialsACLockedDesc": "Too many failed activation attempts. Please try again after <br><strong>{{timeLeft}} {{state}}.</strong>",
+  "login": {
+    "welcomeText": "Welcome to SCB",
+    "welcomePortalText": "Corporate Internet Banking",
+    "userNameFieldText": "Username",
+    "passwordFieldText": "Password",
+    "forgotPasswordText": "Forgot Password?",
+    "logInButtonText": "Log in",
+    "contactNumber": "19093",
+    "contactEmail": "Support@SCB.com.eg",
+    "locateUs": "Locate Us",
+    "faqsText": "FAQs",
+    "tncText": "Terms & Conditions",
+    "privacyPolicyText": "Privacy Policy",
+    "sncText": "Suggestions & Complaints",
+    "userNameRequired": "Username is required",
+    "passwordRequired": "Password is required",
+    "incorrectCredentialsTitle": "Incorrect Credentials",
+    "invalidCredentialsDesc": "Invalid username or password. Please try again.",
+    "credentialsLockedTitle": "The account is locked",
+    "credentialsLockedDesc": "Too many failed login attempts. For support please contact 19093.",
+    "alreadyLoggedInTitle": "Already logged in",
+    "alreadyLoggedInDesc": "You're currently signed in on another device. To continue here, we'll log you out from the other",
+    "serverUnavailable": "Server unavailable",
+    "serverUnavailableDesc": "We are experiencing technical difficulties, please try again later",
+    "systemMaintenanceTitle": "Server unavailable",
+    "systemMaintenanceDesc": "The system is currently under maintenance. Please try again later",
+    "invalidRecaptchaTitle": "Invalid Recaptcha",
+    "invalidRecaptchaDesc": "Invalid recaptcha token.",
+    "inactiveUserTitle": "User inactive",
+    "inactiveUserDesc": "This is your first time to login, Please activate your user"
+  },
+  "locateUs": {
+    "branches": "Branches",
+    "atm": "ATM",
+    "searchPlaceholder": "Search for...",
+    "governorate": "Governorate",
+    "area": "Area",
+    "applyFilter": "Apply filter",
+    "results": "{{count}} Results",
+    "direction": "Direction",
+    "searchOptions": "Search Options",
+    "clearFilter": "Clear Filters",
+    "Km": "km .",
+    "noResults": {
+      "title": "No results found",
+      "subTitle": "We couldn't find any branches or ATMs nearby"
+    }
+  },
+  "header": {
+    "backToLogin": "Back to login"
+  },
+  "otp": {
+    "title": "Enter Your OTP",
+    "desc": "OTP code sent to your phone ending in **{{phone}} and email {{email}} ",
+    "nearestBranch": "Visit nearest branch",
+    "notYourDate": "Not your data?",
+    "resendCode": "Resend Code",
+    "expiredOtp": "Expired OTP",
+    "invalidOtp": "Invalid OTP",
+    "incompleteOtp": "OTP is incomplete",
+    "maxAttempts": "Maximum OTP attempts reached. Request a new one.",
+    "attempts": "{{attempts}} attempts left",
+    "invalidToken": "Invalid token. Please try again."
+  },
+  "fp": {
+    "forgetPassword": "Forget Password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "resetPassword": "Reset Password",
+    "newPasswordRequired": "Password is required.",
+    "confirmPasswordRequired": "Confirm password is required.",
+    "notMatch": "Password not match",
+    "companyIdRequired": "Company ID is required",
+    "ruleTitle": "Password should contains the following:",
+    "successTitle": "Password changed successfully"
+  },
+  "fpRules": {
+    "rule1": "Should be between 8 to 20 characters long",
+    "rule2": "Include at least one capital letter (A-Z)",
+    "rule3": "Include at least one small letter (a-z)",
+    "rule4": "Add at least one number (0-9)",
+    "rule5": "Include at least one special character @,#,$,%,&,^,-",
+    "rule6": "Not include your username",
+    "rule7": "Avoid repeating sequences like \"111\" or \"aaa\"",
+    "rule8": "Avoid consecutive sequences like \"abc\" or \"123\""
+  },
+  "incorrectCredentials": {
+    "title": "Incorrect credentials",
+    "desc": "Invalid company ID or username"
+  },
+  "securityProtection": {
+    "title": "Security protection",
+    "desc": "To protect your privacy, password should not be one of your last 5 passwords"
+  },
+  "activateUser": {
+    "title": "User activation",
+    "activateInfo": "This is your first time to login, please activate your user.",
+    "otpTitle": "Enter your activation code",
+    "otpDesc": "Code sent to your phone ending in **{{phone}}",
+    "auDesc": "Username sent to your email {{email}}",
+    "createPassword": "Create Password",
+    "successTitle": "Password created successfully",
+    "codeRequired": "Activation code is required",
+    "expiredCode": "Expired activation code",
+    "invalidCode": "Invalid activation code",
+    "invalidCredentials": "Incorrect credentials",
+    "invalidUsername": "Invalid username",
+    "incompleteCode": "Activation code is incomplete",
+    "maxAttempts": "You have exceeded the maximum number of attempts for this activation code. Please request a new activation code."
+  },
+  "seconds": "s",
+  "username": "Username",
+  "companyID": "Company ID",
+  "registration": {
+    "register": "Register",
+    "bankFeaturesTitle": "Unlock the power of digital banking for your business.",
+    "chequeTitle": "Cheque and Account Management",
+    "chequeDesc": "Manage cheques, open accounts, and apply for new certificates of deposit and time deposits.",
+    "creditCardTitle": "Credit Card and Payment Management",
+    "creditCardDesc": "Handle credit card details, transactions, locking/unlocking, and process bulk payments.",
+    "needHelp": "Need Help?",
+    "nearestBranch": "Visit Branch",
+    "regAccountTitle": "Accounts and Transfers",
+    "regAccountDesc": "Access account dashboards and perform various transfers.",
+    "phoneNumber": "Phone number",
+    "companyCIF": "Company CIF",
+    "phoneRequired": "Phone number is required",
+    "companyCIFRequired": "Company CIF is required",
+    "incorrectCredentialsTitle": "Incorrect Data",
+    "incorrectCredentialsDesc": "Ensure the CIF and the phone number are correct and registered with the bank",
+    "newToCorporate": "New to Corporate Internet Banking?",
+    "registration-title": "Register to SCB Corporate Internet Banking",
+    "registrationStepDesc": "Complete Your Registration in 4 Easy Steps",
+    "userApprovalTitle": "Users and Approvals Management",
+    "userApprovalDesc": "Manage users and set approval workflows for requests.",
+    "accountStatementTitle": "Statements and Reports",
+    "accountStatementDesc": "Download account e-statements and transaction reports.",
+    "accountAccessTitle": "Get 24/7 access to your accounts",
+    "accountAccessDesc": "Access your accounts anytime, anywhere.",
+    "printForm": "Print the registration form",
+    "fillForm": "Fill the data in the form",
+    "signature": "Sign in the footer of each page",
+    "sendForm": "Send the form to the branch",
+    "download": "Download",
+    "branchMessageTitle": "Make sure to deliver your signed form to the branch.",
+    "branchMessageDesc": "You will get an SMS with the username and password after 24 hours of delivering your form",
+    "signDoc": "Please sign in the highlighted area on each page",
+    "otpMessage": "OTP Cannot be null or blank.",
+    "companyCIFHint": "You can find your (CIF) in your bank statements or by contacting customer support 19093.",
+    "otpTitle": "Enter Your OTP",
+    "getStartedNow": "Get Started Now"
+  },
+  "datepicker": {
+    "Last 7 days": "Last 7 days",
+    "Last 30 days": "Last 30 days",
+    "Last 90 days": "Last 90 days",
+    "durations": "Durations",
+    "Next 3 Months": "Next 3 Months",
+    "Next 7 days": "Next 7 days",
+    "Next Month": "Next Month"
+  },
+  "dashboardLayout": {
+    "Main": "Main",
+    "Dashboard": "Dashboard",
+    "Accounts": "Accounts",
+    "AccountsAndDeposits": "Accounts and Deposits",
+    "Transfer": "Transfers",
+    "Name": "Name",
+    "Services": "Services",
+    "Locate": "Locate Us",
+    "FAQs": "FAQs",
+    "Settings": "Settings",
+    "searchPlaceholder": "Search for...",
+    "username": "Hatem Ahmad",
+    "bankName": "Suez Canal Bank",
+    "bankType": "Corporate Platform",
+    "showBalances": "Show Balances",
+    "hideBalances": "Hide Balances",
+    "Beneficiary": "Beneficiary Management",
+    "softToken": "Token Management",
+    "products": "Products",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "logout": "Logout",
+    "chequeBook": "Chequebook Management",
+    "pendingApprovals": "Pending Approvals"
+  },
+  "quickAction": {
+    "quickAction": "Quick Action",
+    "instantTransfer": "Make a Transfer",
+    "chequeRequest": "Chequebook Request",
+    "govPayment": "New Account",
+    "timeDeposits": "Create TD"
+  },
+  "dashboard": {
+    "dashboardText": "Dashboard",
+    "inputSearchForPlaceholder": "Search for...",
+    "lastUpdatedAt": "Last update:",
+    "viewAll": "View All",
+    "seeAll": "See All",
+    "accountOverview": {
+      "title": "Accounts Overview",
+      "accountsTab": "Accounts",
+      "depositsTab": "Time Deposits",
+      "certificatesTab": "Certificates of Deposits",
+      "equivalent": "Equivalent",
+      "EGPShort": "EGP"
+    },
+    "accounts": {
+      "accounts": "Accounts",
+      "openNewAccount": "Open new account"
+    },
+    "certificates": {
+      "certificates": "Certificates",
+      "openNewCD": "Open new CD"
+    },
+    "timeDeposits": {
+      "timeDeposits": "Time Deposits",
+      "openNewTD": "Open new TD"
+    },
+    "depositCard": {
+      "certificatesOfDeposit": "Certificates of deposit",
+      "timeDeposits": "Time deposits"
+    },
+    "lendingOverview": {
+      "title": "Lending Overview",
+      "loansTab": "Loans",
+      "progress": {
+        "utilizedLabel": "Paid",
+        "remainingLabel": "Remaining"
+      }
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "banner": {
+      "bannerTitle": "Boost Your Business Savings!",
+      "bannerDesc": "Sustainable growth with SCB certificates & deposits",
+      "applyNow": "Apply Now"
+    },
+    "chequeOut": {
+      "title": "Cheques Out",
+      "seeAll": "See all",
+      "accountNumber": "Acc no.",
+      "deductionDate": "Deduction date",
+      "returnDate": "Return date",
+      "tabs": {
+        "deducted": "Deducted",
+        "returned": "Returned"
+      },
+      "emptyDeducted": {
+        "title": "No deducted cheques!",
+        "subtitle": "No deducted cheques at the moment."
+      },
+      "emptyReturned": {
+        "title": "No returned Cheques!",
+        "subtitle": "No returned cheques at the moment."
+      }
+    },
+    "pendingApprovals": {
+      "title": "Pending Approvals",
+      "transfers": "Transfer",
+      "transferDetail": "To own accounts, SCB beneficiaries, and other banks.",
+      "payments": "Payment",
+      "paymentDetail": "Gov & bill payments",
+      "requests": "Requests",
+      "requestDetail": "New account openings, card applications, and loans",
+      "investments": "Investment & Securities",
+      "investmentDetail": "Mutual funds, treasury bills/bonds & Euro bonds",
+      "seeAll": "See all",
+      "tabs": {
+        "maker": "From You",
+        "checker": "From Authorizers"
+      }
+    },
+    "chequeIn": {
+      "title": "Cheques In",
+      "seeAll": "See all",
+      "accountNumber": "Acc no.",
+      "returnedDate": "Returned date",
+      "collectionDate": "Collection date",
+      "postDated": "Expected collection date",
+      "tabs": {
+        "collected": "Collected",
+        "returned": "Returned",
+        "postDated": "Postdated"
+      },
+      "emptyCollected": {
+        "title": "No collected cheques yet!",
+        "subtitle": "You haven't collected any cheques."
+      },
+      "emptyReturned": {
+        "title": "No returned cheques!",
+        "subtitle": " All clear! No returned cheques at the moment."
+      },
+      "emptyPostDated": {
+        "title": "No postdated cheques yet!",
+        "subtitle": "Once you send the cheques to the branch, you can track them here."
+      }
+    }
+  },
+  "exchangeRate": {
+    "title": "Exchange Rates",
+    "realTime": "Real-Time",
+    "currencyConverter": "Currency Converter",
+    "trendTooltip": "Compared with the previous day's closing rate.",
+    "currency": {
+      "USD": "US Dollar",
+      "EUR": "EURO",
+      "AED": "United Arab Emirates Dirham",
+      "SAR": "Saudi Riyal",
+      "GBP": "Great British Pound",
+      "CHF": "Swiss Franc",
+      "CAD": "The Canadian Dollar",
+      "DKK": "Danish Krone",
+      "JPY": "Japanese Yen",
+      "KWD": "Kuwaiti Dinar",
+      "NOK": "Norwegian Krone",
+      "SEK": "Swedish Krona"
+    }
+  },
+  "accounts": {
+    "accounts": "Accounts Overview",
+    "currency": "Currency",
+    "searchOptions": "Search",
+    "filterBy": "Filter by",
+    "clearFilter": "Clear Filter",
+    "lastUpdatedAt": "Last update",
+    "apply": "Apply",
+    "reset": "Reset",
+    "title": "Accounts Overview",
+    "total": "Total",
+    "equivalent": "Equivalent",
+    "downloadTooltip": "Download accounts position",
+    "download": "Download",
+    "table": {
+      "accountNumber": "Account Number",
+      "accountType": "Account Type",
+      "accountBalance": "Available Balance",
+      "actions": "Actions"
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "titles": {
+    "dashboard": "Dashboard",
+    "accountsOverview": "Accounts Overview",
+    "account-details": "Account details",
+    "certificates": "Certificates overview",
+    "certificate-details": "Certificate details",
+    "deposits": "Time Deposits overview",
+    "deposit-details": "Time Deposit details",
+    "cheques-in": "Cheques In",
+    "cheques-out": "Cheques Out",
+    "facilities": "Facilities Overview",
+    "overdraftDetails": "Overdraft Details",
+    "loanDetails": "Loan details",
+    "accountsAndDeposits": "Accounts and Deposits",
+    "lcsDetails": "LCs Details",
+    "lgsDetails": "LGs Details",
+    "beneficiary": "Manage Beneficiaries",
+    "creditCardDetails": "Credit cards details",
+    "idcDetails": "IDC Details",
+    "transfer": "Transfer",
+    "transferDetails": "Transfer Details",
+    "transferHistory": "Transfer History",
+    "scheduledTransfers": "Scheduled Transfers",
+    "softToken": "Token Management",
+    "products": "Products",
+    "certificateOfDeposits": "Certificates of Deposits",
+    "timeDeposits": "Time Deposits",
+    "accounts": "Accounts",
+    "currentAccount": "Current Account",
+    "chequeBook": "Chequebook Management",
+    "pendingApprovals": "Pending Approvals",
+    "pendingRequests": "Pending Requests"
+  },
+  "breadcrumbs": {
+    "home": "Dashboard",
+    "accountDetail": "Account details",
+    "chequesIn": "Cheques In",
+    "timeDepositOverview": "Time Deposit overview",
+    "timeDepositDetails": "Deposit details",
+    "certificateOverview": "Certificates overview",
+    "certificateDetail": "Certificate details",
+    "chequesOut": "Cheques Out",
+    "facilities": "Facilities Overview",
+    "overdraftDetails": "Overdraft Details",
+    "loanDetails": "Loan Details",
+    "lcsDetails": "LCs Details",
+    "lgsDetails": "LGs Details",
+    "beneficiary": "Manage Beneficiaries",
+    "beneficiaryAdd": "Add New Beneficiary",
+    "addBeneficiaryInside": "Add New Beneficiary Inside SCB",
+    "addBeneficiaryOutside": "Add New Beneficiary Outside SCB",
+    "creditCardDetails": "Credit cards details",
+    "idcDetails": "IDC Details",
+    "transfer": "Transfers",
+    "transferHistory": "Transfer History",
+    "scheduledTransfer": "Scheduled Transfers",
+    "transferBetweenOwnAccounts": "Between Own Accounts",
+    "transferInside": "Inside SCB",
+    "transferOutside": "Local Outside SCB",
+    "transferDetails": "Transfer Details",
+    "scheduledTransferDetails": "Scheduled Transfers Details",
+    "charityTransfer": "Donations",
+    "products": "Products",
+    "certificateOfDeposits": "Certificates Of Deposits",
+    "accountsOverview": "Accounts Overview",
+    "accounts": "Accounts",
+    "timeDeposits": "Time Deposits",
+    "currentAccount": "Current Account",
+    "fixedTimeDeposit": "Fixed Rate Time Deposits",
+    "chequeBook": "Chequebook Management",
+    "chequeBookDetails": "Cheque Book Request Details",
+    "requestNewChecquebook": "Request a new chequebook",
+    "pendingApprovals": "Pending Approvals"
+  },
+  "facilitiesOverview": {
+    "title": "Facilities Overview",
+    "utilized": "Utilized:",
+    "Overdraft": "Overdraft",
+    "Cards": "Cards",
+    "LCs": "LCs",
+    "Loans": "Loans",
+    "LGs": "LGs",
+    "IDCs": "IDCs",
+    "Remaining": "Remaining"
+  },
+  "account-basic-detail": {
+    "pageTitle": "Account Details",
+    "equivalent": "Equivalent",
+    "availableBalance": "Available balance:",
+    "lastUpdatedAt": "Last update:",
+    "basicDetail": "Basic Details",
+    "accountNumber": "Account Number",
+    "iban": "IBAN",
+    "balanceDetails": "Balance Details",
+    "totalBalance": "Total balance",
+    "availabletoUse": "Available to use",
+    "pendingBalance": "Pending balance",
+    "blockedBalance": "Blocked balance",
+    "loan": "Loan",
+    "lgs": "LGs",
+    "creditCard": "Credit Card",
+    "transactions": "Transactions",
+    "downloadStatement": "Download E-Statement",
+    "filterBy": "Filter by:",
+    "type": "Type",
+    "Status": "Status",
+    "date": "Date",
+    "transactionType": "Transaction type",
+    "debitAmount": "Debit amount",
+    "creditAmount": "Credit amount",
+    "balanceAfter": "Balance after",
+    "settled": "Settled",
+    "pending": "Pending",
+    "searchOptions": "Search Options",
+    "NoTransactionFoundTitle": "No transaction found",
+    "NoTransactionFoundDesc": "You don’t have any transaction to show!",
+    "page": "Page",
+    "pageOf": "of",
+    "apply": "Apply",
+    "reset": "Reset",
+    "perPage": " / Page",
+    "description": "Description"
+  },
+  "timeDepositsList": {
+    "title": "Time Deposit Overview",
+    "filterBy": "Filter by",
+    "clearFilters": "Clear Filter",
+    "totalEquivalentBalance": "Total Equivalent Balance",
+    "lastUpdate": "Last update",
+    "noTimeDepositsFound": "No time deposits found for the selected criteria.",
+    "total": "Total",
+    "equivalent": "Equivalent",
+    "export": "Export",
+    "reset": "Reset",
+    "apply": "Apply",
+    "currency": "Currency",
+    "searchOptions": "Search",
+    "lastUpdatedAt": "Last update",
+    "downloadTooltip": "Download time deposits position",
+    "table": {
+      "tdNumber": "TD number",
+      "tdType": "TD Type",
+      "interestRate": "Interest Rate",
+      "maturityDate": "Maturity Date",
+      "tenor": "Tenor",
+      "tdAmount": "TD amount"
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "timeDepositDetails": {
+    "title": "Deposit details",
+    "totalTenor": "Total tenor",
+    "equivalent": "Equivalent: ",
+    "months": "months",
+    "days": "days",
+    "maturityType": "Monthly",
+    "maturityLeft": "Maturity left",
+    "tdAmount": "TD amount",
+    "appliedRate": "Interest rate",
+    "interestDate": "Interest date",
+    "interestAmount": "Interest amount",
+    "basicDetail": "Basic Details",
+    "tdNumber": "TD number",
+    "tdType": "TD Type",
+    "tenor": "Tenor",
+    "issuingDate": "Issuing date",
+    "maturityDate": "Maturity date",
+    "actionAtMaturity": "Action at maturity",
+    "linkedAccounts": "Linked Accounts",
+    "debitedAccount": "Debited account",
+    "creditedAccount": "Redeem account",
+    "interestAccount": "Interest account",
+    "matured": "Matured",
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "certificates": {
+    "currency": "Currency",
+    "searchOptions": "Search",
+    "filterBy": "Filter by",
+    "clearFilter": "Clear Filters",
+    "lastUpdatedAt": "Last update",
+    "apply": "Apply",
+    "reset": "Reset",
+    "title": "Certificates Overview",
+    "total": "Total",
+    "equivalent": "Equivalent",
+    "downloadTooltip": "Download CD position",
+    "table": {
+      "cdNumber": "CD Number",
+      "cdType": "CD Type",
+      "interestRate": "Interest Rate",
+      "maturityDate": "Maturity date",
+      "cdAmount": "CD amount"
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "certificatesDetail": {
+    "basicDetail": "Basic Details",
+    "issuingDate": "Issuing date",
+    "maturityDate": "Maturity date",
+    "actionAtMaturity": "Action at maturity",
+    "linkedAccounts": "Linked Accounts",
+    "debitedAccount": "Debited account",
+    "redeemAccount": "Redeem account",
+    "interestAccount": "Interest account",
+    "title": "Certificate Overview",
+    "total": "Total",
+    "totalTenor": "Total tenor",
+    "equivalent": "Equivalent: ",
+    "interestFrequency": "Interest frequency",
+    "maturityLeft": "Maturity left",
+    "months": "months",
+    "maturityType": "Monthly",
+    "cdBalance": "CD balance",
+    "interestRate": "Interest rate",
+    "interestCreditDate": "Interest credit date",
+    "interestAmount": "Interest Amount",
+    "cdNumber": "CD Number",
+    "matured": "Matured",
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "empty": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We’re unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "breadcrumbs": {
+      "home": "Dashboard",
+      "certificate": "Certificate overview",
+      "certificateDetail": "Certificate details"
+    }
+  },
+  "chequesIn": {
+    "status": "Status",
+    "settlementDate": "Settlement date",
+    "draweeBank": "Drawee bank",
+    "searchOptions": "Search",
+    "filterBy": "Filter by",
+    "clearFilter": "Clear filter",
+    "lastUpdatedAt": "Last update",
+    "apply": "Apply",
+    "reset": "Reset",
+    "title": "Cheques In",
+    "downloadCheques": "Download Cheques",
+    "page": "Page",
+    "pageOf": "of",
+    "perPage": " / Page",
+    "collected": "Collected",
+    "returned": "Returned",
+    "postdated": "Postdated",
+    "others": "Others",
+    "Last 7 days": "Last 7 days",
+    "Last 30 days": "Last 30 days",
+    "Last 90 days": "Last 90 days",
+    "durations": "Durations",
+    "table": {
+      "settlementDate": "Settlement Date",
+      "serialNumber": "Serial Number",
+      "payerName": "Payer Name",
+      "draweeBank": "Drawee Bank",
+      "amount": "Amount",
+      "accountNumber": "Account Number",
+      "status": "Status"
+    }
+  },
+  "chequesOut": {
+    "status": "Status",
+    "settlementDate": "Settlement date",
+    "searchOptions": "Search",
+    "filterBy": "Filter by",
+    "clearFilter": "Clear filter",
+    "lastUpdatedAt": "Last update",
+    "apply": "Apply",
+    "reset": "Reset",
+    "title": "Cheques Out",
+    "downloadCheques": "Download Cheques",
+    "page": "Page",
+    "pageOf": "of",
+    "perPage": " / Page",
+    "Collected": "Collected",
+    "Returned": "Returned",
+    "RETURNED": "Returned",
+    "Deducted": "Deducted",
+    "others": "Others",
+    "Unknown": "Others",
+    "Last 7 days": "Last 7 days",
+    "Last 30 days": "Last 30 days",
+    "Last 90 days": "Last 90 days",
+    "durations": "Durations",
+    "table": {
+      "settlementDate": "Settlement date",
+      "serialNumber": "Serial number",
+      "beneficiaryName": "Beneficiary name",
+      "amount": "Amount",
+      "accountNumber": "Account number",
+      "status": "Status"
+    }
+  },
+  "facilities": {
+    "tabs": {
+      "overdraft": "Overdrafts",
+      "loans": "Loans",
+      "cards": "Credit Cards",
+      "lcs": "LCs",
+      "lgs": "LGs",
+      "idcs": "IDCs"
+    },
+    "basicDetails": {
+      "title": "Facilities overview",
+      "utilizedLimit": "Utilized Limit",
+      "lastUpdatedAt": "Last update",
+      "totalLiabilities": "Total Liabilities",
+      "downloadTooltip": "Download facilities position",
+      "facilityMaturityDate": "Facility Maturity Date"
+    },
+    "facilitiesLoans": {
+      "title": "Loans",
+      "searchOptions": "Search",
+      "filterBy": "Filter by",
+      "clearFilter": "Clear filter",
+      "lastUpdatedAt": "Last update",
+      "apply": "Apply",
+      "reset": "Reset",
+      "download": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "table": {
+        "loanId": "Loan ID",
+        "accountNumber": "Account number",
+        "accountName": "Account name",
+        "loanBalance": "Loan balance",
+        "currency": "Currency",
+        "instalmentAmount": "Installment amount",
+        "instalmentDate": "Installment date",
+        "action": "Action",
+        "payNowAction": "Pay now"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No Loans found",
+        "subTitle": "You don't have any loans to show.",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesLcs": {
+      "lcType": "LC type",
+      "apply": "Apply",
+      "reset": "Reset",
+      "title": "LCs",
+      "download": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "Sight": "Sight",
+      "Deferred": "Deferred",
+      "Advance payment": "Advance payment",
+      "lcNumber": "LC number",
+      "table": {
+        "lcNumber": "LC number",
+        "lcType": "LC type",
+        "lcAmount": "LC amount",
+        "dueDate": "Expiry date",
+        "cashCover": "Cash cover",
+        "coverPercentage": "Cover percentage",
+        "remaining": "Outstanding"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No LCs found",
+        "subTitle": "You don't have any LCs to show.",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesCreditCard": {
+      "title": "Credit Cards",
+      "download": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "payNow": "Pay now",
+      "table": {
+        "cardNumber": "Card number",
+        "holderName": "Holder name",
+        "availableToUse": "Available to use",
+        "utilizedAmount": "Utilized amount",
+        "dueAmount": "Due amount",
+        "dueDate": "Due date",
+        "action": "Action"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No Credit cards found",
+        "subTitle": "You don't have any credit cards to show.",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesCcDetails": {
+      "title": "Card Details",
+      "cardLimit": "Card Limit",
+      "utilizedAmount": "Utilized Amount",
+      "heldAmount": "Held Amount",
+      "minDueAmount": "Min. due amount",
+      "dueDate": "Due date",
+      "remaining": "Remaining",
+      "payNow": "Pay Now",
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesCcTransactions": {
+      "title": "Transactions list",
+      "status": "Status",
+      "apply": "Apply",
+      "reset": "Reset",
+      "download": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "settled": "Settled",
+      "pending": "Pending",
+      "table": {
+        "transactionDate": "Transaction date",
+        "referenceNumber": "Reference number",
+        "description": "Description",
+        "debitAmount": "Debit amount",
+        "creditAmount": "Credit amount",
+        "status": "Status"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No transaction found",
+        "subTitle": "You don’t have any transaction to show!",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesLgs": {
+      "title": "LGs",
+      "filterBy": "Filter by: ",
+      "filterPlaceholder": "LG Type",
+      "clearFilter": "Clear Filter",
+      "reset": "Reset",
+      "apply": "Apply",
+      "currency": "Currency",
+      "searchOptions": "Search",
+      "downloadStatement": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "table": {
+        "lgNumber": "Serial Number",
+        "lgType": "LG Type",
+        "lgAmount": "LG Amount",
+        "cashCover": "Cash Cover",
+        "coverPercentage": "Cover Cover %",
+        "maturityDate": "Expiry Date",
+        "issuanceDate": "Issuance Date",
+        "action": "Actions"
+      },
+      "lgsTypes": {
+        "Advance payment": "Advance payment",
+        "Performance": "Performance",
+        "Bid": "Bid"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No LGs Found",
+        "subTitle": "You don't have any LGs to show",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesOverdraft": {
+      "title": "Overdrafts",
+      "searchOptions": "Search",
+      "filterBy": "Filter by",
+      "clearFilter": "Clear filter",
+      "lastUpdatedAt": "Last update",
+      "apply": "Apply",
+      "reset": "Reset",
+      "download": "Download",
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page",
+      "table": {
+        "accountNumber": "Overdraft Number",
+        "accountName": "Overdraft Name",
+        "utilizedAmount": "Utilized Amount",
+        "currency": "Currency",
+        "dueAmount": "Due Amount",
+        "dueDate": "Due Date",
+        "action": "Action",
+        "payNowAction": "Pay now "
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No Overdrafts Found",
+        "subTitle": "You don't have any Overdrafts to show",
+        "reload": "Reload"
+      }
+    },
+    "facilitiesIdc": {
+      "title": "IDCs",
+      "filterBy": "Filter by: ",
+      "filterPlaceholder": "IDC type",
+      "filterStatus": "Status",
+      "clearFilter": "Clear Filter",
+      "reset": "Reset",
+      "apply": "Apply",
+      "currency": "Currency",
+      "searchOptions": "Search",
+      "downloadStatement": "Download",
+      "table": {
+        "idcNumber": "IDC number",
+        "idcType": "IDC type",
+        "idcAmount": "IDC amount",
+        "idcDrawer": "IDC drawer",
+        "dueDate": "Due date",
+        "status": "Status"
+      },
+      "idcTypes": {
+        "DIS": "Coll Inward Sight Confirmed",
+        "DOST": "Coll Inward Acceptance",
+        "LIDC": "LC Import Deffer Confirmed & no Col",
+        "DIAW": "Coll Inward Acceptance Confirmed"
+      },
+      "idcStatus": {
+        "Settled": "Settled",
+        "Pending": "Pending"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "title": "No IDCs Found",
+        "subTitle": "You don't have any IDCs to show",
+        "reload": "Reload"
+      },
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page"
+    },
+    "facilitiesLcsDetails": {
+      "lastUpdatedAt": "Last update: ",
+      "lcSwiftNumber": "LC swift number: ",
+      "lcDetails": "LCs Details",
+      "lcAmount": "LC Amount",
+      "lcType": "LC type",
+      "dueDate": "Due date",
+      "expiryDate": "LC expiry date",
+      "beneficiaryName": "Beneficiary name",
+      "lcCountry": "Country of LC",
+      "outstandingLimit": "Outstanding Limit",
+      "remainingLimit": "Remaining limit",
+      "cashCoverDetails": "Cash cover details",
+      "cashCoverAmount": "Cash cover",
+      "cashCoverPercentage": "Cash cover percentage",
+      "downloadLC": "Download LC"
+    },
+    "facilitiesLgsDetails": {
+      "lgNumber": "Serial Number: ",
+      "lastUpdatedAt": "Last update: ",
+      "lgReferenceNumber": "Reference Number",
+      "lgDetails": "LG Details",
+      "lgAmount": "LG Amount",
+      "lgType": "LG Type",
+      "issuanceDate": "Issuance Date",
+      "expiryDate": "Expiry Date",
+      "beneficiaryName": "Beneficiary Name",
+      "commissionsDebitedAccount": "Commissions Debited Account",
+      "noOfExtensions": "No of Extensions",
+      "lgPurpose": "LG Purpose",
+      "cashCoverDetails": "Cash Cover Details",
+      "cashCoverAmount": "Cash cover amount",
+      "cashCoverPercentage": "Cash cover percentage",
+      "linkedCashCoverAccount": "Linked cash cover account",
+      "cashCoverAccount": "Cash Cover Account"
+    },
+    "facilitiesIDCDetails": {
+      "idcSwiftNumber": "IDC swift number: ",
+      "lastUpdatedAt": "Last update: ",
+      "IdcDetails": "IDC details",
+      "idcAmount": "IDC amount",
+      "idcType": "IDC type",
+      "exporterName": "Exporter name",
+      "dueDate": "Due date",
+      "idcCountry": "Country of IDC",
+      "cashCoverDetails": "Cash Cover Details",
+      "cashCoverAmount": "Cash cover amount",
+      "cashCoverPercentage": "Cash cover percentage"
+    }
+  },
+  "overdraftDetailsPage": {
+    "upcomingDues": "Upcoming Dues",
+    "transactionsHistory": "Transaction History",
+    "basicDetails": {
+      "title": "Secured Overdraft Small Business",
+      "lastUpdatedAt": "Last update",
+      "overdraftSummary": "Overdraft Account Details",
+      "Accountnumber": "Account Number",
+      "IBAN": "IBAN",
+      "linkedaccount": "Cash Cover Account",
+      "availableToUse": "Available to use",
+      "utilizedAmount": "Utilized Amount",
+      "pledgedAmount": "Pledged Amount",
+      "interestRate": "Applied Interest Rate",
+      "shareAccountDetail": "Share Account Details"
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    },
+    "upcoming": {
+      "title": "Upcoming Dues",
+      "filterBy": "Filter by: ",
+      "filterPlaceholder": "Due Date",
+      "7days": "Next 7 days",
+      "30days": "Next 30 days",
+      "90days": "Next 90 days",
+      "clearFilters": "Clear Filter",
+      "reset": "Reset",
+      "apply": "Apply",
+      "searchOptions": "Search",
+      "downloadStatement": "Download",
+      "NoUpcomingFoundTitle": "No Upcoming Dues Found",
+      "NoUpcomingFoundDesc": "You don’t have any upcoming dues to show",
+      "table": {
+        "referenceNumber": "Reference Number",
+        "IssueDate": "Transaction Date",
+        "dueAmount": "Due Amount",
+        "dueDate": "Due Date",
+        "remainingAmount": "Remaining Amount",
+        "action": "Action",
+        "payNowAction": "Pay Now"
+      },
+      "empty": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "filterBy": "Filter by: ",
+      "transactionType": "Transaction type",
+      "filterPlaceholder": "Transaction Type",
+      "clearFilter": "Clear Filter",
+      "transactionTypes": {
+        "Debit": "Debit",
+        "Credit": "Credit"
+      },
+      "clearFilters": "Clear Filter",
+      "reset": "Reset",
+      "apply": "Apply",
+      "searchOptions": "Search",
+      "downloadStatement": "Download",
+      "NoTransactionsFoundTitle": "No transaction found",
+      "NoTransactionsFoundDesc": "You don’t have any transaction to show",
+      "table": {
+        "transactionDate": "Transaction Date",
+        "referenceNumber": "Reference Number",
+        "description": "Description",
+        "debitAmount": "Debit",
+        "creditAmount": "Credit",
+        "balanceAfter": "Ending Balance"
+      },
+      "empty": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page"
+    }
+  },
+  "loanDetailsPage": {
+    "basicDetails": {
+      "totalLoanAmount": "Total loan amount",
+      "tenor": "Tenor",
+      "paidAmount": "Paid amount",
+      "remainingAmount": "Remaining amount",
+      "totalInstallments": "Total installments",
+      "totalPaidInstallments": "Total paid installments",
+      "remainingInstallments": "Remaining installments",
+      "installmentFrequency": "Installment frequency",
+      "maturityDate": "Maturity date",
+      "appliedInterestRate": "Applied interest rate",
+      "installmentsDue": "Installments due",
+      "instalmentAmount": "Instalment amount",
+      "instalmentDate": "Instalment date",
+      "PayNowAction": "Pay now"
+    },
+    "repayments": {
+      "title": "Repayments schedule",
+      "filterBy": "Filter by: ",
+      "clearFilter": "Clear Filter",
+      "filterPlaceholder": "Status",
+      "reset": "Reset",
+      "apply": "Apply",
+      "searchOptions": "Search",
+      "downloadStatement": "Download",
+      "paymentTypes": {
+        "Paid": "Paid",
+        "Pending": "Pending",
+        "Others": "Others"
+      },
+      "table": {
+        "installmentDate": "Installment date",
+        "utilizedAmount": "Total Installment amount",
+        "status": "Status"
+      },
+      "empty": {
+        "title": "No Loan Payments Found",
+        "subTitle": "You don’t have any load payments to show",
+        "filterStateTitle": "No results found.",
+        "filterStateSubTitle": "Try adjusting your filters.",
+        "reload": "Reload"
+      },
+      "page": "Page",
+      "pageOf": "of",
+      "perPage": " / Page"
+    }
+  },
+  "accountsAndDeposits": {
+    "all": "All",
+    "accounts": "Accounts",
+    "certificates": "Certificates of Deposits",
+    "timeDeposits": "Time Deposits",
+    "totalAssets": "Total Assets",
+    "allList": {
+      "title": "Accounts and Deposits",
+      "lastUpdate": "Last update",
+      "equivalent": "Equivalent",
+      "export": "Export",
+      "downloadTooltip": "Download accounts and deposits position",
+      "table": {
+        "accountNumber": "Account Number",
+        "productType": "Product Name/Type",
+        "availableBalance": "Available Balance",
+        "action": "Action"
+      },
+      "error": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      },
+      "empty": {
+        "apiError": "Something went wrong!",
+        "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+        "reload": "Reload"
+      }
+    }
+  },
+  "beneficiary": {
+    "list": {
+      "title": "Beneficiary List",
+      "search": "Search for beneficiaries",
+      "filterBy": "Filter by",
+      "clearFilter": "Clear Filter",
+      "reset": "Reset",
+      "apply": "Apply",
+      "select": "Select",
+      "beneficiaryType": "Beneficiary Type",
+      "transactionMethod": "Transaction method",
+      "makeTransfer": "Make a Transfer",
+      "transactionTypeOptions": {
+        "ALL": "All",
+        "PAYMENT_ADDRESS": "Payment Address",
+        "BANK_ACCOUNT": "Bank Account",
+        "CARD": "Card",
+        "WALLET": "Wallet",
+        "MOBILE_NUMBER": "Mobile Number",
+        "IBAN": "IBAN"
+      },
+      "beneficiaryTypeOptions": {
+        "INSIDE_SCB": "Inside SCB",
+        "LOCAL_OUTSIDE_SCB": "Local Outside SCB",
+        "ALL": "All beneficiaries"
+      },
+      "empty": {
+        "title": "No Beneficiaries Added",
+        "subTitle": "Easily add beneficiaries now to enable secure payments whenever needed!"
+      },
+      "noFilter": {
+        "title": "No Results Found",
+        "subTitle": "We couldn’t find any matches for your selection. Try adjusting your filters or search criteria"
+      },
+      "add": {
+        "title": "New Beneficiary",
+        "inside": "Inside Suez Canal Bank (SCB)",
+        "outside": "Local Outside Suez Canal Bank (SCB)"
+      }
+    },
+    "addForm": {
+      "titleInside": "Inside SCB",
+      "titleOutside": "Outside SCB",
+      "confirmTitle": "Confirm Beneficiary Details",
+      "beneficiaryDetails": "Beneficiary Details",
+      "bankDetails": "Bank Details",
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "transactionTitle": "Transaction method",
+      "transactionTypeOptions": {
+        "PAYMENT_ADDRESS": "Payment Address",
+        "BANK_ACCOUNT": "Bank Account",
+        "CARD": "Card",
+        "WALLET": "Wallet",
+        "MOBILE_NUMBER": "Mobile Number",
+        "IBAN": "IBAN"
+      },
+      "saveBeneficiary": "Save to my beneficiaries list",
+      "confirmCloseBeneficiaryForm": "Are you sure you want to close? Any unsaved changes will be lost.",
+      "success": {
+        "title": "Beneficiary has been added successfully.",
+        "subTitle": "You can now proceed with a transfer."
+      },
+      "quickModeSuccess": {
+        "title": "Beneficiary added successfully.",
+        "subTitle": "You can now proceed with a one-time transfer."
+      },
+      "error": {
+        "title": "Beneficiary has not been added.",
+        "subTitle": "Please try again."
+      },
+      "nameField": {
+        "label": "Beneficiary name",
+        "required": "This field is required. Please complete the information."
+      },
+      "nicknameField": {
+        "label": "Beneficiary nickname",
+        "hint": "Nickname should be unique in the company beneficiary list",
+        "required": "This field is required. Please complete the information."
+      },
+      "bankField": {
+        "label": "Beneficiary bank",
+        "placeholder": "Select a Bank",
+        "required": "This field is required. Please complete the information.",
+        "searchPlaceholder": "Search"
+      },
+      "accountNumberField": {
+        "label": "Account number",
+        "hint": "SCB account number length is “16 digits” always numeric",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "SCB account numbers are always 16 numeric digits.",
+        "dynamic": "Bank account numbers are always {{length}} digits and numeric."
+      },
+      "confirmAccountNumberField": {
+        "label": "Confirm account number",
+        "hint": "Please confirm the account number",
+        "required": "This field is required. Please complete the information.",
+        "mismatch": "The entered data doesn’t match. Please verify and try again"
+      },
+      "cardNumberField": {
+        "label": "Card Number",
+        "hint": "Card number length is “16 digits” always numeric",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "Card numbers is always 16 numeric digits"
+      },
+      "confirmCardNumberField": {
+        "label": "Confirm card number",
+        "hint": "Please confirm the card number",
+        "required": "This field is required. Please complete the information.",
+        "mismatch": "The entered data doesn’t match. Please verify and try again"
+      },
+      "walletNumberField": {
+        "label": "Wallet Number",
+        "hint": "Wallet number length is “11 digits” always numeric",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "Wallet numbers are always 11 numeric digits"
+      },
+      "confirmWalletNumberField": {
+        "label": "Confirm wallet number",
+        "hint": "Please confirm the wallet number",
+        "required": "This field is required. Please complete the information.",
+        "mismatch": "The entered data doesn’t match. Please verify and try again"
+      },
+      "mobileNumberField": {
+        "label": "Mobile Number",
+        "hint": "Mobile number length is “11digits” always numeric",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "Mobile number numbers is always 11 numeric digits"
+      },
+      "confirmMobileNumberField": {
+        "label": "Confirm mobile number",
+        "hint": "Please confirm the mobile number",
+        "required": "This field is required. Please complete the information.",
+        "mismatch": "The entered data doesn’t match. Please verify and try again"
+      },
+      "paymentAddressField": {
+        "label": "Payment address",
+        "placeholder": "Payment address @instapay",
+        "hint": "Please enter the payment address",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "Payment address is not valid"
+      },
+      "ibanField": {
+        "label": "IBAN",
+        "hint": "IBAN number start with EG and must be 29 digits",
+        "required": "This field is required. Please complete the information.",
+        "invalid": "IBAN is not valid"
+      },
+      "confirmIbanField": {
+        "label": "Confirm IBAN",
+        "hint": "Please confirm the IBAN",
+        "required": "This field is required. Please complete the information.",
+        "mismatch": "The entered data doesn’t match. Please verify and try again"
+      }
+    },
+    "editForm": {
+      "title": "Edit Beneficiary Details",
+      "confirmTitle": "Confirm Beneficiary Details",
+      "beneficiaryDetails": "Beneficiary Details",
+      "bankDetails": "Bank Details",
+      "update": "Update",
+      "cancel": "Cancel",
+      "transactionTitle": "Transaction method",
+      "transactionTypeOptions": {
+        "PAYMENT_ADDRESS": "Payment Address",
+        "BANK_ACCOUNT": "Bank Account",
+        "CARD": "Card",
+        "WALLET": "Wallet",
+        "MOBILE_NUMBER": "Mobile Number",
+        "IBAN": "IBAN"
+      },
+      "nameField": {
+        "label": "Beneficiary name",
+        "required": "This field is required. Please complete the information."
+      },
+      "nicknameField": {
+        "label": "Beneficiary nickname",
+        "hint": "Nickname should be unique in the company beneficiary list",
+        "required": "This field is required. Please complete the information."
+      },
+      "bankField": {
+        "label": "Beneficiary bank"
+      },
+      "success": "Beneficiary list has been updated successfully"
+    },
+    "delete": {
+      "title": "Are you sure?",
+      "subTitle": "You will permanently lose the beneficiary information",
+      "confirm": "Yes, delete",
+      "cancel": "No, don't delete",
+      "message": "Beneficiary deleted successfully"
+    }
+  },
+  "accountsDrawer": {
+    "title": "Accounts List",
+    "subTitle": "Select the account you want to transfer from",
+    "searchPlaceholder": "Search for accounts",
+    "availableBalance": "Available Balance",
+    "fromAccount": "Accounts List",
+    "toAccount": "Accounts List",
+    "change": "Change",
+    "selectAccount": "Select Account",
+    "searchFromAccount": "Search for an account...",
+    "all": "All",
+    "hasNoUsdAccount": {
+      "title": "You don’t have any USD account",
+      "subTitle": "Please open an USD account before continuing."
+    },
+    "hasOnlyOneForeignAccount": {
+      "title": "You don’t have an EGP account to receive this transfer.",
+      "subTitle": "Please open an EGP account before continuing."
+    },
+    "hasNotReceiveEGPAccount": {
+      "title": "You don’t have an EGP account to send this transfer.",
+      "subTitle": "Please open an EGP account before continuing."
+    },
+    "empty": {
+      "title": "You don’t have any accounts",
+      "subTitle": "Please open an account before continuing."
+    }
+  },
+  "transfer": {
+    "add": {
+      "between": "Between Own Accounts",
+      "inside": "Inside SCB",
+      "outside": "Local Outside SCB",
+      "charity": "Donations",
+      "scheduledTransfers": "Scheduled Transfers",
+      "transferHistory": "Transfer History"
+    },
+    "charity": {
+      "form": {
+        "title": "Charity Transfer"
+      },
+      "charity": "To",
+      "categories": "Categories",
+      "categoriesError": "Failed to load categories",
+      "retry": "Retry",
+      "noCategories": "No categories available for this charity"
+    },
+    "charityDrawer": {
+      "title": "Charity List",
+      "subTitle": "Select the charity you want to transfer to",
+      "searchPlaceholder": "Search for charities",
+      "selectCharity": "Select Charity",
+      "change": "Change",
+      "empty": {
+        "title": "No charities available",
+        "subTitle": "Please try again later or contact support."
+      },
+      "noResults": {
+        "title": "No Results Found",
+        "subTitle": "We couldn't find any charities matching your search."
+      }
+    },
+    "beneficiaryAccountsDrawer": {
+      "title": "Accounts List",
+      "subTitle": "Select the account you want to transfer from",
+      "searchPlaceholder": "Search for accounts",
+      "availableBalance": "Available balance",
+      "fromAccount": "From Account",
+      "selectBeneficiary": "Select Beneficiary",
+      "change": "Change",
+      "selectAccount": "Select Account",
+      "all": "All",
+      "transactionTypeOptions": {
+        "ALL": "All",
+        "PAYMENT_ADDRESS": "Payment Address",
+        "BANK_ACCOUNT": "Bank Account",
+        "CARD": "Card",
+        "WALLET": "Wallet",
+        "MOBILE_NUMBER": "Mobile Number",
+        "IBAN": "IBAN"
+      },
+      "empty": {
+        "title": "You don’t have any accounts",
+        "subTitle": "Please open an account before continuing."
+      },
+      "noBeneficiaries": {
+        "title": "No Beneficiaries Added",
+        "subTitle": "Easily add beneficiaries now to enable secure payments whenever needed!"
+      },
+      "transferNewBeneficiary": "Transfer to New Beneficiary",
+      "addBeneficiary": "Add Beneficiary"
+    },
+    "currencyField": {
+      "amount": "Amount",
+      "equivalent": "Equivalent",
+      "amountToTransfer": "Amount to transfer",
+      "transferAmount": "Transfer Amount",
+      "transferredAmount": "Transferred amount",
+      "hint": "Current exchange rate:",
+      "required": "This section is required",
+      "insufficientBalance": "Insufficient balance",
+      "minAmount": "Amount should be great than 0",
+      "minAmountError": "Minimum transfer amount is 1 EGP",
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload."
+    },
+    "summary": {
+      "title": "Transaction Summary",
+      "from": "From",
+      "to": "To",
+      "amount": "Amount",
+      "convertedAmount": "Converted amount",
+      "transferType": "Transfer Type",
+      "exchangeRate": "Exchange Rate",
+      "continue": "Continue",
+      "transferTypeOptions": {
+        "OWN": "Between Own Accounts",
+        "INSIDE": "Inside SCB",
+        "OUTSIDE": "Local Outside SCB"
+      },
+      "scheduledDetails": "Scheduled Details",
+      "scheduleDate": "Schedule Date",
+      "transferDate": "Transfer Date",
+      "frequencyType": "Frequency Type",
+      "numberOfTransfers": "Number of Transfers",
+      "endDate": "End Date",
+      "frequencyTypeOptions": {
+        "ONCE": "Once",
+        "DAILY": "Daily",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "QUARTERLY": "Quarterly",
+        "SEMI_ANNUALLY": "Semi Annually",
+        "YEARLY": "Yearly"
+      },
+      "chargesPaidBy": "Charges paid by",
+      "description": "Description",
+      "reasonOfTransfer": "Reason of Transfer",
+      "fees": "Fees",
+      "totalAmount": "Total Amount",
+      "transferCompleted": "Transfer Submitted Successfully!",
+      "referenceId": "Reference ID",
+      "transactionDate": "Transaction Date",
+      "returnToDashboard": "Return To Dashboard",
+      "makeAnotherTransfer": "Make Another Transfer",
+      "valueDate": "Value Date",
+      "achInfo": "it will be executed within banking hours (8:30 AM till 3:30 PM) at your execution date.",
+      "achSuccessWithinWorkingHours": "Transfer submitted successfully! The transfer will be processed  during banking hours (8:30 AM to 3:30 PM)",
+      "achSuccessAfterWorkingHours": "Transfer submitted successfully! The transfer will be processed on the following business day during banking hours (8:30 AM to 3:30 PM)",
+      "scheduledCompleted": "Transfer Scheduled Successfully",
+      "instantAndRecurring": "Transfer completed and future transfers scheduled",
+      "approvalSubmittedTitle": "Your request has been submitted for approval.",
+      "approvalSubmittedMessage": "You can track the status in the Pending Requests section."
+    },
+    "betweenOwnAccounts": {
+      "form": {
+        "title": "Between Own Accounts",
+        "from": "From",
+        "to": "To",
+        "amount": "Amount",
+        "reason": "Reason for transfer",
+        "description": "Description",
+        "addDescription": "Add Description",
+        "optional": "Optional",
+        "transferNetwork": "Transfer network",
+        "availableBalance": "Available balance",
+        "scheduleTransfer": "Schedule transfer",
+        "continue": "Continue"
+      }
+    },
+    "insideScb": {
+      "form": {
+        "title": "Inside SCB",
+        "from": "From",
+        "to": "To",
+        "amount": "Amount",
+        "reason": "Reason for transfer",
+        "description": "Description",
+        "addDescription": "Add Description",
+        "optional": "Optional",
+        "transferNetwork": "Transfer network",
+        "availableBalance": "Available balance",
+        "scheduleTransfer": "Schedule transfer",
+        "continue": "Continue"
+      },
+      "searchBeneficiary": "Search for an account...",
+      "addBeneficiary": "Transfer to New Beneficiary"
+    },
+    "form": {
+      "outsideTitle": "Local Outside SCB",
+      "from": "From",
+      "to": "To",
+      "amount": "Amount",
+      "reason": "Reason for transfer",
+      "description": "Description",
+      "addDescription": "Add Description",
+      "optional": "Optional",
+      "exchangeAlert": "The exchange rate displayed is indicative and subject to change until the transaction is confirmed.",
+      "transferNetwork": "Transfer network",
+      "availableBalance": "Available balance",
+      "scheduleTransfer": "Schedule transfer",
+      "continue": "Continue",
+      "back": "Back",
+      "searchBeneficiary": "Search for an account...",
+      "addBeneficiary": "Transfer to New Beneficiary",
+      "transferChargesBy": "Transfer Charges paid by Account ",
+      "fees": "Fees:",
+      "selectAccount": "Select Account",
+      "confirm": "Confirm",
+      "change": "Change",
+      "sectionRequired": "This section is required"
+    },
+    "otp": {
+      "otpTitle": "Please enter your soft token code",
+      "otpDesc": "Code sent to your phone number",
+      "otpRequired": "Soft token is required",
+      "incompleteOtp": "Soft token is incomplete",
+      "verify": "Verify",
+      "invalidToken": "Invalid token. Please try again."
+    },
+    "error": {
+      "default": "Transfer failed. Please try again later."
+    },
+    "schedule": {
+      "scheduleTransfer": "Schedule Transfer",
+      "transferDate": "Transfer Date",
+      "transferDateRequired": "Transfer date is required",
+      "frequencyType": "Frequency",
+      "numberOfTransfers": "Number of Transfers",
+      "endDate": "End Date",
+      "endDateHint": "End date:",
+      "numberOfTransfersHint": "Number of Transfers:",
+      "numberOfTransfersRequired": "Number of transfers is required",
+      "endDateRequired": "End date is required",
+      "recurringDetail": "View Recurring Details",
+      "scheduledInfo": "The highlighted dates scheduled on weekends will be processed on the next working day.",
+      "maxTransferExceed": "You have reached the maximum number of transfers allowed.",
+      "frequencyTypeOptions": {
+        "ONCE": "Once",
+        "DAILY": "Daily",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "QUARTERLY": "Quarterly",
+        "YEARLY": "Yearly",
+        "SEMI_ANNUALLY": "Semi Annually"
+      }
+    },
+    "recurring": {
+      "scheduledInfo": "The highlighted dates scheduled on weekends will be processed on the next working day.",
+      "weekendSchedule": "Some transfers are scheduled on weekends or official holidays and will be processed on the next working day.",
+      "title": "Recurring Details",
+      "transferDate": "Transfer Dates",
+      "numberOfTransfers": "Number of Transfer",
+      "date": "Date"
+    },
+    "scheduledTransfers": {
+      "filterBy": "Filter by:",
+      "oneTime": "One-Time Scheduled",
+      "recurring": "Recurring Transfers",
+      "transferDate": "Transfer Date",
+      "date": "Date",
+      "transferType": "Transfer Type",
+      "search": "Search for...",
+      "transferAmount": "Transfer Amount",
+      "ExecutionDate": "Execution Date",
+      "executedTransfers": "Executed Transfers",
+      "transferInProgress": "Transfer Progress",
+      "nextTransferDate": "Next Transfer Date",
+      "frequency": "Frequency",
+      "viewDetails": "View Details",
+      "Next 7 days": "Next 7 days",
+      "Next Month": "Next Month",
+      "Next 3 Months": "Next 3 Months",
+      "searchOptions": "Search",
+      "clearFilter": "Clear Filter",
+      "of": "of",
+      "empty": {
+        "title": "No transactions yet.",
+        "subTitle": "Start by making your first transaction."
+      },
+      "noResults": {
+        "title": "No Results Found",
+        "subTitle": "We couldn’t find any matches for your selection. Try adjusting your filters or search criteria"
+      },
+      "transferDateRequired": "Transfer date is required",
+      "frequencyType": "Frequency Type",
+      "numberOfTransfers": "Number of Transfers",
+      "endDate": "End Date",
+      "endDateHint": "End date will be ",
+      "numberOfTransfersHint": "Number of transfers will be ",
+      "numberOfTransfersRequired": "Number of transfers is required",
+      "endDateRequired": "End date is required",
+      "recurringDetail": "View Recurring Details",
+      "scheduledTransferDetails": "Scheduled Transfers Details",
+      "cancelTransfer": "Cancel Transfer",
+      "cancelAllTransfer": "Cancel All Transfer",
+      "from": "From",
+      "to": "To",
+      "approvalTimeline": "Approval Timeline",
+      "approvalTimelineDesc": "Track the approval steps and user roles",
+      "approved": "Approved",
+      "authorizer": "Authorizer",
+      "failedWarning": "You have {{count}} of Executed Transfers Failed",
+      "apiErrorDetail": "Something went wrong. Try again later.",
+      "startDate": "Start Date",
+      "newKey": "End Date",
+      "confirmation": {
+        "title": "Cancel Transfer",
+        "desc": "Are you sure you want to cancel the selected scheduled transfer?",
+        "descAll": "Are you sure you want to cancel all the selected scheduled transfer?",
+        "yes": "Yes, Cancel",
+        "no": "No, Keep it",
+        "noAll": "No, Keep them"
+      },
+      "frequencyTypeOptions": {
+        "ONCE": "Once",
+        "DAILY": "Daily",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "QUARTERLY": "Quarterly",
+        "SEMI_ANNUALLY": "Semi Annually",
+        "YEARLY": "Yearly"
+      },
+      "transferTypeOptions": {
+        "OWN": "Between Own Accounts",
+        "INSIDE": "Inside SCB",
+        "OUTSIDE": "Outside SCB"
+      }
+    },
+    "upcomingTransfer": {
+      "title": "Upcoming Transfer",
+      "filterBy": "Filter By",
+      "empty": {
+        "title": "No transactions yet.",
+        "subTitle": " Start by making your first transaction."
+      },
+      "noResults": {
+        "title": "No results found.",
+        "subTitle": "Try adjusting your filters."
+      },
+      "table": {
+        "noOfTransfers": "Number of Transfers",
+        "transferDate": "Transfer Date",
+        "amount": "Amount",
+        "action": "Action"
+      }
+    },
+    "OWN": "Between Own Accounts",
+    "INSIDE": "Inside SCB",
+    "OUTSIDE": "Outside SCB",
+    "CARD": "Card",
+    "PAYMENT_ADDRESS": "Payment Address",
+    "BANK_ACCOUNT": "Bank Account",
+    "WALLET": "Wallet",
+    "MOBILE_NUMBER": "Mobile Number",
+    "IBAN": "IBAN",
+    "CHARITY": "Donations"
+  },
+  "transactions": {
+    "title": "Transfer History",
+    "filterBy": "Filter by",
+    "status": "Status",
+    "date": "Date",
+    "transferType": "Transfer Type",
+    "download": "Download",
+    "searchOptions": "Search",
+    "search": "Search for...",
+    "apply": "Apply",
+    "Last 7 Days": "Last 7 Days",
+    "Last Month": "Last Month",
+    "Last 3 Months": "Last 3 Months",
+    "completed": "Completed",
+    "pending": "Pending",
+    "failed": "Failed",
+    "OWN": "Between own Accounts",
+    "INSIDE": "Inside SCB",
+    "OUTSIDE": "Local Outside SCB",
+    "page": "Page",
+    "pageOf": "of",
+    "perPage": " / Page",
+    "clearFilter": "Clear Filter",
+    "Custom Range": "Custom Range",
+    "fromDate": "From",
+    "toDate": "To",
+    "reset": "Reset",
+    "empty": {
+      "title": "No transactions yet.",
+      "subTitle": "Start by making your first transaction."
+    },
+    "noResults": {
+      "title": "No results found.",
+      "subTitle": "Try adjusting your filters."
+    },
+    "table": {
+      "transactionDate": "Transaction Date",
+      "referenceNumber": "Reference Number",
+      "debitedAccount": "Debited Account",
+      "beneficiaryName": "Beneficiary Name",
+      "transferType": "Transfer Type",
+      "amount": "Amount",
+      "status": "Status"
+    }
+  },
+  "transferDetails": {
+    "download": "Download",
+    "repeat": "Repeat",
+    "referenceNumber": "Reference Number :",
+    "own": "Between Own Account",
+    "inside": "Inside SCB",
+    "outside": "Local Outside SCB",
+    "instant": "Instant Transfer",
+    "ach": "ACH Transfer",
+    "from": "From",
+    "to": "To",
+    "account": "Account:",
+    "applied": "Applied Fee",
+    "charges": "Charges Paid by",
+    "transaction": "Transaction Date",
+    "valueDate": "Value Date",
+    "reason": "Reason for Transfer",
+    "description": "Description",
+    "recurringDetails": "Recurring Details",
+    "transferProcess": "Transfer Progress",
+    "viewDetails": "View Details",
+    "approvalTimeline": "Approval Timeline",
+    "approvalDetails": "Track the approval process and user role",
+    "approved": "Approved,",
+    "failureReason": "Reason of Failure",
+    "of": "of",
+    "achTransferID": "ACH Transaction ID",
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "softToken": {
+    "howToActivate": {
+      "title": "Soft Token Not Activated",
+      "subtitle": "You must activate your SCB Soft Token to complete any services or transaction.",
+      "button": "Activate Soft Token"
+    },
+    "viewDemo": {
+      "demoTitle": "Need support with token activation?",
+      "demoLink": "View Soft Token Demo"
+    },
+    "stepper": {
+      "step1Title": "Download the Soft Token App",
+      "step2Title": "Enter codes",
+      "step3Title": "Registration Code",
+      "step4Title": "Complete Activation"
+    },
+    "steps": {
+      "howToActivate": "How to Activate Soft Token",
+      "step1Title": "Download the Soft Token App",
+      "step1Description": "Download our security app on your mobile device.",
+      "step2Title": "Enter codes",
+      "step2Description": "Enter your serial number and activation code manually.",
+      "step3Title": "Registration Code",
+      "step3Description": "Enter the generated registration code for secure authentication",
+      "step4Title": "Complete Activation",
+      "step4Description": "Almost Done! Continue on your soft token app the following process."
+    },
+    "stepOne": {
+      "title": "Download the Soft Token App",
+      "description": "Scan the QR code with your mobile or click to download soft token app.",
+      "forIphone": "For iPhone and iPad",
+      "forAndroid": "For Android Devices",
+      "cannotScan": "Can’t scan?",
+      "downloadIOS": "Download for IOS",
+      "downloadAndroid": "Download for Android",
+      "continueButton": "Continue"
+    },
+    "stepTwo": {
+      "title": "Enter codes",
+      "description": "Enter your serial number and activation code manually.",
+      "cannotScan": "Can't scan? Enter this code manually in your app.",
+      "activationCode": "Activation Code:",
+      "serialNumber": "Serial Number:",
+      "copySuccess": "Copied!",
+      "backButton": "Back",
+      "continueButton": "Continue"
+    },
+    "stepThree": {
+      "title": "Registration Code",
+      "description": "Enter the generated registration code for secure authentication.",
+      "enterRegistrationCode": "Enter Registration Code",
+      "codeFromApp": "Code from your soft token app",
+      "backButton": "Back",
+      "verifyButton": "Verify",
+      "registrationCodeValidation": {
+        "required": "Registration Code is required",
+        "invalid": "Invalid Registration Code"
+      }
+    },
+    "stepFour": {
+      "completeActivation": "Complete Activation",
+      "description": "Almost Done! Continue on your soft token app the following process.",
+      "completeActivation1": "1 - Confirm Registration",
+      "completeActivation2": "2 - Enter your PIN",
+      "doneButton": "Done"
+    },
+    "list": {
+      "softTokenTitle": "Soft Token",
+      "activated": "Activated",
+      "pending": "Pending",
+      "reactivateButton": "Reactivate Soft Token",
+      "resendCode": "Resend Activation Code"
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload."
+    },
+    "reactivateAlert": {
+      "title": "Reactivate soft token?",
+      "description": "By reactivating your soft token, you will remove your current token, and you will be able to set a new one?",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
+  "products": {
+    "viewAll": "View All",
+    "applyNow": "Apply Now",
+    "minimumDeposit": "Minimum Deposit",
+    "frequency": "Frequency",
+    "chequebook": "Chequebook",
+    "minForInterest": "Min. For Interest",
+    "all": "All",
+    "threeYears": "3 Years",
+    "fiveYears": "5 Years",
+    "interestRate": "Interest Rates",
+    "interestType": "Interest Type",
+    "currentAccount": "Current Account",
+    "noProductFoundTitle": "No products found.",
+    "noProductFoundDesc": "No products available at the moment.",
+    "available": "Available",
+    "nonInterest": "Non Interest",
+    "interest": "Interest",
+    "change": "Change",
+    "FIXED": "Fixed",
+    "Annual": "Annual",
+    "Monthly": "Monthly",
+    "Quarterly": "Quarterly",
+    "Semi Annual": "Semi Annual",
+    "new": "New",
+    "DAILY": "Daily",
+    "actionMaturity": "Action at Maturity",
+    "Redeem": "Redeem",
+    "depositForm": {
+      "creditedPrincipleAccount": "Credited Principle Account",
+      "sameDebitedAccount": "Same debited account",
+      "chooseAnotherAccount": "Choose another account",
+      "certificateAmount": "Certificate Amount",
+      "deductAccount": "Debited Account",
+      "submitRequest": "Submit Request",
+      "sectionRequired": "This Field is required",
+      "done": "Done",
+      "viewProducts": "View Products",
+      "successMessage": "Your request has been successfully submitted ",
+      "makerSuccess": "Your request has been submitted for approval. Please check the Pending Requests section to track the status.",
+      "from": "From",
+      "to": "To",
+      "continue": "Continue",
+      "back": "Back",
+      "amount": "Amount",
+      "invalidToken": "Invalid or expired token. Please try again.",
+      "apiFails": "Something went wrong. Please try again later.",
+      "minAmountError": "Minimum Deposit is {{value}}",
+      "insufficientBalance": "Insufficient Balance"
+    },
+    "list": {
+      "accountsTitle": "Accounts",
+      "accountsDesc": "Everyday banking made easy — Pick the account that fits your lifestyle, with flexible options and chequebook access.",
+      "tdTitle": "Time of Deposit",
+      "tdDesc": "Save your way — Choose fixed or flexible rates, Set your timeline, and Grow your money with confidence.",
+      "cdTitle": "Certificates of Deposits",
+      "cdDesc": "Want a safe way to grow your savings? Lock in a fixed rate for a set time and watch your money earn interest."
+    },
+    "subAccount": {
+      "transferAmount": "Certificate Amount",
+      "debitedAccount": "Debited Account",
+      "amount": "Amount",
+      "certificateAmount": "Certificate Amount",
+      "termsAndConditions": "Terms & Conditions",
+      "chequebook": "Chequebook",
+      "minimumDeposit": "Minimum Deposit",
+      "submitRequest": "Submit Request",
+      "amountHint": "Monthly Interest: {{percentage}}%",
+      "nonInterest": "Non Interest",
+      "interest": "Interest",
+      "from": "From",
+      "continue": "Continue",
+      "back": "Back",
+      "successMessage": "Your request has been successfully submitted",
+      "makerSuccess": "Your request has been submitted for approval. Please check the Pending Requests section to track the status.",
+      "minAmountError": "Minimum Deposit is {{value}}",
+      "insufficientBalance": "Insufficient Balance",
+      "apiFails": "Something went wrong. Please try again later.",
+      "done": "Done",
+      "viewProducts": "View Products"
+    },
+    "timeDepositForm": {
+      "fixedTimeDeposit": "Fixed Rate Time Deposit",
+      "tenor": "Tenor",
+      "interestRate": "Interest Rates",
+      "currency": "Currency",
+      "actionMaturity": "Action at Maturity",
+      "debitedAccount": "Debited account",
+      "creditedAccount": "Credited account",
+      "sameDebitedAccount": "Same debited account",
+      "chooseAnotherAccount": "Choose another account",
+      "chooseDuration": "Choose Duration",
+      "deductAmount": "Deducted Amount",
+      "amountHint": "Monthly Interest: {{percentage}}%",
+      "change": "Change",
+      "submitRequest": "Submit Request",
+      "sectionRequired": "This Field is required",
+      "minAmountError": "Minimum Deposit is {{value}}",
+      "done": "Done",
+      "viewProducts": "View Products",
+      "successMessage": "Your request has been successfully submitted ",
+      "makerSuccess": "Your request has been submitted for approval. “Please check the Pending Requests section to track the status.",
+      "from": "From",
+      "to": "To",
+      "continue": "Continue",
+      "back": "Back",
+      "amount": "Amount",
+      "invalidToken": "Invalid or expired token. Please try again.",
+      "apiFails": "Something went wrong. Please try again later."
+    }
+  },
+  "termsAndConditions": {
+    "acceptButton": "Accept Terms & Conditions",
+    "title": "Terms & Conditions",
+    "Iagree": "I agree to the",
+    "termsAndConditions": "Terms And Conditions",
+    "interestType": "Interest Type"
+  },
+  "chequeBook": {
+    "requestChequebookTitle": "Chequebook Requests",
+    "requestChequebook": "Request a Chequebook",
+    "availableBalance": "Available Balance",
+    "searchFromAccount": "Search for an account...",
+    "filterBy": "Filter by: ",
+    "searchBar": "Search Bar",
+    "status": "Status",
+    "searchOptions": "Search",
+    "clearFilter": "Clear Filter",
+    "search": "Search for account name, number..",
+    "title": "Collection instruction",
+    "linkedAccount": "Select Account",
+    "feesDebitBranch": "Select Branch",
+    "success": "Your request has been successfully submitted.",
+    "successMessage": "Your request has been successfully submitted ",
+    "makerSuccess": "Your request has been submitted for approval. “Please check the Pending Requests section to track the status.",
+    "chequeBookDetails": {
+      "infoTitle": "Collection instruction",
+      "collectionPeriodTitle": "Collection Period",
+      "collectionPeriodText": "The authorized person (or company representative) must visit the selected branch to receive the cheque book within <span class='font-semibold'>2 months</span> from the request date.<br>If the cheque book is not collected within this period, it will be <span class='font-semibold'>automatically terminated.</span>",
+      "requiredDocsTitle": "Required Documents for Collection",
+      "requiredDocs": [
+        "A valid national ID",
+        "An official delegation letter authorizing them to receive the cheque book on behalf of the company"
+      ]
+    },
+    "table": {
+      "requestDate": "Request Date",
+      "numberofChequebooks": "Number of Chequebook",
+      "leavesPerChequebook": "Leaves per chequebook",
+      "status": "Status",
+      "viewDetails": "View Details"
+    },
+    "form": {
+      "selectAccount": "Select Account",
+      "linkedAccount": "Cheque-Linked Account",
+      "feesDebitAccount": "Fees-Debited Account Number",
+      "chequeBookType": "Chequebook Details",
+      "numberOfLeaves": "Number of Leaves",
+      "numberOfChequebooks": "Number of Chequebooks",
+      "termConditions": "I agree to the Terms & Conditions",
+      "chequeBookStatus": "You will receive your chequebook from your CIF Branch:",
+      "submit": "Submit Request",
+      "returnToDashboard": "Return To Dashboard",
+      "requestNewChequeBook": "Request Cheque Book",
+      "totalFeesHint": "Total Fees: ",
+      "sectionRequired": "This field is required",
+      "tandcrequired": "This section is required",
+      "notEligible": "A chequebook request is already in progress. You can submit a new request once you receive the current chequebook.",
+      "invalidToken": "Invalid or expired token. Please try again.",
+      "apiFails": "Something went wrong. Please try again later."
+    },
+    "requestStatus": {
+      "title": "Chequebook Request Status",
+      "subTitle": "Track Chequebook Request",
+      "requestReceived": "Request Received",
+      "printing": "Printing",
+      "issued": "Issued"
+    },
+    "empty": {
+      "title": "No chequebook requests yet",
+      "subTitle": "Request a chequebook now"
+    },
+    "filteredState": {
+      "title": "No Results Found",
+      "subTitle": "We couldn’t find any matches for your selection. Try adjusting your filters or search criteria"
+    },
+    "hasNotReceiveEGPAccount": {
+      "title": "You don’t have an EGP account to send this transfer.",
+      "subTitle": "Please open an EGP account before continuing."
+    },
+    "chequeBookDetail": {
+      "requested": "Requested ",
+      "requestDate": "Request Date",
+      "chequesBooks": "Number of chequebook",
+      "leaves": "Leaves",
+      "fees": "Fees",
+      "branch": "Delivery Branch",
+      "linkedAccount": "Cheque-Linked Account",
+      "accountNickname": "Account Nickname",
+      "accountType": "Account Type",
+      "currency": "Currency",
+      "feesDebitAccount": "Fees-Debited Account Number"
+    }
+  },
+  "pendingApprovals": {
+    "allList": "All",
+    "filterBy": "Filter By",
+    "title": "Pending Approvals",
+    "transactions": "Transactions",
+    "date": "Date",
+    "transferType": "Transfer Type",
+    "table": {
+      "requestDate": "Request Date",
+      "requestNumber": "Request Number",
+      "requestType": "Request Type",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions",
+      "transferType": "Transfer Type"
+    },
+    "empty": {
+      "title": "No transactions yet.",
+      "subTitle": " Start by making your first transaction."
+    },
+    "noResults": {
+      "title": "No results found.",
+      "subTitle": "Try adjusting your filters."
+    },
+    "withdrawConfirmation": {
+      "title": "Withdraw Transaction",
+      "desc": "Are you sure you want to withdraw this transaction? This action may not be reversible",
+      "yes": "Yes, Withdraw",
+      "no": "No, Cancel"
+    },
+    "success": {
+      "title": "Withdraw",
+      "subTitle": "Withdraw successfully."
+    },
+    "error": {
+      "apiError": "Something went wrong!",
+      "apiErrorDetail": "We're unable to load your data at this moment. Please try to reload.",
+      "reload": "Reload"
+    }
+  },
+  "idle": {
+    "title": "You’re about to be logged out!",
+    "description": "You've been inactive for 3 minutes. For your security, you will be logged out in",
+    "extend": "Continue Session",
+    "logout": "Logout",
+    "cancel": "Cancel"
+  }
+}

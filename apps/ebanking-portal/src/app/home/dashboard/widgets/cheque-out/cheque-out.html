@@ -1,0 +1,105 @@
+<dashboard-widget
+  *transloco="let t; prefix: 'dashboard'"
+  [status]="status()"
+  class="h-full"
+  (reload)="list.reload()">
+  <span
+    data-testid="DASH_CHEQUE_OUT_TITLE"
+    class="title body-lg-s">
+    {{ t('chequeOut.title') }}
+  </span>
+
+  <div class="loading">
+    <scb-skeleton
+      width="15%"
+      height="40px" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="50%" />
+    <scb-skeleton width="80%" />
+    <scb-skeleton width="90%" />
+    <scb-skeleton width="100%" />
+  </div>
+
+  @if (showSeeAll()) {
+    <button
+      scbButton
+      data-testid="DASH_CHEQUE_OUT_SEE_ALL_BTN"
+      variant="ghost"
+      class="seeAll"
+      size="xs"
+      routerLink="cheques-out">
+      {{ t('chequeOut.seeAll') }}
+    </button>
+  }
+  <scb-selectable
+    size="sm"
+    data-testid="DASH_CHEQUE_OUT_TAB_GROUP"
+    [(activeIndex)]="activeIndex"
+    class="w-full">
+    @for (item of tabs; track $index) {
+      <scb-selectable-item
+        [attr.data-testid]="'DASH_CHEQUE_OUT_TAB_ITEM_' + activeIndex.toLocaleUpperCase()"
+        [value]="item.id">
+        {{ t('chequeOut.tabs.' + item.id) }}
+      </scb-selectable-item>
+    }
+  </scb-selectable>
+
+  <div class="mt-lg flex flex-col gap-2">
+    @if (activeIndex === 'deducted') {
+      @for (item of deductedList() | slice: 0 : 3; track $index) {
+        <app-cheque-card
+          [cheque]="item"
+          [dateText]="t('chequeOut.deductionDate')"
+          type="deducted" />
+      }
+      @if (deductedList()?.length === 0) {
+        <div
+          data-testid="DASH_CHEQUE_OUT_DEDUCTED_EMPTY"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            name="done"
+            data-testid="DASH_CHEQUE_OUT_DEDUCTED_EMPTY_ICON"
+            class="text-3xl" />
+          <h4
+            data-testid="DASH_CHEQUE_OUT_DEDUCTED_EMPTY_TITLE"
+            class="mt-sm mb-sm text-md font-semibold">
+            {{ t('chequeOut.emptyDeducted.title') }}
+          </h4>
+          <p
+            data-testid="DASH_CHEQUE_OUT_DEDUCTED_EMPTY_SUBTITLE"
+            class="text-text-tertiary text-sm">
+            {{ t('chequeOut.emptyDeducted.subtitle') }}
+          </p>
+        </div>
+      }
+    } @else if (activeIndex === 'returned') {
+      @for (item of returnedList() | slice: 0 : 3; track $index) {
+        <app-cheque-card
+          [cheque]="item"
+          [dateText]="t('chequeOut.returnDate')"
+          type="returned" />
+      }
+      @if (returnedList()?.length === 0) {
+        <div
+          data-testid="DASH_CHEQUE_OUT_RETURNED_EMPTY"
+          class="emptyState flex w-full flex-col items-center justify-center text-center">
+          <icon
+            name="done"
+            data-testid="DASH_CHEQUE_OUT_RETURNED_EMPTY_ICON"
+            class="text-3xl" />
+          <h4
+            data-testid="DASH_CHEQUE_OUT_RETURNED_EMPTY_TITLE"
+            class="mt-sm mb-sm text-md font-semibold">
+            {{ t('chequeOut.emptyReturned.title') }}
+          </h4>
+          <p
+            data-testid="DASH_CHEQUE_OUT_RETURNED_EMPTY_SUBTITLE"
+            class="text-text-tertiary text-sm">
+            {{ t('chequeOut.emptyReturned.subtitle') }}
+          </p>
+        </div>
+      }
+    }
+  </div>
+</dashboard-widget>

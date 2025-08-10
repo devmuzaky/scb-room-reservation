@@ -1,0 +1,144 @@
+<p-drawer
+  *transloco="let t; prefix: 'chequeBook'"
+  [visible]="open()"
+  [blockScroll]="true"
+  [closable]="false"
+  [dismissible]="false"
+  [position]="lang() === 'ar' ? 'left' : 'right'"
+  styleClass="mobile-full"
+  [closeOnEscape]="false">
+  <!-- Header -->
+  <ng-template
+    #header
+    styleClass="block"
+    class="block">
+    <div class="w-full">
+      <div class="flex items-center justify-between">
+        <h2 class="text-text-primary mf-lg flex items-center gap-6 font-semibold">
+          <icon
+            name="bank"
+            class="prefixy text-primary" />
+          {{ type() === 'linked' ? t('linkedAccount') : t('feesDebitBranch') }}
+        </h2>
+        <button
+          (click)="closeDrawer()"
+          color="primary"
+          class="!text-brand"
+          scbIconButton="close"></button>
+      </div>
+    </div>
+  </ng-template>
+
+  @if (status() === 'loading') {
+    <div
+      class="py-3xl sm:px-3xl col-span-12 px-4"
+      data-testid="beneficiary_div_loadingState">
+      <scb-skeleton
+        width="15%"
+        height="40px" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="50%" />
+      <scb-skeleton width="80%" />
+      <scb-skeleton width="90%" />
+      <scb-skeleton width="100%" />
+    </div>
+  } @else if (status() === 'error') {
+    <div
+      *transloco="let t; prefix: 'dashboard'"
+      class="py-3xl sm:px-3xl col-span-12 flex w-full flex-col items-center justify-center gap-3 px-4 text-center"
+      data-testid="beneficiary_div_errorState">
+      <icon
+        [name]="'api-failure'"
+        class="text-3xl"
+        data-testid="beneficiary_icon_apiFailure" />
+      <h4
+        class="head-2xs-s text-text-primary"
+        data-testid="beneficiary_h4_apiError">
+        {{ t('error.apiError') }}
+      </h4>
+      <p
+        class="body-sm text-text-primary"
+        data-testid="beneficiary_p_apiErrorDetail">
+        {{ t('error.apiErrorDetail') }}
+      </p>
+      <button
+        scbButton
+        variant="ghost"
+        size="sm"
+        icon="refresh"
+        (click)="resource.reload()"
+        data-testid="beneficiary_button_reload">
+        {{ t('error.reload') }}
+      </button>
+    </div>
+  } @else {
+    <!-- Empty State -->
+    @if (isEmpty() && status() !== 'loading') {
+      <div class="emptyState flex w-full flex-col items-center justify-center text-center">
+        <icon
+          [name]="'empty-state'"
+          class="text-xl" />
+        <h4 class="mt-sm mb-sm mf-lg font-semibold">
+          {{ t('title') }}
+        </h4>
+        <p class="text-text-tertiary text-sm-sm">
+          {{ t('subTitle') }}
+        </p>
+      </div>
+    } @else if (!isEmpty() && status() !== 'loading') {
+      <div class="gap-2xl flex flex-col">
+        <scb-form-field
+          mode="search"
+          class="mt-xs">
+          <icon
+            name="search-normal"
+            class="prefix text-input-icon-enabled" />
+          <input
+            #searchInput
+            class="mf-sm text-text-tertiary font-normal"
+            type="text"
+            data-testid="beneficiary_input_search"
+            [placeholder]="t('searchFromAccount')"
+            scbInput
+            [value]="searchTerm()"
+            (input)="searchTerm.set($any($event.target).value)" />
+        </scb-form-field>
+
+        <div class="gap-2xl flex flex-col">
+          @for (account of filteredAccountsList(); track account) {
+            <div
+              (click)="selectAccount(account)"
+              class="p-xl border-border-secondary flex cursor-pointer rounded-lg border sm:flex-row sm:items-center sm:justify-between dark:border-gray-600">
+              <div class="gap-sm flex w-1/2 flex-col sm:w-auto">
+                <div class="mf-lg text-text-primary truncate-force font-semibold">
+                  {{ account.nickname }}
+                </div>
+                <div class="gap-sm flex items-center">
+                  <scb-badge
+                    class="whitespace-nowrap"
+                    size="xs"
+                    variant="grey">
+                    {{ account.categoryDescription | titlecase }}
+                  </scb-badge>
+                  <span class="mf-sm text-text-tertiary truncate-force font-normal">
+                    {{ account.accountNumber }}
+                  </span>
+                </div>
+              </div>
+              <div class="gap-sm flex w-1/2 flex-col items-end text-right sm:w-auto">
+                <div class="mf-sm text-text-secondary whitespace-nowrap">
+                  {{ t('availableBalance') }}
+                </div>
+                <currency-view
+                  [amount]="account.workingBalance"
+                  [currency]="account.currency"
+                  size="xs"
+                  class="text-text-primary" />
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</p-drawer>
